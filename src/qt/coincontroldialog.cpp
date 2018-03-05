@@ -37,6 +37,7 @@ CoinControlDialog::CoinControlDialog(QWidget *parent) :
     QAction *copyAddressAction = new QAction(tr("Copy address"), this);
     QAction *copyLabelAction = new QAction(tr("Copy label"), this);
     QAction *copyAmountAction = new QAction(tr("Copy amount"), this);
+    QAction *copyReferencelineAction = new QAction(tr("Copy reference line"), this);
              copyTransactionHashAction = new QAction(tr("Copy transaction ID"), this);  // we need to enable/disable this
              lockAction = new QAction(tr("Lock unspent"), this);                        // we need to enable/disable this
              unlockAction = new QAction(tr("Unlock unspent"), this);                    // we need to enable/disable this
@@ -46,6 +47,7 @@ CoinControlDialog::CoinControlDialog(QWidget *parent) :
     contextMenu->addAction(copyAddressAction);
     contextMenu->addAction(copyLabelAction);
     contextMenu->addAction(copyAmountAction);
+    contextMenu->addAction(copyReferencelineAction);
     contextMenu->addAction(copyTransactionHashAction);
     contextMenu->addSeparator();
     contextMenu->addAction(lockAction);
@@ -56,6 +58,7 @@ CoinControlDialog::CoinControlDialog(QWidget *parent) :
     connect(copyAddressAction, SIGNAL(triggered()), this, SLOT(copyAddress()));
     connect(copyLabelAction, SIGNAL(triggered()), this, SLOT(copyLabel()));
     connect(copyAmountAction, SIGNAL(triggered()), this, SLOT(copyAmount()));
+    connect(copyReferencelineAction, SIGNAL(triggered()), this, SLOT(copyReferenceline()));
     connect(copyTransactionHashAction, SIGNAL(triggered()), this, SLOT(copyTransactionHash()));
     connect(lockAction, SIGNAL(triggered()), this, SLOT(lockCoin()));
     connect(unlockAction, SIGNAL(triggered()), this, SLOT(unlockCoin()));
@@ -112,7 +115,8 @@ CoinControlDialog::CoinControlDialog(QWidget *parent) :
     ui->treeWidget->setColumnWidth(COLUMN_CHECKBOX, 84);
     ui->treeWidget->setColumnWidth(COLUMN_AMOUNT, 100);
     ui->treeWidget->setColumnWidth(COLUMN_LABEL, 170);
-    ui->treeWidget->setColumnWidth(COLUMN_ADDRESS, 290);
+    ui->treeWidget->setColumnWidth(COLUMN_ADDRESS, 145);
+    ui->treeWidget->setColumnWidth(COLUMN_REFERENCELINE, 145);
     ui->treeWidget->setColumnWidth(COLUMN_DATE, 110);
     ui->treeWidget->setColumnWidth(COLUMN_CONFIRMATIONS, 100);
     ui->treeWidget->setColumnWidth(COLUMN_PRIORITY, 100);
@@ -219,6 +223,12 @@ void CoinControlDialog::showMenu(const QPoint &point)
 void CoinControlDialog::copyAmount()
 {
     GUIUtil::setClipboard(contextMenuItem->text(COLUMN_AMOUNT));
+}
+
+// context menu action: copy reference line
+void CoinControlDialog::copyReferenceline()
+{
+    GUIUtil::setClipboard(contextMenuItem->text(COLUMN_REFERENCELINE));
 }
 
 // context menu action: copy label
@@ -438,7 +448,7 @@ void CoinControlDialog::updateLabels(WalletModel *model, QDialog* dialog)
                 nQuantityDust++;
             }
 
-            CTxOut txout(amount, (CScript)vector<unsigned char>(24, 0));
+            CTxOut txout(amount, (CScript)vector<unsigned char>(24, 0),"");
             txDummy.vout.push_back(txout);
             if (txout.IsDust())
                fDust = true; 
@@ -544,7 +554,7 @@ void CoinControlDialog::updateLabels(WalletModel *model, QDialog* dialog)
             // Never create dust outputs; if we would, just add the dust to the fee.
             if (nChange > 0 && nChange < CENT)
             {
-                CTxOut txout(nChange, (CScript)vector<unsigned char>(24, 0));
+                CTxOut txout(nChange, (CScript)vector<unsigned char>(24, 0), "");
                 if (txout.IsDust())
                 {
                     nPayFee += nChange;
@@ -709,9 +719,12 @@ void CoinControlDialog::updateView()
                 itemOutput->setText(COLUMN_LABEL, sLabel); 
             }
 
+            // referenceline
+            itemOutput->setText(COLUMN_REFERENCELINE, QString::fromUtf8(out.tx->vout[out.i].referenceline.c_str()));
+
             // amount
             itemOutput->setText(COLUMN_AMOUNT, BitcoinUnits::format(nDisplayUnit, out.tx->vout[out.i].nValue));
-            itemOutput->setText(COLUMN_AMOUNT_INT64, strPad(QString::number(out.tx->vout[out.i].nValue), 15, " ")); // padding so that sorting works correctly
+            itemOutput->setText(COLUMN_AMOUNT_INT64, strPad(QString::number(out.tx->vout[out.i].nValue), 15, " ")); 
 
             // date
             itemOutput->setText(COLUMN_DATE, QDateTime::fromTime_t(out.tx->GetTxTime()).toString("yy-MM-dd hh:mm"));

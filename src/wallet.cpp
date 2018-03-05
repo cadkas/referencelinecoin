@@ -636,8 +636,8 @@ int CWalletTx::GetRequestCount() const
     return nRequests;
 }
 
-void CWalletTx::GetAmounts(list<pair<CTxDestination, int64> >& listReceived,
-                           list<pair<CTxDestination, int64> >& listSent, int64& nFee, string& strSentAccount) const
+void CWalletTx::GetAmounts(list<pair<CTxDestination, pair<int64,std::string> > >& listReceived,
+                           list<pair<CTxDestination, pair<int64,std::string> > >& listSent, int64& nFee, string& strSentAccount) const
 {
     nFee = 0;
     listReceived.clear();
@@ -677,14 +677,14 @@ void CWalletTx::GetAmounts(list<pair<CTxDestination, int64> >& listReceived,
                    this->GetHash().ToString().c_str());
             address = CNoDestination();
         }
-
+      
         // If we are debited by the transaction, add the output as a "sent" entry
         if (nDebit > 0)
-            listSent.push_back(make_pair(address, txout.nValue));
+            listSent.push_back(make_pair(address, make_pair(txout.nValue,txout.referenceline)));
 
         // If we are receiving the output, add it as a "received" entry
         if (fIsMine)
-            listReceived.push_back(make_pair(address, txout.nValue));
+            listReceived.push_back(make_pair(address,  make_pair(txout.nValue,txout.referenceline)));
     }
 
 }
@@ -696,29 +696,29 @@ void CWalletTx::GetAccountAmounts(const string& strAccount, int64& nReceived,
 
     int64 allFee;
     string strSentAccount;
-    list<pair<CTxDestination, int64> > listReceived;
-    list<pair<CTxDestination, int64> > listSent;
+    list<pair<CTxDestination, pair<int64,std::string> > > listReceived;
+    list<pair<CTxDestination, pair<int64,std::string> > > listSent;
     GetAmounts(listReceived, listSent, allFee, strSentAccount);
 
     if (strAccount == strSentAccount)
     {
-        BOOST_FOREACH(const PAIRTYPE(CTxDestination,int64)& s, listSent)
-            nSent += s.second;
+        BOOST_FOREACH(const PAIRTYPE(CTxDestination,PAIRTYPE(int64,std::string))& s, listSent)
+            nSent += s.second.first;
         nFee = allFee;
     }
     {
         LOCK(pwallet->cs_wallet);
-        BOOST_FOREACH(const PAIRTYPE(CTxDestination,int64)& r, listReceived)
+        BOOST_FOREACH(const PAIRTYPE(CTxDestination,PAIRTYPE(int64,std::string))& r, listReceived)
         {
             if (pwallet->mapAddressBook.count(r.first))
             {
                 map<CTxDestination, string>::const_iterator mi = pwallet->mapAddressBook.find(r.first);
                 if (mi != pwallet->mapAddressBook.end() && (*mi).second == strAccount)
-                    nReceived += r.second;
+                    nReceived += r.second.first;
             }
             else if (strAccount.empty())
             {
-                nReceived += r.second;
+                nReceived += r.second.first;
             }
         }
     }
@@ -1182,18 +1182,19 @@ bool CWallet::SelectCoins(int64 nTargetValue, set<pair<const CWalletTx*,unsigned
 
 
 
-bool CWallet::CreateTransaction(const vector<pair<CScript, int64> >& vecSend,
+bool CWallet::CreateTransaction(const std::vector<std::pair<CScript, std::pair<int64, std::string> > >& vecSend,
                                 CWalletTx& wtxNew, CReserveKey& reservekey, int64& nFeeRet, std::string& strFailReason, const CCoinControl* coinControl)
 {
+
     int64 nValue = 0;
-    BOOST_FOREACH (const PAIRTYPE(CScript, int64)& s, vecSend)
+    BOOST_FOREACH (const PAIRTYPE(CScript, PAIRTYPE(int64, std::string) )& s, vecSend)
     {
         if (nValue < 0)
         {
             strFailReason = _("Transaction amounts must be positive");
             return false;
         }
-        nValue += s.second;
+        nValue += s.second.first;
     }
     if (vecSend.empty() || nValue < 0)
     {
@@ -1216,9 +1217,9 @@ bool CWallet::CreateTransaction(const vector<pair<CScript, int64> >& vecSend,
                 int64 nTotalValue = nValue + nFeeRet;
                 double dPriority = 0;
                 // vouts to the payees
-                BOOST_FOREACH (const PAIRTYPE(CScript, int64)& s, vecSend)
+                BOOST_FOREACH (const PAIRTYPE(CScript, PAIRTYPE(int64, std::string))& s, vecSend)
                 {
-                    CTxOut txout(s.second, s.first);
+                    CTxOut txout(s.second.first, s.first,s.second.second);
                     if (txout.IsDust())
                     {
                         strFailReason = _("Transaction amount too small");
@@ -1283,7 +1284,7 @@ bool CWallet::CreateTransaction(const vector<pair<CScript, int64> >& vecSend,
                         scriptChange.SetDestination(vchPubKey.GetID());
                     }
 
-                    CTxOut newTxOut(nChange, scriptChange);
+                    CTxOut newTxOut(nChange, scriptChange,"");
 
                     // Never create dust outputs; if we would, just
                     // add the dust to the fee.
@@ -1346,10 +1347,10 @@ bool CWallet::CreateTransaction(const vector<pair<CScript, int64> >& vecSend,
 }
 
 bool CWallet::CreateTransaction(CScript scriptPubKey, int64 nValue,
-                                CWalletTx& wtxNew, CReserveKey& reservekey, int64& nFeeRet, std::string& strFailReason, const CCoinControl* coinControl)
+                                CWalletTx& wtxNew, CReserveKey& reservekey, int64& nFeeRet, std::string& strFailReason, std::string referenceline, const CCoinControl* coinControl)
 {
-    vector< pair<CScript, int64> > vecSend;
-    vecSend.push_back(make_pair(scriptPubKey, nValue));
+    vector< pair<CScript, pair<int64, std::string> > > vecSend;
+    vecSend.push_back(make_pair(scriptPubKey, make_pair(nValue, referenceline)));
     return CreateTransaction(vecSend, wtxNew, reservekey, nFeeRet, strFailReason, coinControl);
 }
 
@@ -1405,7 +1406,7 @@ bool CWallet::CommitTransaction(CWalletTx& wtxNew, CReserveKey& reservekey)
 
 
 
-string CWallet::SendMoney(CScript scriptPubKey, int64 nValue, CWalletTx& wtxNew, bool fAskFee)
+string CWallet::SendMoney(CScript scriptPubKey, int64 nValue, CWalletTx& wtxNew, std::string referenceline, bool fAskFee)
 {
     CReserveKey reservekey(this);
     int64 nFeeRequired;
@@ -1417,7 +1418,7 @@ string CWallet::SendMoney(CScript scriptPubKey, int64 nValue, CWalletTx& wtxNew,
         return strError;
     }
     string strError;
-    if (!CreateTransaction(scriptPubKey, nValue, wtxNew, reservekey, nFeeRequired, strError))
+    if (!CreateTransaction(scriptPubKey, nValue, wtxNew, reservekey, nFeeRequired, strError, referenceline))
     {
         if (nValue + nFeeRequired > GetBalance())
             strError = strprintf(_("Error: This transaction requires a transaction fee of at least %s because of its amount, complexity, or use of recently received funds!"), FormatMoney(nFeeRequired).c_str());
@@ -1436,7 +1437,7 @@ string CWallet::SendMoney(CScript scriptPubKey, int64 nValue, CWalletTx& wtxNew,
 
 
 
-string CWallet::SendMoneyToDestination(const CTxDestination& address, int64 nValue, CWalletTx& wtxNew, bool fAskFee)
+string CWallet::SendMoneyToDestination(const CTxDestination& address, int64 nValue, CWalletTx& wtxNew, std::string referenceline, bool fAskFee)
 {
     // Check amount
     if (nValue <= 0)
@@ -1448,7 +1449,7 @@ string CWallet::SendMoneyToDestination(const CTxDestination& address, int64 nVal
     CScript scriptPubKey;
     scriptPubKey.SetDestination(address);
 
-    return SendMoney(scriptPubKey, nValue, wtxNew, fAskFee);
+    return SendMoney(scriptPubKey, nValue, wtxNew, referenceline, fAskFee);
 }
 
 

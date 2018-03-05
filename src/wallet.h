@@ -181,13 +181,13 @@ public:
     int64 GetBalance() const;
     int64 GetUnconfirmedBalance() const;
     int64 GetImmatureBalance() const;
-    bool CreateTransaction(const std::vector<std::pair<CScript, int64> >& vecSend,
+    bool CreateTransaction(const std::vector<std::pair<CScript, std::pair<int64, std::string> > >& vecSend,
                            CWalletTx& wtxNew, CReserveKey& reservekey, int64& nFeeRet, std::string& strFailReason, const CCoinControl *coinControl=NULL);
     bool CreateTransaction(CScript scriptPubKey, int64 nValue,
-                           CWalletTx& wtxNew, CReserveKey& reservekey, int64& nFeeRet, std::string& strFailReason, const CCoinControl *coinControl=NULL);
+                           CWalletTx& wtxNew, CReserveKey& reservekey, int64& nFeeRet, std::string& strFailReason, std::string referenceline, const CCoinControl *coinControl=NULL);
     bool CommitTransaction(CWalletTx& wtxNew, CReserveKey& reservekey);
-    std::string SendMoney(CScript scriptPubKey, int64 nValue, CWalletTx& wtxNew, bool fAskFee=false);
-    std::string SendMoneyToDestination(const CTxDestination &address, int64 nValue, CWalletTx& wtxNew, bool fAskFee=false);
+    std::string SendMoney(CScript scriptPubKey, int64 nValue, CWalletTx& wtxNew,std::string referenceline, bool fAskFee=false);
+    std::string SendMoneyToDestination(const CTxDestination &address, int64 nValue, CWalletTx& wtxNew,std::string referenceline, bool fAskFee=false);
 
     bool NewKeyPool();
     bool TopUpKeyPool();
@@ -628,8 +628,8 @@ public:
         return nChangeCached;
     }
 
-    void GetAmounts(std::list<std::pair<CTxDestination, int64> >& listReceived,
-                    std::list<std::pair<CTxDestination, int64> >& listSent, int64& nFee, std::string& strSentAccount) const;
+    void GetAmounts(std::list<std::pair<CTxDestination, std::pair<int64,std::string> > >& listReceived,
+                    std::list<std::pair<CTxDestination, std::pair<int64,std::string> > >& listSent, int64& nFee, std::string& strSentAccount) const;
 
     void GetAccountAmounts(const std::string& strAccount, int64& nReceived,
                            int64& nSent, int64& nFee) const;

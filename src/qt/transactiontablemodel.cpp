@@ -28,6 +28,7 @@ static int column_alignments[] = {
         Qt::AlignLeft|Qt::AlignVCenter,
         Qt::AlignLeft|Qt::AlignVCenter,
         Qt::AlignLeft|Qt::AlignVCenter,
+        Qt::AlignLeft|Qt::AlignVCenter,
         Qt::AlignRight|Qt::AlignVCenter
     };
 
@@ -226,7 +227,7 @@ TransactionTableModel::TransactionTableModel(CWallet* wallet, WalletModel *paren
         priv(new TransactionTablePriv(wallet, this)),
         cachedNumBlocks(0)
 {
-    columns << QString() << tr("Date") << tr("Type") << tr("Address") << tr("Amount");
+    columns << QString() << tr("Date") << tr("Type") << tr("Address") << tr("Reference line") << tr("Amount");
 
     priv->refreshWallet();
 
@@ -439,6 +440,11 @@ QString TransactionTableModel::formatTxAmount(const TransactionRecord *wtx, bool
     return QString(str);
 }
 
+QString TransactionTableModel::formatTxReferenceline(const TransactionRecord *wtx) const
+{
+    return QString::fromStdString(wtx->referenceline);
+}
+
 QVariant TransactionTableModel::txStatusDecoration(const TransactionRecord *wtx) const
 {
     if(wtx->type == TransactionRecord::Generated)
@@ -521,6 +527,8 @@ QVariant TransactionTableModel::data(const QModelIndex &index, int role) const
             return formatTxType(rec);
         case ToAddress:
             return formatTxToAddress(rec, false);
+        case ReferenceLine:
+            return formatTxReferenceline(rec);
         case Amount:
             return formatTxAmount(rec);
         }
@@ -568,6 +576,8 @@ QVariant TransactionTableModel::data(const QModelIndex &index, int role) const
         return priv->describe(rec);
     case AddressRole:
         return QString::fromStdString(rec->address);
+    case ReferencelineRole:
+        return QString::fromStdString(rec->referenceline);
     case LabelRole:
         return walletModel->getAddressTableModel()->labelForAddress(QString::fromStdString(rec->address));
     case AmountRole:
@@ -607,6 +617,8 @@ QVariant TransactionTableModel::headerData(int section, Qt::Orientation orientat
                 return tr("Type of transaction.");
             case ToAddress:
                 return tr("Destination address of transaction.");
+	case ReferenceLine:
+                return tr("Reference Line for the transaction.");
             case Amount:
                 return tr("Amount removed from or added to balance.");
             }

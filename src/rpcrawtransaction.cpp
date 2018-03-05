@@ -255,9 +255,9 @@ Value listunspent(const Array& params, bool fHelp)
 
 Value createrawtransaction(const Array& params, bool fHelp)
 {
-    if (fHelp || params.size() != 2)
+    if (fHelp || (params.size() != 2 && params.size() != 3))
         throw runtime_error(
-            "createrawtransaction [{\"txid\":txid,\"vout\":n},...] {address:amount,...}\n"
+            "createrawtransaction [{\"txid\":txid,\"vout\":n},...] {address:amount,...} [reference line]\n"
             "Create a transaction spending given inputs\n"
             "(array of objects containing transaction id and output number),\n"
             "sending to given address(es).\n"
@@ -269,6 +269,8 @@ Value createrawtransaction(const Array& params, bool fHelp)
 
     Array inputs = params[0].get_array();
     Object sendTo = params[1].get_obj();
+    std::string referenceline="";
+    if (params.size()>2) referenceline=params[2].get_str();
 
     CTransaction rawTx;
 
@@ -304,7 +306,7 @@ Value createrawtransaction(const Array& params, bool fHelp)
         scriptPubKey.SetDestination(address.Get());
         int64 nAmount = AmountFromValue(s.value_);
 
-        CTxOut out(nAmount, scriptPubKey);
+        CTxOut out(nAmount, scriptPubKey, referenceline);
         rawTx.vout.push_back(out);
     }
 

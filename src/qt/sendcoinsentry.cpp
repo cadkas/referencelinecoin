@@ -92,6 +92,7 @@ void SendCoinsEntry::clear()
     ui->payTo->clear();
     ui->addAsLabel->clear();
     ui->payAmount->clear();
+    ui->referencelineEdit->clear();
     ui->payTo->setFocus();
     // update the display unit, to not use the default ("BTC")
     updateDisplayUnit();
@@ -136,6 +137,7 @@ SendCoinsRecipient SendCoinsEntry::getValue()
     SendCoinsRecipient rv;
 
     rv.address = ui->payTo->text();
+    rv.referenceline = ui->referencelineEdit->text();
     rv.label = ui->addAsLabel->text();
     rv.amount = ui->payAmount->value();
 
@@ -155,6 +157,7 @@ QWidget *SendCoinsEntry::setupTabChain(QWidget *prev)
 void SendCoinsEntry::setValue(const SendCoinsRecipient &value)
 {
     ui->payTo->setText(value.address);
+    ui->referencelineEdit->setText(value.referenceline);
     ui->addAsLabel->setText(value.label);
     ui->payAmount->setValue(value.amount);
 }

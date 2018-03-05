@@ -398,6 +398,7 @@ class CTxOut
 {
 public:
     int64 nValue;
+    std::string referenceline;
     CScript scriptPubKey;
 
     CTxOut()
@@ -405,21 +406,24 @@ public:
         SetNull();
     }
 
-    CTxOut(int64 nValueIn, CScript scriptPubKeyIn)
+    CTxOut(int64 nValueIn, CScript scriptPubKeyIn, std::string refererencelineIn)
     {
         nValue = nValueIn;
         scriptPubKey = scriptPubKeyIn;
+        referenceline = refererencelineIn;
     }
 
     IMPLEMENT_SERIALIZE
     (
         READWRITE(nValue);
+	READWRITE(referenceline);
         READWRITE(scriptPubKey);
     )
 
     void SetNull()
     {
         nValue = -1;
+        referenceline="";
         scriptPubKey.clear();
     }
 
@@ -436,7 +440,8 @@ public:
     friend bool operator==(const CTxOut& a, const CTxOut& b)
     {
         return (a.nValue       == b.nValue &&
-                a.scriptPubKey == b.scriptPubKey);
+                a.scriptPubKey == b.scriptPubKey && 
+                a.referenceline == b.referenceline);
     }
 
     friend bool operator!=(const CTxOut& a, const CTxOut& b)
@@ -712,6 +717,7 @@ public:
             READWRITE(VARINT(nVal));
             txout.nValue = DecompressAmount(nVal);
         }
+	READWRITE(txout.referenceline);
         CScriptCompressor cscript(REF(txout.scriptPubKey));
         READWRITE(cscript);
     });)

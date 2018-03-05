@@ -210,6 +210,15 @@ QString TransactionDesc::toHTML(CWallet *wallet, CWalletTx &wtx)
             }
         }
 
+
+                BOOST_FOREACH(const CTxOut& txout, wtx.vout){   
+                    if (txout.referenceline!=""){
+                        QString qstrrefline = QString::fromUtf8(txout.referenceline.c_str());
+                        strHTML += "<b>" + tr("Reference line") + ":</b> " + qstrrefline + "<br>";
+                    }
+                }
+
+
         strHTML += "<b>" + tr("Net amount") + ":</b> " + BitcoinUnits::formatWithUnit(BitcoinUnits::BTC, nNet, true) + "<br>";
 
         //

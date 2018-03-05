@@ -110,6 +110,7 @@ public:
     int64 time;
     Type type;
     std::string address;
+    std::string referenceline;
     int64 debit;
     int64 credit;
     /**@}*/

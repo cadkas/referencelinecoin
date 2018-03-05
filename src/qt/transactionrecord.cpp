@@ -33,7 +33,7 @@ QList<TransactionRecord> TransactionRecord::decomposeTransaction(const CWallet *
     int64 nDebit = wtx.GetDebit();
     int64 nNet = nCredit - nDebit;
     uint256 hash = wtx.GetHash();
-    std::map<std::string, std::string> mapValue = wtx.mapValue;
+    std::map<std::string, std::string> mapValue = wtx.mapValue;    
 
     if (nNet > 0 || wtx.IsCoinBase())
     {
@@ -48,6 +48,7 @@ QList<TransactionRecord> TransactionRecord::decomposeTransaction(const CWallet *
                 CTxDestination address;
                 sub.idx = parts.size(); // sequence number
                 sub.credit = txout.nValue;
+                sub.referenceline = txout.referenceline;
                 if (ExtractDestination(txout.scriptPubKey, address) && IsMine(*wallet, address))
                 {
                     // Received by Bitcoin Address
@@ -78,7 +79,7 @@ QList<TransactionRecord> TransactionRecord::decomposeTransaction(const CWallet *
 
         bool fAllToMe = true;
         BOOST_FOREACH(const CTxOut& txout, wtx.vout)
-            fAllToMe = fAllToMe && wallet->IsMine(txout);
+            fAllToMe = fAllToMe && wallet->IsMine(txout);        
 
         if (fAllFromMe && fAllToMe)
         {
@@ -100,6 +101,7 @@ QList<TransactionRecord> TransactionRecord::decomposeTransaction(const CWallet *
                 const CTxOut& txout = wtx.vout[nOut];
                 TransactionRecord sub(hash, nTime);
                 sub.idx = parts.size();
+                sub.referenceline = txout.referenceline;
 
                 if(wallet->IsMine(txout))
                 {

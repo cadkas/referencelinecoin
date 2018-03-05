@@ -273,9 +273,9 @@ Value setmininput(const Array& params, bool fHelp)
 
 Value sendtoaddress(const Array& params, bool fHelp)
 {
-    if (fHelp || params.size() < 2 || params.size() > 4)
+    if (fHelp || params.size() < 2 || params.size() > 5)
         throw runtime_error(
-            "sendtoaddress <referencelinecoinaddress> <amount> [comment] [comment-to]\n"
+            "sendtoaddress <referencelinecoinaddress> <amount> <referenceline> [comment] [comment-to]\n"
             "<amount> is a real and is rounded to the nearest 0.00000001"
             + HelpRequiringPassphrase());
 
@@ -285,18 +285,19 @@ Value sendtoaddress(const Array& params, bool fHelp)
 
     // Amount
     int64 nAmount = AmountFromValue(params[1]);
+    std::string referenceline = params[2].get_str();
 
     // Wallet comments
     CWalletTx wtx;
-    if (params.size() > 2 && params[2].type() != null_type && !params[2].get_str().empty())
-        wtx.mapValue["comment"] = params[2].get_str();
     if (params.size() > 3 && params[3].type() != null_type && !params[3].get_str().empty())
-        wtx.mapValue["to"]      = params[3].get_str();
+        wtx.mapValue["comment"] = params[3].get_str();
+    if (params.size() > 4 && params[4].type() != null_type && !params[4].get_str().empty())
+        wtx.mapValue["to"]      = params[4].get_str();
 
     if (pwalletMain->IsLocked())
         throw JSONRPCError(RPC_WALLET_UNLOCK_NEEDED, "Error: Please enter the wallet passphrase with walletpassphrase first.");
 
-    string strError = pwalletMain->SendMoneyToDestination(address.Get(), nAmount, wtx);
+    string strError = pwalletMain->SendMoneyToDestination(address.Get(), nAmount, wtx, referenceline);
     if (strError != "")
         throw JSONRPCError(RPC_WALLET_ERROR, strError);
 
@@ -554,16 +555,16 @@ Value getbalance(const Array& params, bool fHelp)
 
             int64 allFee;
             string strSentAccount;
-            list<pair<CTxDestination, int64> > listReceived;
-            list<pair<CTxDestination, int64> > listSent;
+            list<pair<CTxDestination, pair<int64,std::string> > > listReceived;
+            list<pair<CTxDestination, pair<int64,std::string> > > listSent;
             wtx.GetAmounts(listReceived, listSent, allFee, strSentAccount);
             if (wtx.GetDepthInMainChain() >= nMinDepth)
             {
-                BOOST_FOREACH(const PAIRTYPE(CTxDestination,int64)& r, listReceived)
-                    nBalance += r.second;
+                BOOST_FOREACH(const PAIRTYPE(CTxDestination,PAIRTYPE(int64,std::string))& r, listReceived)
+                    nBalance += r.second.first;
             }
-            BOOST_FOREACH(const PAIRTYPE(CTxDestination,int64)& r, listSent)
-                nBalance -= r.second;
+            BOOST_FOREACH(const PAIRTYPE(CTxDestination,PAIRTYPE(int64,std::string))& r, listSent)
+                nBalance -= r.second.first;
             nBalance -= allFee;
         }
         return  ValueFromAmount(nBalance);
@@ -629,9 +630,9 @@ Value movecmd(const Array& params, bool fHelp)
 
 Value sendfrom(const Array& params, bool fHelp)
 {
-    if (fHelp || params.size() < 3 || params.size() > 6)
+    if (fHelp || params.size() < 3 || params.size() > 7)
         throw runtime_error(
-            "sendfrom <fromaccount> <toreferencelinecoinaddress> <amount> [minconf=1] [comment] [comment-to]\n"
+            "sendfrom <fromaccount> <toreferencelinecoinaddress> <amount> <referenceline> [minconf=1] [comment] [comment-to]\n"
             "<amount> is a real and is rounded to the nearest 0.00000001"
             + HelpRequiringPassphrase());
 
@@ -640,16 +641,17 @@ Value sendfrom(const Array& params, bool fHelp)
     if (!address.IsValid())
         throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid Referencelinecoin address");
     int64 nAmount = AmountFromValue(params[2]);
+    std::string referenceline = params[3].get_str();
     int nMinDepth = 1;
-    if (params.size() > 3)
-        nMinDepth = params[3].get_int();
+    if (params.size() > 4)
+        nMinDepth = params[4].get_int();
 
     CWalletTx wtx;
     wtx.strFromAccount = strAccount;
-    if (params.size() > 4 && params[4].type() != null_type && !params[4].get_str().empty())
-        wtx.mapValue["comment"] = params[4].get_str();
     if (params.size() > 5 && params[5].type() != null_type && !params[5].get_str().empty())
-        wtx.mapValue["to"]      = params[5].get_str();
+        wtx.mapValue["comment"] = params[5].get_str();
+    if (params.size() > 6 && params[6].type() != null_type && !params[6].get_str().empty())
+        wtx.mapValue["to"]      = params[6].get_str();
 
     EnsureWalletIsUnlocked();
 
@@ -659,7 +661,7 @@ Value sendfrom(const Array& params, bool fHelp)
         throw JSONRPCError(RPC_WALLET_INSUFFICIENT_FUNDS, "Account has insufficient funds");
 
     // Send
-    string strError = pwalletMain->SendMoneyToDestination(address.Get(), nAmount, wtx);
+    string strError = pwalletMain->SendMoneyToDestination(address.Get(), nAmount, wtx, referenceline);
     if (strError != "")
         throw JSONRPCError(RPC_WALLET_ERROR, strError);
 
@@ -669,25 +671,29 @@ Value sendfrom(const Array& params, bool fHelp)
 
 Value sendmany(const Array& params, bool fHelp)
 {
-    if (fHelp || params.size() < 2 || params.size() > 4)
+    if (fHelp || params.size() < 2 || params.size() > 5)
         throw runtime_error(
-            "sendmany <fromaccount> {address:amount,...} [minconf=1] [comment]\n"
+            "sendmany <fromaccount> {address:amount,...} [reference line] [minconf=1] [comment]\n"
             "amounts are double-precision floating point numbers"
             + HelpRequiringPassphrase());
 
     string strAccount = AccountFromValue(params[0]);
     Object sendTo = params[1].get_obj();
     int nMinDepth = 1;
+    std::string referenceline="";
     if (params.size() > 2)
-        nMinDepth = params[2].get_int();
+        referenceline = params[2].get_str();
+
+    if (params.size() > 3)
+        nMinDepth = params[3].get_int();
 
     CWalletTx wtx;
     wtx.strFromAccount = strAccount;
-    if (params.size() > 3 && params[3].type() != null_type && !params[3].get_str().empty())
-        wtx.mapValue["comment"] = params[3].get_str();
+    if (params.size() > 4 && params[4].type() != null_type && !params[4].get_str().empty())
+        wtx.mapValue["comment"] = params[4].get_str();
 
     set<CBitcoinAddress> setAddress;
-    vector<pair<CScript, int64> > vecSend;
+    vector<pair<CScript, pair<int64, std::string> > > vecSend;
 
     int64 totalAmount = 0;
     BOOST_FOREACH(const Pair& s, sendTo)
@@ -705,7 +711,7 @@ Value sendmany(const Array& params, bool fHelp)
         int64 nAmount = AmountFromValue(s.value_);
         totalAmount += nAmount;
 
-        vecSend.push_back(make_pair(scriptPubKey, nAmount));
+        vecSend.push_back(make_pair(scriptPubKey, make_pair(nAmount, referenceline)));
     }
 
     EnsureWalletIsUnlocked();
@@ -988,8 +994,8 @@ void ListTransactions(const CWalletTx& wtx, const string& strAccount, int nMinDe
 {
     int64 nFee;
     string strSentAccount;
-    list<pair<CTxDestination, int64> > listReceived;
-    list<pair<CTxDestination, int64> > listSent;
+    list<pair<CTxDestination, pair<int64,std::string> > > listReceived;
+    list<pair<CTxDestination, pair<int64,std::string> > > listSent;
 
     wtx.GetAmounts(listReceived, listSent, nFee, strSentAccount);
 
@@ -998,13 +1004,14 @@ void ListTransactions(const CWalletTx& wtx, const string& strAccount, int nMinDe
     // Sent
     if ((!listSent.empty() || nFee != 0) && (fAllAccounts || strAccount == strSentAccount))
     {
-        BOOST_FOREACH(const PAIRTYPE(CTxDestination, int64)& s, listSent)
+        BOOST_FOREACH(const PAIRTYPE(CTxDestination, PAIRTYPE(int64,std::string))& s, listSent)
         {
             Object entry;
             entry.push_back(Pair("account", strSentAccount));
             MaybePushAddress(entry, s.first);
             entry.push_back(Pair("category", "send"));
-            entry.push_back(Pair("amount", ValueFromAmount(-s.second)));
+            entry.push_back(Pair("amount", ValueFromAmount(-s.second.first)));
+            entry.push_back(Pair("reference line", s.second.second));
             entry.push_back(Pair("fee", ValueFromAmount(-nFee)));
             if (fLong)
                 WalletTxToJSON(wtx, entry);
@@ -1015,7 +1022,7 @@ void ListTransactions(const CWalletTx& wtx, const string& strAccount, int nMinDe
     // Received
     if (listReceived.size() > 0 && wtx.GetDepthInMainChain() >= nMinDepth)
     {
-        BOOST_FOREACH(const PAIRTYPE(CTxDestination, int64)& r, listReceived)
+        BOOST_FOREACH(const PAIRTYPE(CTxDestination, PAIRTYPE(int64,std::string))& r, listReceived)
         {
             string account;
             if (pwalletMain->mapAddressBook.count(r.first))
@@ -1038,7 +1045,8 @@ void ListTransactions(const CWalletTx& wtx, const string& strAccount, int nMinDe
                 {
                     entry.push_back(Pair("category", "receive"));
                 }
-                entry.push_back(Pair("amount", ValueFromAmount(r.second)));
+                entry.push_back(Pair("amount", ValueFromAmount(r.second.first)));
+                entry.push_back(Pair("reference line", r.second.second));
                 if (fLong)
                     WalletTxToJSON(wtx, entry);
                 ret.push_back(entry);
@@ -1144,19 +1152,19 @@ Value listaccounts(const Array& params, bool fHelp)
         const CWalletTx& wtx = (*it).second;
         int64 nFee;
         string strSentAccount;
-        list<pair<CTxDestination, int64> > listReceived;
-        list<pair<CTxDestination, int64> > listSent;
+        list<pair<CTxDestination, pair<int64,std::string> > > listReceived;
+        list<pair<CTxDestination, pair<int64,std::string> > > listSent;
         wtx.GetAmounts(listReceived, listSent, nFee, strSentAccount);
         mapAccountBalances[strSentAccount] -= nFee;
-        BOOST_FOREACH(const PAIRTYPE(CTxDestination, int64)& s, listSent)
-            mapAccountBalances[strSentAccount] -= s.second;
+        BOOST_FOREACH(const PAIRTYPE(CTxDestination, PAIRTYPE(int64,std::string))& s, listSent)
+            mapAccountBalances[strSentAccount] -= s.second.first;
         if (wtx.GetDepthInMainChain() >= nMinDepth)
         {
-            BOOST_FOREACH(const PAIRTYPE(CTxDestination, int64)& r, listReceived)
+            BOOST_FOREACH(const PAIRTYPE(CTxDestination, PAIRTYPE(int64,std::string))& r, listReceived)
                 if (pwalletMain->mapAddressBook.count(r.first))
-                    mapAccountBalances[pwalletMain->mapAddressBook[r.first]] += r.second;
+                    mapAccountBalances[pwalletMain->mapAddressBook[r.first]] += r.second.first;
                 else
-                    mapAccountBalances[""] += r.second;
+                    mapAccountBalances[""] += r.second.first;
         }
     }
 

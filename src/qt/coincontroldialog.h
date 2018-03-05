@@ -55,6 +55,7 @@ private:
         COLUMN_AMOUNT,
         COLUMN_LABEL,
         COLUMN_ADDRESS,
+        COLUMN_REFERENCELINE,
         COLUMN_DATE,
         COLUMN_CONFIRMATIONS,
         COLUMN_PRIORITY,
@@ -70,6 +71,7 @@ private slots:
     void copyLabel();
     void copyAddress();
     void copyTransactionHash();
+    void copyReferenceline();
     void lockCoin();
     void unlockCoin();
     void clipboardQuantity();
