@@ -133,7 +133,7 @@ public:
 
 private:
     CWallet *wallet;
-    bool firsttime=true;
+    bool firsttime;
 
     // Wallet has an options model for wallet-specific options
     // (transaction fee, for example)
