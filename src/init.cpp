@@ -1043,8 +1043,6 @@ bool AppInit2(boost::thread_group& threadGroup)
 
                     addr.Set(pwalletMain->vchDefaultKey.GetID(),temppubkeyForBitCoinAddress);			
 
-uiInterface.ThreadSafeMessageBox(addr.ToString(),"", CClientUIInterface::MSG_ERROR);
-
                     if (!pwalletMain->SetAddressBookName(addr, ""))
                       strErrors << _("Cannot write default address") << "\n";
                 }
