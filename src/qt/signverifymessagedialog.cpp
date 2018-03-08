@@ -230,8 +230,10 @@ void SignVerifyMessageDialog::on_verifyMessageButton_VM_clicked()
         ui->statusLabel_VM->setText(tr("The signature did not match the message digest.") + QString(" ") + tr("Please check the signature and try again."));
         return;
     }
+    CKeyID addrkeyID;
+    addr.GetKeyID(keyID);
 
-    if (!(CBitcoinAddress(pubkey.GetID()) == addr))
+    if (!(pubkey.GetID() == keyID))
     {
         ui->statusLabel_VM->setStyleSheet("QLabel { color: red; }");
         ui->statusLabel_VM->setText(QString("<nobr>") + tr("Message verification failed.") + QString("</nobr>"));

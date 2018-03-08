@@ -35,7 +35,7 @@ CTxMemPool mempool;
 unsigned int nTransactionsUpdated = 0;
 
 map<uint256, CBlockIndex*> mapBlockIndex;
-uint256 hashGenesisBlock("0xc3c3c36b7222429ee3c4ebda0071208a98cfc3f3d040a4328f02ad949fbf4e26");
+uint256 hashGenesisBlock("0x59de5e97cbd7d6e6308052d9c50139cc312d628cd83f75906423061d58aa5247");
 static CBigNum bnProofOfWorkLimit(~uint256(0) >> 20); // Referencelinecoin: starting difficulty is 1 / 2^12
 CBlockIndex* pindexGenesisBlock = NULL;
 int nBestHeight = -1;
@@ -568,6 +568,9 @@ bool CTransaction::CheckTransaction(CValidationState &state) const
     int64 nValueOut = 0;
     BOOST_FOREACH(const CTxOut& txout, vout)
     {
+        if (txout.referenceline.length()>200)
+            return state.DoS(100, error("CTransaction::CheckTransaction() : txout.referenceline encrypted length>200 characters"));
+
         if (txout.nValue < 0)
             return state.DoS(100, error("CTransaction::CheckTransaction() : txout.nValue negative"));
         if (txout.nValue > MAX_MONEY)
@@ -945,7 +948,7 @@ int CMerkleTx::GetBlocksToMaturity() const
 {
     if (!IsCoinBase())
         return 0;
-    return max(0, (COINBASE_MATURITY+20) - GetDepthInMainChain());
+    return max(0, (COINBASE_MATURITY+COINBASE_MATURITY_ADDITIONAL) - GetDepthInMainChain());
 }
 
 
@@ -1091,7 +1094,7 @@ int64 static GetBlockValue(int nHeight, int64 nFees)
     
     if (nHeight==1)
     {
-      nSubsidy = 2000050 * COIN; //Create 2 million coins to pay the people how participated 
+      nSubsidy = 3000050 * COIN; //Create 3 million coins to pay the people who participated 
 				 //in the ICO and exchange the ERC20 tokens for the real coins
 				 //And also of course to pay the developers
     } else
@@ -1730,7 +1733,7 @@ bool CBlock::ConnectBlock(CValidationState &state, CBlockIndex* pindex, CCoinsVi
         printf("- Connect %u transactions: %.2fms (%.3fms/tx, %.3fms/txin)\n", (unsigned)vtx.size(), 0.001 * nTime, 0.001 * nTime / vtx.size(), nInputs <= 1 ? 0 : 0.001 * nTime / (nInputs-1));
 
     if (vtx[0].GetValueOut() > GetBlockValue(pindex->nHeight, nFees))
-        return state.DoS(100, error("ConnectBlock() : coinbase pays too much (actual=%"PRI64d" vs limit=%"PRI64d")", vtx[0].GetValueOut(), GetBlockValue(pindex->nHeight, nFees)));
+        return state.DoS(100, error("ConnectBlock() : coinbase pays too much (actual=%"PRI64d" vs limit=%"PRI64d" blockheight=%"PRI64d")", vtx[0].GetValueOut(), GetBlockValue(pindex->nHeight, nFees),pindex->nHeight));
 
     if (!control.Wait())
         return state.DoS(100, false);
@@ -2755,7 +2758,7 @@ bool LoadBlockIndex()
         pchMessageStart[1] = 0xce;
         pchMessageStart[2] = 0xbf;
         pchMessageStart[3] = 0xd8;
-        hashGenesisBlock = uint256("0x481eed6606599c214108a92b21980acfca4f56cfd3bb493d8b03d1447d087a39");
+        hashGenesisBlock = uint256("0xa68ddcb71aaf370932938b29ebccc521ca51ac17a415014a744b75b4bddb1508");
     }
 
     //
@@ -2795,6 +2798,7 @@ bool InitBlockIndex() {
         txNew.vin[0].scriptSig = CScript() << 486604799 << CBigNum(4) << vector<unsigned char>((const unsigned char*)pszTimestamp, (const unsigned char*)pszTimestamp + strlen(pszTimestamp));
         txNew.vout[0].nValue = 50 * COIN;
         txNew.vout[0].referenceline="reference line";
+        txNew.vout[0].senderPubKey=
         txNew.vout[0].scriptPubKey = CScript() << ParseHex("04c1b5c69abec9969ed3d5714ba9cbfa43e4c857cea2021cb8ff493f6fafdfec4da33ed4174f55eab85c8fbbbe573cecf2771c7f79eabe44530f45c742921cd849") << OP_CHECKSIG;
         CBlock block;
         block.vtx.push_back(txNew);
@@ -2803,12 +2807,12 @@ bool InitBlockIndex() {
         block.nVersion = 1;
         block.nTime    = 1520156977;
         block.nBits    = 0x1e0ffff0;
-        block.nNonce   = 2086682530;
+        block.nNonce   = 2087902838;
 
         if (fTestNet)
         {
             block.nTime    = 1520156967;
-            block.nNonce   = 385883160;
+            block.nNonce   = 386892855;
         }
 
 if (true && block.GetHash() != hashGenesisBlock)
@@ -2859,7 +2863,7 @@ if (true && block.GetHash() != hashGenesisBlock)
         printf("%s\n", hash.ToString().c_str());
         printf("%s\n", hashGenesisBlock.ToString().c_str());
         printf("%s\n", block.hashMerkleRoot.ToString().c_str());
-        assert(block.hashMerkleRoot == uint256("0xc14466373083907b263b2241493f48f377ffaf1dd83bb781a38931e433a351c9"));
+        assert(block.hashMerkleRoot == uint256("0xd9038eba459193e8e9a88f47a1978bd8b8d4e561e0d5d4194607788807047004"));
         block.print();
         assert(hash == hashGenesisBlock);
 

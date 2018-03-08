@@ -120,7 +120,11 @@ Value getnewaddress(const Array& params, bool fHelp)
         throw JSONRPCError(RPC_WALLET_KEYPOOL_RAN_OUT, "Error: Keypool ran out, please call keypoolrefill first");
     CKeyID keyID = newKey.GetID();
 
-    pwalletMain->SetAddressBookName(keyID, strAccount);
+    pwalletMain->GetKeyFromPool(temppubkeyForBitCoinAddress,false);//Get new PubKey for encryption of the reference line       
+    CBitcoinAddress addr;
+    addr.Set(keyID,temppubkeyForBitCoinAddress);
+
+    pwalletMain->SetAddressBookName(addr, strAccount);    
 
     return CBitcoinAddress(keyID).ToString();
 }
@@ -151,17 +155,26 @@ CBitcoinAddress GetAccountAddress(string strAccount, bool bForceNew=false)
         }
     }
 
+    pwalletMain->GetKeyFromPool(temppubkeyForBitCoinAddress,false);//Get new PubKey for encryption of the reference line
+
     // Generate a new key
     if (!account.vchPubKey.IsValid() || bForceNew || bKeyUsed)
     {
         if (!pwalletMain->GetKeyFromPool(account.vchPubKey, false))
             throw JSONRPCError(RPC_WALLET_KEYPOOL_RAN_OUT, "Error: Keypool ran out, please call keypoolrefill first");
 
-        pwalletMain->SetAddressBookName(account.vchPubKey.GetID(), strAccount);
+        CBitcoinAddress addr;
+        addr.Set(account.vchPubKey.GetID(),temppubkeyForBitCoinAddress);
+
+        pwalletMain->SetAddressBookName(addr, strAccount);
         walletdb.WriteAccount(strAccount, account);
     }
 
-    return CBitcoinAddress(account.vchPubKey.GetID());
+
+    CBitcoinAddress addr;
+    addr.Set(account.vchPubKey.GetID(),temppubkeyForBitCoinAddress);
+
+    return addr;
 }
 
 Value getaccountaddress(const Array& params, bool fHelp)
@@ -200,14 +213,15 @@ Value setaccount(const Array& params, bool fHelp)
         strAccount = AccountFromValue(params[1]);
 
     // Detect when changing the account of an address that is the 'unused current key' of another account:
-    if (pwalletMain->mapAddressBook.count(address.Get()))
+
+    if (pwalletMain->mapAddressBook.count(address))
     {
-        string strOldAccount = pwalletMain->mapAddressBook[address.Get()];
+        string strOldAccount = pwalletMain->mapAddressBook[address];
         if (address == GetAccountAddress(strOldAccount))
             GetAccountAddress(strOldAccount, true);
     }
 
-    pwalletMain->SetAddressBookName(address.Get(), strAccount);
+    pwalletMain->SetAddressBookName(address, strAccount);
 
     return Value::null;
 }
@@ -225,7 +239,7 @@ Value getaccount(const Array& params, bool fHelp)
         throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid Referencelinecoin address");
 
     string strAccount;
-    map<CTxDestination, string>::iterator mi = pwalletMain->mapAddressBook.find(address.Get());
+    map<CBitcoinAddress, string>::iterator mi = pwalletMain->mapAddressBook.find(address);
     if (mi != pwalletMain->mapAddressBook.end() && !(*mi).second.empty())
         strAccount = (*mi).second;
     return strAccount;
@@ -297,7 +311,7 @@ Value sendtoaddress(const Array& params, bool fHelp)
     if (pwalletMain->IsLocked())
         throw JSONRPCError(RPC_WALLET_UNLOCK_NEEDED, "Error: Please enter the wallet passphrase with walletpassphrase first.");
 
-    string strError = pwalletMain->SendMoneyToDestination(address.Get(), nAmount, wtx, referenceline);
+    string strError = pwalletMain->SendMoneyToDestination(address.Get(), nAmount, wtx, referenceline, address.GetReceiverPubKey());
     if (strError != "")
         throw JSONRPCError(RPC_WALLET_ERROR, strError);
 
@@ -325,8 +339,8 @@ Value listaddressgroupings(const Array& params, bool fHelp)
             addressInfo.push_back(ValueFromAmount(balances[address]));
             {
                 LOCK(pwalletMain->cs_wallet);
-                if (pwalletMain->mapAddressBook.find(CBitcoinAddress(address).Get()) != pwalletMain->mapAddressBook.end())
-                    addressInfo.push_back(pwalletMain->mapAddressBook.find(CBitcoinAddress(address).Get())->second);
+                if (pwalletMain->mapAddressBook.find(CBitcoinAddress(address)) != pwalletMain->mapAddressBook.end())
+                    addressInfo.push_back(pwalletMain->mapAddressBook.find(CBitcoinAddress(address))->second);
             }
             jsonGrouping.push_back(addressInfo);
         }
@@ -446,11 +460,11 @@ Value getreceivedbyaddress(const Array& params, bool fHelp)
 }
 
 
-void GetAccountAddresses(string strAccount, set<CTxDestination>& setAddress)
+void GetAccountAddresses(string strAccount, set<CBitcoinAddress>& setAddress)
 {
-    BOOST_FOREACH(const PAIRTYPE(CTxDestination, string)& item, pwalletMain->mapAddressBook)
+    BOOST_FOREACH(const PAIRTYPE(CBitcoinAddress, string)& item, pwalletMain->mapAddressBook)
     {
-        const CTxDestination& address = item.first;
+        const CBitcoinAddress& address = item.first;
         const string& strName = item.second;
         if (strName == strAccount)
             setAddress.insert(address);
@@ -471,7 +485,7 @@ Value getreceivedbyaccount(const Array& params, bool fHelp)
 
     // Get the set of pub keys assigned to account
     string strAccount = AccountFromValue(params[0]);
-    set<CTxDestination> setAddress;
+    set<CBitcoinAddress> setAddress;
     GetAccountAddresses(strAccount, setAddress);
 
     // Tally
@@ -485,9 +499,15 @@ Value getreceivedbyaccount(const Array& params, bool fHelp)
         BOOST_FOREACH(const CTxOut& txout, wtx.vout)
         {
             CTxDestination address;
-            if (ExtractDestination(txout.scriptPubKey, address) && IsMine(*pwalletMain, address) && setAddress.count(address))
+            if (ExtractDestination(txout.scriptPubKey, address) && IsMine(*pwalletMain, address)) {
+                CBitcoinAddress addr;
+	        CKeyID keyID;
+                CBitcoinAddress(address).GetKeyID(keyID);
+		addr.Set(keyID,txout.senderPubKey);
+                if (setAddress.count(addr))
                 if (wtx.GetDepthInMainChain() >= nMinDepth)
                     nAmount += txout.nValue;
+            }
         }
     }
 
@@ -661,7 +681,7 @@ Value sendfrom(const Array& params, bool fHelp)
         throw JSONRPCError(RPC_WALLET_INSUFFICIENT_FUNDS, "Account has insufficient funds");
 
     // Send
-    string strError = pwalletMain->SendMoneyToDestination(address.Get(), nAmount, wtx, referenceline);
+    string strError = pwalletMain->SendMoneyToDestination(address.Get(), nAmount, wtx, referenceline, address.GetReceiverPubKey());
     if (strError != "")
         throw JSONRPCError(RPC_WALLET_ERROR, strError);
 
@@ -693,7 +713,7 @@ Value sendmany(const Array& params, bool fHelp)
         wtx.mapValue["comment"] = params[4].get_str();
 
     set<CBitcoinAddress> setAddress;
-    vector<pair<CScript, pair<int64, std::string> > > vecSend;
+    vector<pair<CScript, pair<int64, pair<std::string, CPubKey> > > > vecSend;
 
     int64 totalAmount = 0;
     BOOST_FOREACH(const Pair& s, sendTo)
@@ -711,7 +731,7 @@ Value sendmany(const Array& params, bool fHelp)
         int64 nAmount = AmountFromValue(s.value_);
         totalAmount += nAmount;
 
-        vecSend.push_back(make_pair(scriptPubKey, make_pair(nAmount, referenceline)));
+        vecSend.push_back(make_pair(scriptPubKey, make_pair(nAmount, make_pair(referenceline,address.GetReceiverPubKey()))));
     }
 
     EnsureWalletIsUnlocked();
@@ -809,9 +829,12 @@ Value addmultisigaddress(const Array& params, bool fHelp)
     CScript inner = _createmultisig(params);
     CScriptID innerID = inner.GetID();
     pwalletMain->AddCScript(inner);
+    pwalletMain->GetKeyFromPool(temppubkeyForBitCoinAddress,false);//Get new PubKey for encryption of the reference line
 
-    pwalletMain->SetAddressBookName(innerID, strAccount);
-    return CBitcoinAddress(innerID).ToString();
+    CBitcoinAddress addr;
+    addr.Set(innerID,temppubkeyForBitCoinAddress);
+    pwalletMain->SetAddressBookName(addr, strAccount);
+    return addr.ToString();
 }
 
 Value createmultisig(const Array& params, bool fHelp)
@@ -1142,8 +1165,8 @@ Value listaccounts(const Array& params, bool fHelp)
         nMinDepth = params[0].get_int();
 
     map<string, int64> mapAccountBalances;
-    BOOST_FOREACH(const PAIRTYPE(CTxDestination, string)& entry, pwalletMain->mapAddressBook) {
-        if (IsMine(*pwalletMain, entry.first)) // This address belongs to me
+    BOOST_FOREACH(const PAIRTYPE(CBitcoinAddress, string)& entry, pwalletMain->mapAddressBook) {
+        if (IsMine(*pwalletMain, entry.first.Get())) // This address belongs to me
             mapAccountBalances[entry.second] = 0;
     }
 

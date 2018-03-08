@@ -229,9 +229,14 @@ Value listunspent(const Array& params, bool fHelp)
         CTxDestination address;
         if (ExtractDestination(out.tx->vout[out.i].scriptPubKey, address))
         {
-            entry.push_back(Pair("address", CBitcoinAddress(address).ToString()));
-            if (pwalletMain->mapAddressBook.count(address))
-                entry.push_back(Pair("account", pwalletMain->mapAddressBook[address]));
+            CBitcoinAddress addr;
+	    CKeyID keyID;
+            CBitcoinAddress(address).GetKeyID(keyID);
+	    addr.Set(keyID,out.tx->vout[out.i].receiverPubKey);
+
+            entry.push_back(Pair("address", addr.ToString()));
+            if (pwalletMain->mapAddressBook.count(addr))
+                entry.push_back(Pair("account", pwalletMain->mapAddressBook[addr]));
         }
         entry.push_back(Pair("scriptPubKey", HexStr(pk.begin(), pk.end())));
         if (pk.IsPayToScriptHash())
@@ -306,7 +311,16 @@ Value createrawtransaction(const Array& params, bool fHelp)
         scriptPubKey.SetDestination(address.Get());
         int64 nAmount = AmountFromValue(s.value_);
 
-        CTxOut out(nAmount, scriptPubKey, referenceline);
+        CPubKey senderpubkey;
+	pwalletMain->GetKeyFromPool(senderpubkey,false);
+
+        //encrypt reference line
+	CKey vchSecret;
+        if (pwalletMain->GetKey(senderpubkey.GetID(), vchSecret)){
+          referenceline=pwalletMain->EncryptRefLine(referenceline,address.GetReceiverPubKey(),vchSecret);
+        } else referenceline="";
+
+        CTxOut out(nAmount, scriptPubKey, referenceline,senderpubkey,address.GetReceiverPubKey());
         rawTx.vout.push_back(out);
     }
 

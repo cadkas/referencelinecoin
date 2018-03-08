@@ -65,7 +65,10 @@ Value importprivkey(const Array& params, bool fHelp)
         LOCK2(cs_main, pwalletMain->cs_wallet);
 
         pwalletMain->MarkDirty();
-        pwalletMain->SetAddressBookName(vchAddress, strLabel);
+        pwalletMain->GetKeyFromPool(temppubkeyForBitCoinAddress,false);//Get new PubKey for encryption of the reference line
+        CBitcoinAddress addr;
+        addr.Set(vchAddress,temppubkeyForBitCoinAddress);
+        pwalletMain->SetAddressBookName(addr, strLabel);
 
         if (!pwalletMain->AddKeyPubKey(key, pubkey))
             throw JSONRPCError(RPC_WALLET_ERROR, "Error adding key to wallet");

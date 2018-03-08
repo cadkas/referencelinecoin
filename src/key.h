@@ -161,12 +161,14 @@ public:
 
     // Turn this public key into an uncompressed public key.
     bool Decompress();
+
 };
 
 
 // secure_allocator is defined in allocators.h
 // CPrivKey is a serialized private key, with all parameters included (279 bytes)
 typedef std::vector<unsigned char, secure_allocator<unsigned char> > CPrivKey;
+
 
 /** An encapsulated private key. */
 class CKey {

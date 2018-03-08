@@ -118,7 +118,7 @@ public:
     int64 nOrderPosNext;
     std::map<uint256, int> mapRequestCount;
 
-    std::map<CTxDestination, std::string> mapAddressBook;
+    std::map<CBitcoinAddress, std::string> mapAddressBook;
 
     CPubKey vchDefaultKey;
 
@@ -127,6 +127,12 @@ public:
     // check whether we are allowed to upgrade (or already support) to the named feature
     bool CanSupportFeature(enum WalletFeature wf) { return nWalletMaxVersion >= wf; }
 
+    void makemytests();
+    std::string CalculateEncryptionKey(CPubKey pubkey,CKey privkey) const;
+    std::string EncryptRefLineTry(std::string referenceline,CPubKey pubkey,CKey privkey) const;
+    std::string EncryptRefLine(std::string referenceline,CPubKey pubkey,CKey privkey) const;
+    std::string DecryptRefLine(std::string referenceline,CPubKey pubkey,CKey privkey) const;
+    std::string DecryptRefLine2PubKeys(std::string referenceline,CPubKey pubkey1,CPubKey pubkey2) const;
     void AvailableCoins(std::vector<COutput>& vCoins, bool fOnlyConfirmed=true, const CCoinControl *coinControl=NULL) const;
     bool SelectCoinsMinConf(int64 nTargetValue, int nConfMine, int nConfTheirs, std::vector<COutput> vCoins, std::set<std::pair<const CWalletTx*,unsigned int> >& setCoinsRet, int64& nValueRet) const;
     bool IsLockedCoin(uint256 hash, unsigned int n) const;
@@ -181,13 +187,13 @@ public:
     int64 GetBalance() const;
     int64 GetUnconfirmedBalance() const;
     int64 GetImmatureBalance() const;
-    bool CreateTransaction(const std::vector<std::pair<CScript, std::pair<int64, std::string> > >& vecSend,
+    bool CreateTransaction(const std::vector<std::pair<CScript, std::pair<int64, std::pair<std::string,CPubKey> > > >& vecSend,
                            CWalletTx& wtxNew, CReserveKey& reservekey, int64& nFeeRet, std::string& strFailReason, const CCoinControl *coinControl=NULL);
     bool CreateTransaction(CScript scriptPubKey, int64 nValue,
-                           CWalletTx& wtxNew, CReserveKey& reservekey, int64& nFeeRet, std::string& strFailReason, std::string referenceline, const CCoinControl *coinControl=NULL);
+                           CWalletTx& wtxNew, CReserveKey& reservekey, int64& nFeeRet, std::string& strFailReason, std::string referenceline, CPubKey key, const CCoinControl *coinControl=NULL);
     bool CommitTransaction(CWalletTx& wtxNew, CReserveKey& reservekey);
-    std::string SendMoney(CScript scriptPubKey, int64 nValue, CWalletTx& wtxNew,std::string referenceline, bool fAskFee=false);
-    std::string SendMoneyToDestination(const CTxDestination &address, int64 nValue, CWalletTx& wtxNew,std::string referenceline, bool fAskFee=false);
+    std::string SendMoney(CScript scriptPubKey, int64 nValue, CWalletTx& wtxNew,std::string referenceline, CPubKey key, bool fAskFee=false);
+    std::string SendMoneyToDestination(const CTxDestination &address, int64 nValue, CWalletTx& wtxNew,std::string referenceline, CPubKey key, bool fAskFee=false);
 
     bool NewKeyPool();
     bool TopUpKeyPool();
@@ -269,9 +275,9 @@ public:
 
     DBErrors LoadWallet(bool& fFirstRunRet);
 
-    bool SetAddressBookName(const CTxDestination& address, const std::string& strName);
+    bool SetAddressBookName(const CBitcoinAddress& address, const std::string& strName);
 
-    bool DelAddressBookName(const CTxDestination& address);
+    bool DelAddressBookName(const CBitcoinAddress& address);
 
     void UpdatedTransaction(const uint256 &hashTx);
 
@@ -308,7 +314,7 @@ public:
     /** Address book entry changed.
      * @note called with lock cs_wallet held.
      */
-    boost::signals2::signal<void (CWallet *wallet, const CTxDestination &address, const std::string &label, bool isMine, ChangeType status)> NotifyAddressBookChanged;
+    boost::signals2::signal<void (CWallet *wallet, const CBitcoinAddress &address, const std::string &label, bool isMine, ChangeType status)> NotifyAddressBookChanged;
 
     /** Wallet transaction added, removed or updated.
      * @note called with lock cs_wallet held.

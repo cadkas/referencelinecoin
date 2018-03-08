@@ -48,12 +48,18 @@ QList<TransactionRecord> TransactionRecord::decomposeTransaction(const CWallet *
                 CTxDestination address;
                 sub.idx = parts.size(); // sequence number
                 sub.credit = txout.nValue;
-                sub.referenceline = txout.referenceline;
+                                                                                     
+                sub.referenceline = wallet->DecryptRefLine2PubKeys(txout.referenceline,txout.senderPubKey,txout.receiverPubKey);
+
                 if (ExtractDestination(txout.scriptPubKey, address) && IsMine(*wallet, address))
                 {
                     // Received by Bitcoin Address
                     sub.type = TransactionRecord::RecvWithAddress;
-                    sub.address = CBitcoinAddress(address).ToString();
+                    CBitcoinAddress addr;
+	            CKeyID keyID;
+		    CBitcoinAddress(address).GetKeyID(keyID);
+		    addr.Set(keyID,txout.receiverPubKey);
+                    sub.address = addr.ToString();
                 }
                 else
                 {
@@ -101,7 +107,7 @@ QList<TransactionRecord> TransactionRecord::decomposeTransaction(const CWallet *
                 const CTxOut& txout = wtx.vout[nOut];
                 TransactionRecord sub(hash, nTime);
                 sub.idx = parts.size();
-                sub.referenceline = txout.referenceline;
+                sub.referenceline = wallet->DecryptRefLine2PubKeys(txout.referenceline,txout.senderPubKey,txout.receiverPubKey);
 
                 if(wallet->IsMine(txout))
                 {
@@ -115,7 +121,11 @@ QList<TransactionRecord> TransactionRecord::decomposeTransaction(const CWallet *
                 {
                     // Sent to Bitcoin Address
                     sub.type = TransactionRecord::SendToAddress;
-                    sub.address = CBitcoinAddress(address).ToString();
+                    CBitcoinAddress addr;
+                    CKeyID keyID;
+		    CBitcoinAddress(address).GetKeyID(keyID);
+		    addr.Set(keyID,txout.receiverPubKey);
+                    sub.address = addr.ToString();
                 }
                 else
                 {

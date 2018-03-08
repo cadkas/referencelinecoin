@@ -10,17 +10,17 @@ Copyright (c) 2018 Referencelinecoin Developers
 What is Referencelinecoin?
 ----------------
 
-Referencelinecoin is a lite version of Bitcoin using scrypt as a proof-of-work algorithm.
- - 2.5 minute block targets
- - subsidy halves in 840k blocks (~4 years)
- - ~84 million total coins
-
-The rest is the same as Bitcoin.
- - 50 coins per block
- - 2016 blocks to retarget difficulty
+Reference line coin is based on Litecoin and introduces
+an encrypted reference line for all transactions.
+Only sender and receiver are able to decrypt the reference line.
+The addresses are longer and include a public key for the reference
+line encryption additionally to the public key hash in the usual addresses.
+AES encryption is used to encrypt the reference lines. 
+The encryption key for the AES encryption is derived from a private und a public
+key pair through elliptic curve multiplication.
 
 For more information, as well as an immediately useable, binary version of
-the Referencelinecoin client sofware, see http://www.referencelinecoin.org.
+the Referencelinecoin client sofware, see http://www.referencecoin.co.
 
 License
 -------

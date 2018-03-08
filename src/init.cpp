@@ -1038,8 +1038,16 @@ bool AppInit2(boost::thread_group& threadGroup)
             CPubKey newDefaultKey;
             if (pwalletMain->GetKeyFromPool(newDefaultKey, false)) {
                 pwalletMain->SetDefaultKey(newDefaultKey);
-                if (!pwalletMain->SetAddressBookName(pwalletMain->vchDefaultKey.GetID(), ""))
-                    strErrors << _("Cannot write default address") << "\n";
+		if (pwalletMain->GetKeyFromPool(temppubkeyForBitCoinAddress,false)){//Get new PubKey for encryption of the reference line
+                    CBitcoinAddress addr;
+
+                    addr.Set(pwalletMain->vchDefaultKey.GetID(),temppubkeyForBitCoinAddress);			
+
+uiInterface.ThreadSafeMessageBox(addr.ToString(),"", CClientUIInterface::MSG_ERROR);
+
+                    if (!pwalletMain->SetAddressBookName(addr, ""))
+                      strErrors << _("Cannot write default address") << "\n";
+                }
             }
 
             pwalletMain->SetBestChain(CBlockLocator(pindexBest));

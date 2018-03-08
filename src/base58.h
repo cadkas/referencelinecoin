@@ -189,7 +189,7 @@ protected:
         vchData.clear();
     }
 
-    void SetData(int nVersionIn, const void* pdata, size_t nSize)
+    void SetDataPrivate(int nVersionIn, const void* pdata, size_t nSize)
     {
         nVersion = nVersionIn;
         vchData.resize(nSize);
@@ -197,10 +197,20 @@ protected:
             memcpy(&vchData[0], pdata, nSize);
     }
 
-    void SetData(int nVersionIn, const unsigned char *pbegin, const unsigned char *pend)
+    void SetData(int nVersionIn, const void* pdata, const void* pdata2, size_t nSize, size_t nSize2)
+    {
+        nVersion = nVersionIn;
+        vchData.resize(nSize+nSize2);
+        if (!vchData.empty()) {
+            memcpy(&vchData[0], pdata, nSize);
+            memcpy(&vchData[nSize], pdata2, nSize2);
+        }
+    }
+
+  /*  void SetData(int nVersionIn, const unsigned char *pbegin, const unsigned char *pend)
     {
         SetData(nVersionIn, (void*)pbegin, pend - pbegin);
-    }
+    }*/
 
 public:
     bool SetString(const char* psz)
@@ -255,6 +265,7 @@ public:
  * Script-hash-addresses have version 5 (or 196 testnet).
  * The data vector contains RIPEMD160(SHA256(cscript)), where cscript is the serialized redemption script.
  */
+
 class CBitcoinAddress;
 class CBitcoinAddressVisitor : public boost::static_visitor<bool>
 {
@@ -266,6 +277,7 @@ public:
     bool operator()(const CScriptID &id) const;
     bool operator()(const CNoDestination &no) const;
 };
+extern CPubKey temppubkeyForBitCoinAddress;
 
 class CBitcoinAddress : public CBase58Data
 {
@@ -273,18 +285,18 @@ public:
     enum
     {
         PUBKEY_ADDRESS = 60, // Referencelinecoin addresses start with R
-        SCRIPT_ADDRESS = 5,
+        SCRIPT_ADDRESS = 33, // Referencelinecoin script addresses start with E
         PUBKEY_ADDRESS_TEST = 122,//r https://en.bitcoin.it/wiki/List_of_address_prefixes
-        SCRIPT_ADDRESS_TEST = 196,
+        SCRIPT_ADDRESS_TEST = 92,
     };
 
-    bool Set(const CKeyID &id) {
-        SetData(fTestNet ? PUBKEY_ADDRESS_TEST : PUBKEY_ADDRESS, &id, 20);
+    bool Set(const CKeyID &id,const CPubKey &id2) {
+        SetData(fTestNet ? PUBKEY_ADDRESS_TEST : PUBKEY_ADDRESS, &id, &id2, 20,33);
         return true;
     }
 
-    bool Set(const CScriptID &id) {
-        SetData(fTestNet ? SCRIPT_ADDRESS_TEST : SCRIPT_ADDRESS, &id, 20);
+    bool Set(const CScriptID &id,const CPubKey &id2) {
+        SetData(fTestNet ? SCRIPT_ADDRESS_TEST : SCRIPT_ADDRESS, &id, &id2, 20,33);
         return true;
     }
 
@@ -295,25 +307,25 @@ public:
 
     bool IsValid() const
     {
-        unsigned int nExpectedSize = 20;
+        unsigned int nExpectedSize = 20+33;
         bool fExpectTestNet = false;
         switch(nVersion)
         {
             case PUBKEY_ADDRESS:
-                nExpectedSize = 20; // Hash of public key
+                nExpectedSize = 20+33; // Hash of public key + 33 bytes Public key for reference lines
                 fExpectTestNet = false;
                 break;
             case SCRIPT_ADDRESS:
-                nExpectedSize = 20; // Hash of CScript
+                nExpectedSize = 20+33; // Hash of CScript
                 fExpectTestNet = false;
                 break;
 
             case PUBKEY_ADDRESS_TEST:
-                nExpectedSize = 20;
+                nExpectedSize = 20+33;
                 fExpectTestNet = true;
                 break;
             case SCRIPT_ADDRESS_TEST:
-                nExpectedSize = 20;
+                nExpectedSize = 20+33;
                 fExpectTestNet = true;
                 break;
 
@@ -362,6 +374,15 @@ public:
         return CNoDestination();
     }
 
+    CPubKey GetReceiverPubKey() const {
+        CPubKey key;
+
+        if (vchData.size()>=53) {
+            key.Set(&vchData[20], &vchData[20+33]);
+        }
+        return key;
+    }
+
     bool GetKeyID(CKeyID &keyID) const {
         if (!IsValid())
             return false;
@@ -390,8 +411,8 @@ public:
     }
 };
 
-bool inline CBitcoinAddressVisitor::operator()(const CKeyID &id) const         { return addr->Set(id); }
-bool inline CBitcoinAddressVisitor::operator()(const CScriptID &id) const      { return addr->Set(id); }
+bool inline CBitcoinAddressVisitor::operator()(const CKeyID &id) const         { return addr->Set(id,temppubkeyForBitCoinAddress); }
+bool inline CBitcoinAddressVisitor::operator()(const CScriptID &id) const      { return addr->Set(id,temppubkeyForBitCoinAddress); }
 bool inline CBitcoinAddressVisitor::operator()(const CNoDestination &id) const { return false; }
 
 /** A base58-encoded secret key */
@@ -407,7 +428,7 @@ public:
     void SetKey(const CKey& vchSecret)
     {
         assert(vchSecret.IsValid());
-        SetData(fTestNet ? PRIVKEY_ADDRESS_TEST : PRIVKEY_ADDRESS, vchSecret.begin(), vchSecret.size());
+        SetDataPrivate(fTestNet ? PRIVKEY_ADDRESS_TEST : PRIVKEY_ADDRESS, vchSecret.begin(), vchSecret.size());
         if (vchSecret.IsCompressed())
             vchData.push_back(1);
     }

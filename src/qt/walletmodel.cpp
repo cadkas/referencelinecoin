@@ -187,15 +187,22 @@ WalletModel::SendCoinsReturn WalletModel::sendCoins(const QList<SendCoinsRecipie
         LOCK2(cs_main, wallet->cs_wallet);
 
         // Sendmany
-        std::vector<std::pair<CScript, std::pair<int64, std::string> > > vecSend;
+        std::vector<std::pair<CScript, std::pair<int64, std::pair<std::string, CPubKey> > > > vecSend;
         foreach(const SendCoinsRecipient &rcp, recipients)
         {
+
+//            pwalletMain->GetKeyFromPool(temppubkeyForBitCoinAddress,false);//Get new PubKey for encryption of the reference line
+
             CScript scriptPubKey;
             scriptPubKey.SetDestination(CBitcoinAddress(rcp.address.toStdString()).Get());
+            CPubKey key;
+	    key=CBitcoinAddress(rcp.address.toStdString()).GetReceiverPubKey();
+
+        
             std::string referenceline;
             referenceline=rcp.referenceline.toUtf8().constData();
 
-            vecSend.push_back(make_pair(scriptPubKey, make_pair(rcp.amount,referenceline)));
+            vecSend.push_back(make_pair(scriptPubKey, make_pair(rcp.amount,make_pair(referenceline,key))));
         }
 
         CWalletTx wtx;
@@ -218,6 +225,7 @@ WalletModel::SendCoinsReturn WalletModel::sendCoins(const QList<SendCoinsRecipie
         {
             return Aborted;
         }
+
         if(!wallet->CommitTransaction(wtx, keyChange))
         {
             return TransactionCommitFailed;
@@ -229,12 +237,12 @@ WalletModel::SendCoinsReturn WalletModel::sendCoins(const QList<SendCoinsRecipie
     foreach(const SendCoinsRecipient &rcp, recipients)
     {
         std::string strAddress = rcp.address.toStdString();
-        CTxDestination dest = CBitcoinAddress(strAddress).Get();
+        CBitcoinAddress dest = CBitcoinAddress(strAddress);
         std::string strLabel = rcp.label.toStdString();
         {
             LOCK(wallet->cs_wallet);
 
-            std::map<CTxDestination, std::string>::iterator mi = wallet->mapAddressBook.find(dest);
+            std::map<CBitcoinAddress, std::string>::iterator mi = wallet->mapAddressBook.find(dest);
 
             // Check if we have a new address or an updated label
             if (mi == wallet->mapAddressBook.end() || mi->second != strLabel)
@@ -329,11 +337,11 @@ static void NotifyKeyStoreStatusChanged(WalletModel *walletmodel, CCryptoKeyStor
     QMetaObject::invokeMethod(walletmodel, "updateStatus", Qt::QueuedConnection);
 }
 
-static void NotifyAddressBookChanged(WalletModel *walletmodel, CWallet *wallet, const CTxDestination &address, const std::string &label, bool isMine, ChangeType status)
+static void NotifyAddressBookChanged(WalletModel *walletmodel, CWallet *wallet, const CBitcoinAddress &address, const std::string &label, bool isMine, ChangeType status)
 {
-    OutputDebugStringF("NotifyAddressBookChanged %s %s isMine=%i status=%i\n", CBitcoinAddress(address).ToString().c_str(), label.c_str(), isMine, status);
+    OutputDebugStringF("NotifyAddressBookChanged %s %s isMine=%i status=%i\n", address.ToString().c_str(), label.c_str(), isMine, status);
     QMetaObject::invokeMethod(walletmodel, "updateAddressBook", Qt::QueuedConnection,
-                              Q_ARG(QString, QString::fromStdString(CBitcoinAddress(address).ToString())),
+                              Q_ARG(QString, QString::fromStdString(address.ToString())),
                               Q_ARG(QString, QString::fromStdString(label)),
                               Q_ARG(bool, isMine),
                               Q_ARG(int, status));
@@ -342,9 +350,11 @@ static void NotifyAddressBookChanged(WalletModel *walletmodel, CWallet *wallet, 
 static void NotifyTransactionChanged(WalletModel *walletmodel, CWallet *wallet, const uint256 &hash, ChangeType status)
 {
     OutputDebugStringF("NotifyTransactionChanged %s status=%i\n", hash.GetHex().c_str(), status);
+
     QMetaObject::invokeMethod(walletmodel, "updateTransaction", Qt::QueuedConnection,
                               Q_ARG(QString, QString::fromStdString(hash.GetHex())),
                               Q_ARG(int, status));
+
 }
 
 void WalletModel::subscribeToCoreSignals()
@@ -445,7 +455,12 @@ void WalletModel::listCoins(std::map<QString, std::vector<COutput> >& mapCoins) 
 
         CTxDestination address;
         if(!ExtractDestination(cout.tx->vout[cout.i].scriptPubKey, address)) continue;
-        mapCoins[CBitcoinAddress(address).ToString().c_str()].push_back(out);
+        CBitcoinAddress addr;
+	CKeyID keyID;
+	CBitcoinAddress(address).GetKeyID(keyID);
+	addr.Set(keyID,cout.tx->vout[cout.i].receiverPubKey);
+
+        mapCoins[addr.ToString().c_str()].push_back(out);
     }
 }
 
