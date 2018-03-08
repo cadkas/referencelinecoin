@@ -7,6 +7,7 @@
 
 #include <QString>
 #include <QObject>
+#include "walletmodel.h"
 
 class CWallet;
 class CWalletTx;
@@ -18,7 +19,7 @@ class TransactionDesc: public QObject
     Q_OBJECT
 
 public:
-    static QString toHTML(CWallet *wallet, CWalletTx &wtx);
+    static QString toHTML(CWallet *wallet, CWalletTx &wtx,WalletModel *model);
 
 private:
     TransactionDesc() {}

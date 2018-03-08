@@ -6,6 +6,7 @@
 #define TRANSACTIONRECORD_H
 
 #include "uint256.h"
+#include "walletmodel.h"
 
 #include <QList>
 

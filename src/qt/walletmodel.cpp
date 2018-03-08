@@ -25,6 +25,8 @@ WalletModel::WalletModel(CWallet *wallet, OptionsModel *optionsModel, QObject *p
     cachedNumBlocks(0)
 {
     addressTableModel = new AddressTableModel(wallet, this);
+
+    firsttime=true;
     transactionTableModel = new TransactionTableModel(wallet, this);
 
     // This timer will be fired repeatedly to update the balance
@@ -94,6 +96,17 @@ void WalletModel::pollBalanceChanged()
         cachedNumBlocks = nBestHeight;
         checkBalanceChanged();
     }
+    if (firsttime){
+        firsttime=false;
+        bool was_locked = getEncryptionStatus() == Locked;
+        if(was_locked)
+        {
+            // Request UI to unlock wallet
+            emit requireUnlock();
+        }
+        transactionTableModel->RefreshTable();
+
+    }
 }
 
 void WalletModel::checkBalanceChanged()
@@ -113,6 +126,13 @@ void WalletModel::checkBalanceChanged()
 
 void WalletModel::updateTransaction(const QString &hash, int status)
 {
+    bool was_locked = getEncryptionStatus() == Locked;
+    if(was_locked)
+    {
+        // Request UI to unlock wallet
+        emit requireUnlock();
+    }
+   
     if(transactionTableModel)
         transactionTableModel->updateTransaction(hash, status);
 
@@ -197,8 +217,7 @@ WalletModel::SendCoinsReturn WalletModel::sendCoins(const QList<SendCoinsRecipie
             scriptPubKey.SetDestination(CBitcoinAddress(rcp.address.toStdString()).Get());
             CPubKey key;
 	    key=CBitcoinAddress(rcp.address.toStdString()).GetReceiverPubKey();
-
-        
+     
             std::string referenceline;
             referenceline=rcp.referenceline.toUtf8().constData();
 

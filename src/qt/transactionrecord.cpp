@@ -6,6 +6,7 @@
 
 #include "wallet.h"
 #include "base58.h"
+#include "walletmodel.h"
 
 /* Return positive answer if transaction should be shown in list.
  */
@@ -48,7 +49,7 @@ QList<TransactionRecord> TransactionRecord::decomposeTransaction(const CWallet *
                 CTxDestination address;
                 sub.idx = parts.size(); // sequence number
                 sub.credit = txout.nValue;
-                                                                                     
+                                          
                 sub.referenceline = wallet->DecryptRefLine2PubKeys(txout.referenceline,txout.senderPubKey,txout.receiverPubKey);
 
                 if (ExtractDestination(txout.scriptPubKey, address) && IsMine(*wallet, address))

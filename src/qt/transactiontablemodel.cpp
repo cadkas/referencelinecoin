@@ -205,14 +205,14 @@ public:
         }
     }
 
-    QString describe(TransactionRecord *rec)
+    QString describe(TransactionRecord *rec,  WalletModel *model)
     {
         {
             LOCK(wallet->cs_wallet);
             std::map<uint256, CWalletTx>::iterator mi = wallet->mapWallet.find(rec->hash);
             if(mi != wallet->mapWallet.end())
             {
-                return TransactionDesc::toHTML(wallet, mi->second);
+                return TransactionDesc::toHTML(wallet, mi->second, model);
             }
         }
         return QString("");
@@ -241,6 +241,12 @@ TransactionTableModel::TransactionTableModel(CWallet* wallet, WalletModel *paren
 TransactionTableModel::~TransactionTableModel()
 {
     delete priv;
+}
+
+void TransactionTableModel::RefreshTable()
+{
+
+    priv->refreshWallet();
 }
 
 void TransactionTableModel::updateTransaction(const QString &hash, int status)
@@ -573,7 +579,7 @@ QVariant TransactionTableModel::data(const QModelIndex &index, int role) const
     case DateRole:
         return QDateTime::fromTime_t(static_cast<uint>(rec->time));
     case LongDescriptionRole:
-        return priv->describe(rec);
+        return priv->describe(rec,walletModel);
     case AddressRole:
         return QString::fromStdString(rec->address);
     case ReferencelineRole:

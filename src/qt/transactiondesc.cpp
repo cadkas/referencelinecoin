@@ -11,6 +11,7 @@
 #include "db.h"
 #include "ui_interface.h"
 #include "base58.h"
+#include "walletmodel.h"
 
 #include <string>
 
@@ -37,7 +38,7 @@ QString TransactionDesc::FormatTxStatus(const CWalletTx& wtx)
     }
 }
 
-QString TransactionDesc::toHTML(CWallet *wallet, CWalletTx &wtx)
+QString TransactionDesc::toHTML(CWallet *wallet, CWalletTx &wtx,WalletModel *model)
 {
     QString strHTML;
 
@@ -222,6 +223,7 @@ QString TransactionDesc::toHTML(CWallet *wallet, CWalletTx &wtx)
 
                 BOOST_FOREACH(const CTxOut& txout, wtx.vout){   
                     if (txout.referenceline!=""){
+                        WalletModel::UnlockContext ctx(model->requestUnlock());
 			std::string decryptedline=wallet->DecryptRefLine2PubKeys(txout.referenceline,txout.senderPubKey,txout.receiverPubKey);
                         QString qstrrefline = QString::fromUtf8(decryptedline.c_str());
                         strHTML += "<b>" + tr("Reference line") + ":</b> " + qstrrefline + "<br>";
