@@ -16,7 +16,6 @@
 #include <openssl/obj_mac.h>
 #include <openssl/evp.h>
 #include<openssl/aes.h> 
-#include "walletmodel.h"
 
 using namespace std;
 
