@@ -289,7 +289,7 @@ Value sendtoaddress(const Array& params, bool fHelp)
 {
     if (fHelp || params.size() < 2 || params.size() > 5)
         throw runtime_error(
-            "sendtoaddress <referencelinecoinaddress> <amount> <referenceline> [comment] [comment-to]\n"
+            "sendtoaddress <referencelinecoinaddress> <amount> [referenceline] [comment] [comment-to]\n"
             "<amount> is a real and is rounded to the nearest 0.00000001"
             + HelpRequiringPassphrase());
 
@@ -299,7 +299,10 @@ Value sendtoaddress(const Array& params, bool fHelp)
 
     // Amount
     int64 nAmount = AmountFromValue(params[1]);
-    std::string referenceline = params[2].get_str();
+    std::string referenceline = "";
+
+    if (params.size() > 2 && params[2].type() != null_type && !params[2].get_str().empty())
+        referenceline = params[2].get_str();
 
     // Wallet comments
     CWalletTx wtx;
@@ -652,7 +655,7 @@ Value sendfrom(const Array& params, bool fHelp)
 {
     if (fHelp || params.size() < 3 || params.size() > 7)
         throw runtime_error(
-            "sendfrom <fromaccount> <toreferencelinecoinaddress> <amount> <referenceline> [minconf=1] [comment] [comment-to]\n"
+            "sendfrom <fromaccount> <toreferencelinecoinaddress> <amount> [referenceline] [minconf=1] [comment] [comment-to]\n"
             "<amount> is a real and is rounded to the nearest 0.00000001"
             + HelpRequiringPassphrase());
 
@@ -661,7 +664,12 @@ Value sendfrom(const Array& params, bool fHelp)
     if (!address.IsValid())
         throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid Referencelinecoin address");
     int64 nAmount = AmountFromValue(params[2]);
-    std::string referenceline = params[3].get_str();
+    std::string referenceline = "";
+
+    if (params.size() > 3 && params[3].type() != null_type && !params[3].get_str().empty())
+        referenceline = params[3].get_str();
+
+
     int nMinDepth = 1;
     if (params.size() > 4)
         nMinDepth = params[4].get_int();
