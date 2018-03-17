@@ -151,6 +151,7 @@ std::string CWallet::EncryptRefLineTry(std::string referenceline,CPubKey pubkey,
 {
     std::string key_data=CalculateEncryptionKey(pubkey,privkey);
     std::string outputline="";
+    if (referenceline.length()<=0) return referenceline;
 
     /* "opaque" encryption, decryption ctx structures that libcrypto uses to record
        status of enc/dec operations */
@@ -189,8 +190,10 @@ std::string CWallet::EncryptRefLineTry(std::string referenceline,CPubKey pubkey,
 std::string CWallet::EncryptRefLine(std::string referenceline,CPubKey pubkey,CKey privkey) const
 {
     std::string outstr="";
+
+    if (referenceline.length()<=0) return referenceline;
     
-   if(referenceline.length()>200) referenceline.resize(200);
+    if(referenceline.length()>200) referenceline.resize(200);
     do{
       outstr=EncryptRefLineTry(referenceline,pubkey,privkey);
        referenceline.resize(referenceline.length()-1);
@@ -201,6 +204,8 @@ std::string CWallet::EncryptRefLine(std::string referenceline,CPubKey pubkey,CKe
 std::string CWallet::DecryptRefLine(std::string referenceline,CPubKey pubkey,CKey privkey) const
 {
   
+    if (referenceline.length()<=0) return referenceline;
+
     std::string key_data=CalculateEncryptionKey(pubkey,privkey);
     std::string outputline="";
 
