@@ -51,12 +51,13 @@ vector<unsigned char> ParseHexO(const Object& o, string strKey)
     return ParseHexV(find_value(o, strKey), strKey);
 }
 
-void ScriptPubKeyToJSON(const CScript& scriptPubKey, Object& out)
+void ScriptPubKeyToJSON(const CScript& scriptPubKey, CPubKey receiverPubKey, Object& out)
 {
     txnouttype type;
     vector<CTxDestination> addresses;
     int nRequired;
 
+    temppubkeyForBitCoinAddress=receiverPubKey;
     out.push_back(Pair("asm", scriptPubKey.ToString()));
     out.push_back(Pair("hex", HexStr(scriptPubKey.begin(), scriptPubKey.end())));
 
@@ -72,6 +73,7 @@ void ScriptPubKeyToJSON(const CScript& scriptPubKey, Object& out)
     Array a;
     BOOST_FOREACH(const CTxDestination& addr, addresses)
         a.push_back(CBitcoinAddress(addr).ToString());
+
     out.push_back(Pair("addresses", a));
 }
 
@@ -107,7 +109,7 @@ void TxToJSON(const CTransaction& tx, const uint256 hashBlock, Object& entry)
         out.push_back(Pair("value", ValueFromAmount(txout.nValue)));
         out.push_back(Pair("n", (boost::int64_t)i));
         Object o;
-        ScriptPubKeyToJSON(txout.scriptPubKey, o);
+        ScriptPubKeyToJSON(txout.scriptPubKey, txout.receiverPubKey, o);
         out.push_back(Pair("scriptPubKey", o));
         vout.push_back(out);
     }

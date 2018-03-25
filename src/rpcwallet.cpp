@@ -293,17 +293,18 @@ Value sendtoaddress(const Array& params, bool fHelp)
             "<amount> is a real and is rounded to the nearest 0.00000001"
             + HelpRequiringPassphrase());
 
+printf("test 1");
     CBitcoinAddress address(params[0].get_str());
     if (!address.IsValid())
         throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid Referencelinecoin address");
-
+printf("test 2");
     // Amount
     int64 nAmount = AmountFromValue(params[1]);
     std::string referenceline = "";
-
+printf("test 3");
     if (params.size() > 2 && params[2].type() != null_type && !params[2].get_str().empty())
         referenceline = params[2].get_str();
-
+printf("test 4");
     // Wallet comments
     CWalletTx wtx;
     if (params.size() > 3 && params[3].type() != null_type && !params[3].get_str().empty())
@@ -314,10 +315,12 @@ Value sendtoaddress(const Array& params, bool fHelp)
     if (pwalletMain->IsLocked())
         throw JSONRPCError(RPC_WALLET_UNLOCK_NEEDED, "Error: Please enter the wallet passphrase with walletpassphrase first.");
 
+printf("test 5");
     string strError = pwalletMain->SendMoneyToDestination(address.Get(), nAmount, wtx, referenceline, address.GetReceiverPubKey());
+printf("test 6");
     if (strError != "")
         throw JSONRPCError(RPC_WALLET_ERROR, strError);
-
+printf("test 7");
     return wtx.GetHash().GetHex();
 }
 
