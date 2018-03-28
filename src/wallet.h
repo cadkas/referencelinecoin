@@ -634,8 +634,8 @@ public:
         return nChangeCached;
     }
 
-    void GetAmounts(std::list<std::pair<CTxDestination, std::pair<int64,std::string> > >& listReceived,
-                    std::list<std::pair<CTxDestination, std::pair<int64,std::string> > >& listSent, int64& nFee, std::string& strSentAccount) const;
+    void GetAmountsbyAddress(std::list<std::pair<CBitcoinAddress, std::pair<int64,std::string> > >& listReceived,
+                           std::list<std::pair<CBitcoinAddress, std::pair<int64,std::string> > >& listSent, int64& nFee, std::string& strSentAccount) const;
 
     void GetAccountAmounts(const std::string& strAccount, int64& nReceived,
                            int64& nSent, int64& nFee) const;

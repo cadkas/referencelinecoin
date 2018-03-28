@@ -873,8 +873,9 @@ int CWalletTx::GetRequestCount() const
     return nRequests;
 }
 
-void CWalletTx::GetAmounts(list<pair<CTxDestination, pair<int64,std::string> > >& listReceived,
-                           list<pair<CTxDestination, pair<int64,std::string> > >& listSent, int64& nFee, string& strSentAccount) const
+
+void CWalletTx::GetAmountsbyAddress(list<pair<CBitcoinAddress, pair<int64,std::string> > >& listReceived,
+                           list<pair<CBitcoinAddress, pair<int64,std::string> > >& listSent, int64& nFee, string& strSentAccount) const
 {
     nFee = 0;
     listReceived.clear();
@@ -914,17 +915,23 @@ void CWalletTx::GetAmounts(list<pair<CTxDestination, pair<int64,std::string> > >
                    this->GetHash().ToString().c_str());
             address = CNoDestination();
         }
+        CBitcoinAddress address0;
+	CKeyID keyID;
+        CBitcoinAddress(address).GetKeyID(keyID);
+        address0.Set(keyID,txout.receiverPubKey);
+
       
         // If we are debited by the transaction, add the output as a "sent" entry
         if (nDebit > 0)
-            listSent.push_back(make_pair(address, make_pair(txout.nValue,txout.referenceline)));
+            listSent.push_back(make_pair(address0, make_pair(txout.nValue,txout.referenceline)));
 
         // If we are receiving the output, add it as a "received" entry
         if (fIsMine)
-            listReceived.push_back(make_pair(address,  make_pair(txout.nValue,txout.referenceline)));
+            listReceived.push_back(make_pair(address0,  make_pair(txout.nValue,txout.referenceline)));
     }
 
 }
+
 
 void CWalletTx::GetAccountAmounts(const string& strAccount, int64& nReceived,
                                   int64& nSent, int64& nFee) const
@@ -933,13 +940,13 @@ void CWalletTx::GetAccountAmounts(const string& strAccount, int64& nReceived,
 
     int64 allFee;
     string strSentAccount;
-    list<pair<CTxDestination, pair<int64,std::string> > > listReceived;
-    list<pair<CTxDestination, pair<int64,std::string> > > listSent;
-    GetAmounts(listReceived, listSent, allFee, strSentAccount);
+    list<pair<CBitcoinAddress, pair<int64,std::string> > > listReceived;
+    list<pair<CBitcoinAddress, pair<int64,std::string> > > listSent;
+    GetAmountsbyAddress(listReceived, listSent, allFee, strSentAccount);
 
     if (strAccount == strSentAccount)
     {
-        BOOST_FOREACH(const PAIRTYPE(CTxDestination,PAIRTYPE(int64,std::string))& s, listSent)
+        BOOST_FOREACH(const PAIRTYPE(CBitcoinAddress,PAIRTYPE(int64,std::string))& s, listSent)
             nSent += s.second.first;
         nFee = allFee;
     }

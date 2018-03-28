@@ -581,15 +581,15 @@ Value getbalance(const Array& params, bool fHelp)
 
             int64 allFee;
             string strSentAccount;
-            list<pair<CTxDestination, pair<int64,std::string> > > listReceived;
-            list<pair<CTxDestination, pair<int64,std::string> > > listSent;
-            wtx.GetAmounts(listReceived, listSent, allFee, strSentAccount);
+            list<pair<CBitcoinAddress, pair<int64,std::string> > > listReceived;
+            list<pair<CBitcoinAddress, pair<int64,std::string> > > listSent;
+            wtx.GetAmountsbyAddress(listReceived, listSent, allFee, strSentAccount);
             if (wtx.GetDepthInMainChain() >= nMinDepth)
             {
-                BOOST_FOREACH(const PAIRTYPE(CTxDestination,PAIRTYPE(int64,std::string))& r, listReceived)
+                BOOST_FOREACH(const PAIRTYPE(CBitcoinAddress,PAIRTYPE(int64,std::string))& r, listReceived)
                     nBalance += r.second.first;
             }
-            BOOST_FOREACH(const PAIRTYPE(CTxDestination,PAIRTYPE(int64,std::string))& r, listSent)
+            BOOST_FOREACH(const PAIRTYPE(CBitcoinAddress,PAIRTYPE(int64,std::string))& r, listSent)
                 nBalance -= r.second.first;
             nBalance -= allFee;
         }
@@ -937,7 +937,7 @@ Value ListReceived(const Array& params, bool fByAccounts)
         const string& strAccount = item.second;
 
         bool found=false;
-//        map<CBitcoinAddress, tallyitem>::iterator it;
+
         tallyitem founditem;
         BOOST_FOREACH(const PAIRTYPE(CBitcoinAddress, tallyitem)& item, mapTally)
         {
@@ -949,8 +949,6 @@ Value ListReceived(const Array& params, bool fByAccounts)
             }
         }
 
-//        map<CBitcoinAddress, tallyitem>::iterator it = mapTally.find(address);
-//        if (it == mapTally.end() && !fIncludeEmpty)
         if (!found && !fIncludeEmpty)
             continue;
 
@@ -1037,28 +1035,26 @@ Value listreceivedbyaccount(const Array& params, bool fHelp)
     return ListReceived(params, true);
 }
 
-static void MaybePushAddress(Object & entry, const CTxDestination &dest)
+static void MaybePushAddress(Object & entry, const CBitcoinAddress &dest)
 {
-    CBitcoinAddress addr;
-    if (addr.Set(dest))
-        entry.push_back(Pair("address", addr.ToString()));
+    entry.push_back(Pair("address", dest.ToString()));
 }
 
 void ListTransactions(const CWalletTx& wtx, const string& strAccount, int nMinDepth, bool fLong, Array& ret)
 {
     int64 nFee;
     string strSentAccount;
-    list<pair<CTxDestination, pair<int64,std::string> > > listReceived;
-    list<pair<CTxDestination, pair<int64,std::string> > > listSent;
+    list<pair<CBitcoinAddress, pair<int64,std::string> > > listReceived;
+    list<pair<CBitcoinAddress, pair<int64,std::string> > > listSent;
 
-    wtx.GetAmounts(listReceived, listSent, nFee, strSentAccount);
+    wtx.GetAmountsbyAddress(listReceived, listSent, nFee, strSentAccount);
 
     bool fAllAccounts = (strAccount == string("*"));
 
     // Sent
     if ((!listSent.empty() || nFee != 0) && (fAllAccounts || strAccount == strSentAccount))
     {
-        BOOST_FOREACH(const PAIRTYPE(CTxDestination, PAIRTYPE(int64,std::string))& s, listSent)
+        BOOST_FOREACH(const PAIRTYPE(CBitcoinAddress, PAIRTYPE(int64,std::string))& s, listSent)
         {
             Object entry;
             entry.push_back(Pair("account", strSentAccount));
@@ -1076,7 +1072,7 @@ void ListTransactions(const CWalletTx& wtx, const string& strAccount, int nMinDe
     // Received
     if (listReceived.size() > 0 && wtx.GetDepthInMainChain() >= nMinDepth)
     {
-        BOOST_FOREACH(const PAIRTYPE(CTxDestination, PAIRTYPE(int64,std::string))& r, listReceived)
+        BOOST_FOREACH(const PAIRTYPE(CBitcoinAddress, PAIRTYPE(int64,std::string))& r, listReceived)
         {
             string account;
             if (pwalletMain->mapAddressBook.count(r.first))
@@ -1206,15 +1202,15 @@ Value listaccounts(const Array& params, bool fHelp)
         const CWalletTx& wtx = (*it).second;
         int64 nFee;
         string strSentAccount;
-        list<pair<CTxDestination, pair<int64,std::string> > > listReceived;
-        list<pair<CTxDestination, pair<int64,std::string> > > listSent;
-        wtx.GetAmounts(listReceived, listSent, nFee, strSentAccount);
+        list<pair<CBitcoinAddress, pair<int64,std::string> > > listReceived;
+        list<pair<CBitcoinAddress, pair<int64,std::string> > > listSent;
+        wtx.GetAmountsbyAddress(listReceived, listSent, nFee, strSentAccount);
         mapAccountBalances[strSentAccount] -= nFee;
-        BOOST_FOREACH(const PAIRTYPE(CTxDestination, PAIRTYPE(int64,std::string))& s, listSent)
+        BOOST_FOREACH(const PAIRTYPE(CBitcoinAddress, PAIRTYPE(int64,std::string))& s, listSent)
             mapAccountBalances[strSentAccount] -= s.second.first;
         if (wtx.GetDepthInMainChain() >= nMinDepth)
         {
-            BOOST_FOREACH(const PAIRTYPE(CTxDestination, PAIRTYPE(int64,std::string))& r, listReceived)
+            BOOST_FOREACH(const PAIRTYPE(CBitcoinAddress, PAIRTYPE(int64,std::string))& r, listReceived)
                 if (pwalletMain->mapAddressBook.count(r.first))
                     mapAccountBalances[pwalletMain->mapAddressBook[r.first]] += r.second.first;
                 else
