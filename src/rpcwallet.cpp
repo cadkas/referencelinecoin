@@ -509,7 +509,7 @@ Value getreceivedbyaccount(const Array& params, bool fHelp)
                 CBitcoinAddress addr;
 	        CKeyID keyID;
                 CBitcoinAddress(address).GetKeyID(keyID);
-		addr.Set(keyID,txout.senderPubKey);
+		addr.Set(keyID,txout.receiverPubKey);
                 if (setAddress.count(addr))
                 if (wtx.GetDepthInMainChain() >= nMinDepth)
                     nAmount += txout.nValue;
@@ -916,7 +916,12 @@ Value ListReceived(const Array& params, bool fByAccounts)
             if (!ExtractDestination(txout.scriptPubKey, address) || !IsMine(*pwalletMain, address))
                 continue;
 
-            tallyitem& item = mapTally[address];
+            CBitcoinAddress address0;
+	    CKeyID keyID;
+            CBitcoinAddress(address).GetKeyID(keyID);
+            address0.Set(keyID,txout.receiverPubKey);
+
+            tallyitem& item = mapTally[address0];
             item.nAmount += txout.nValue;
             item.nConf = min(item.nConf, nDepth);
             item.txids.push_back(wtx.GetHash());
