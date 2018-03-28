@@ -935,16 +935,31 @@ Value ListReceived(const Array& params, bool fByAccounts)
     {
         const CBitcoinAddress& address = item.first;
         const string& strAccount = item.second;
-        map<CBitcoinAddress, tallyitem>::iterator it = mapTally.find(address);
-        if (it == mapTally.end() && !fIncludeEmpty)
+
+        bool found=false;
+//        map<CBitcoinAddress, tallyitem>::iterator it;
+        tallyitem founditem;
+        BOOST_FOREACH(const PAIRTYPE(CBitcoinAddress, tallyitem)& item, mapTally)
+        {
+            if (address.Get()==item.first.Get())
+            {
+               founditem=item.second;
+               found=true;
+               break;
+            }
+        }
+
+//        map<CBitcoinAddress, tallyitem>::iterator it = mapTally.find(address);
+//        if (it == mapTally.end() && !fIncludeEmpty)
+        if (!found && !fIncludeEmpty)
             continue;
 
         int64 nAmount = 0;
         int nConf = std::numeric_limits<int>::max();
-        if (it != mapTally.end())
+        if (found)
         {
-            nAmount = (*it).second.nAmount;
-            nConf = (*it).second.nConf;
+            nAmount = founditem.nAmount;
+            nConf = founditem.nConf;
         }
 
         if (fByAccounts)
@@ -961,9 +976,9 @@ Value ListReceived(const Array& params, bool fByAccounts)
             obj.push_back(Pair("amount",        ValueFromAmount(nAmount)));
             obj.push_back(Pair("confirmations", (nConf == std::numeric_limits<int>::max() ? 0 : nConf)));
             Array transactions;
-            if (it != mapTally.end())
+            if (found)
             {
-                BOOST_FOREACH(const uint256& item, (*it).second.txids)
+                BOOST_FOREACH(const uint256& item, founditem.txids)
                 {
                     transactions.push_back(item.GetHex());
                 }
