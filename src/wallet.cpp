@@ -932,6 +932,64 @@ void CWalletTx::GetAmountsbyAddress(list<pair<CBitcoinAddress, pair<int64,std::s
 
 }
 
+void CWalletTx::GetAmountsbyAddressWithPubKeys(list<pair<CBitcoinAddress, pair<int64,pair<std::string,pair<CPubKey,CPubKey> > > > >& listReceived,
+                           list<pair<CBitcoinAddress, pair<int64, pair < std::string, pair < CPubKey, CPubKey> > > > >& listSent, int64& nFee, string& strSentAccount) const
+{
+    nFee = 0;
+    listReceived.clear();
+    listSent.clear();
+    strSentAccount = strFromAccount;
+
+    // Compute fee:
+    int64 nDebit = GetDebit();
+    if (nDebit > 0) // debit>0 means we signed/sent this transaction
+    {
+        int64 nValueOut = GetValueOut();
+        nFee = nDebit - nValueOut;
+    }
+
+    // Sent/received.
+    BOOST_FOREACH(const CTxOut& txout, vout)
+    {
+        bool fIsMine;
+        // Only need to handle txouts if AT LEAST one of these is true:
+        //   1) they debit from us (sent)
+        //   2) the output is to us (received)
+        if (nDebit > 0)
+        {
+            // Don't report 'change' txouts
+            if (pwallet->IsChange(txout))
+                continue;
+            fIsMine = pwallet->IsMine(txout);
+        }
+        else if (!(fIsMine = pwallet->IsMine(txout)))
+            continue;
+
+        // In either case, we need to get the destination address
+        CTxDestination address;
+        if (!ExtractDestination(txout.scriptPubKey, address))
+        {
+            printf("CWalletTx::GetAmounts: Unknown transaction type found, txid %s\n",
+                   this->GetHash().ToString().c_str());
+            address = CNoDestination();
+        }
+        CBitcoinAddress address0;
+	CKeyID keyID;
+        CBitcoinAddress(address).GetKeyID(keyID);
+        address0.Set(keyID,txout.receiverPubKey);
+
+      
+        // If we are debited by the transaction, add the output as a "sent" entry
+        if (nDebit > 0)
+            listSent.push_back(make_pair(address0, make_pair(txout.nValue,make_pair(txout.referenceline,make_pair(txout.senderPubKey,txout.receiverPubKey)))));
+
+        // If we are receiving the output, add it as a "received" entry
+        if (fIsMine)
+            listReceived.push_back(make_pair(address0,  make_pair(txout.nValue,make_pair(txout.referenceline,make_pair(txout.senderPubKey,txout.receiverPubKey)))));
+    }
+
+}
+
 
 void CWalletTx::GetAccountAmounts(const string& strAccount, int64& nReceived,
                                   int64& nSent, int64& nFee) const

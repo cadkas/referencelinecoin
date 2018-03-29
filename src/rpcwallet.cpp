@@ -1042,26 +1042,27 @@ static void MaybePushAddress(Object & entry, const CBitcoinAddress &dest)
 
 void ListTransactions(const CWalletTx& wtx, const string& strAccount, int nMinDepth, bool fLong, Array& ret)
 {
+
     int64 nFee;
     string strSentAccount;
-    list<pair<CBitcoinAddress, pair<int64,std::string> > > listReceived;
-    list<pair<CBitcoinAddress, pair<int64,std::string> > > listSent;
+    list<pair<CBitcoinAddress, pair<int64, pair< std::string, pair <CPubKey, CPubKey> > > > > listReceived;
+    list<pair<CBitcoinAddress, pair<int64, pair< std::string, pair <CPubKey, CPubKey> > > > > listSent;
 
-    wtx.GetAmountsbyAddress(listReceived, listSent, nFee, strSentAccount);
+    wtx.GetAmountsbyAddressWithPubKeys(listReceived, listSent, nFee, strSentAccount);
 
     bool fAllAccounts = (strAccount == string("*"));
 
     // Sent
     if ((!listSent.empty() || nFee != 0) && (fAllAccounts || strAccount == strSentAccount))
     {
-        BOOST_FOREACH(const PAIRTYPE(CBitcoinAddress, PAIRTYPE(int64,std::string))& s, listSent)
+        BOOST_FOREACH(const PAIRTYPE(CBitcoinAddress, PAIRTYPE(int64,PAIRTYPE(std::string,PAIRTYPE(CPubKey,CPubKey))))& s, listSent)
         {
             Object entry;
             entry.push_back(Pair("account", strSentAccount));
             MaybePushAddress(entry, s.first);
             entry.push_back(Pair("category", "send"));
-            entry.push_back(Pair("amount", ValueFromAmount(-s.second.first)));
-            entry.push_back(Pair("reference line", s.second.second));
+            entry.push_back(Pair("amount", ValueFromAmount(-s.second.first)));            
+            entry.push_back(Pair("reference line", pwalletMain->DecryptRefLine2PubKeys(s.second.second.first,s.second.second.second.first,s.second.second.second.second)));
             entry.push_back(Pair("fee", ValueFromAmount(-nFee)));
             if (fLong)
                 WalletTxToJSON(wtx, entry);
@@ -1072,7 +1073,7 @@ void ListTransactions(const CWalletTx& wtx, const string& strAccount, int nMinDe
     // Received
     if (listReceived.size() > 0 && wtx.GetDepthInMainChain() >= nMinDepth)
     {
-        BOOST_FOREACH(const PAIRTYPE(CBitcoinAddress, PAIRTYPE(int64,std::string))& r, listReceived)
+        BOOST_FOREACH(const PAIRTYPE(CBitcoinAddress, PAIRTYPE(int64,PAIRTYPE(std::string,PAIRTYPE(CPubKey,CPubKey))))& r, listReceived)
         {
             string account;
             if (pwalletMain->mapAddressBook.count(r.first))
@@ -1096,7 +1097,8 @@ void ListTransactions(const CWalletTx& wtx, const string& strAccount, int nMinDe
                     entry.push_back(Pair("category", "receive"));
                 }
                 entry.push_back(Pair("amount", ValueFromAmount(r.second.first)));
-                entry.push_back(Pair("reference line", r.second.second));
+                entry.push_back(Pair("reference line", pwalletMain->DecryptRefLine2PubKeys(r.second.second.first,r.second.second.second.first,r.second.second.second.second)));
+
                 if (fLong)
                     WalletTxToJSON(wtx, entry);
                 ret.push_back(entry);
