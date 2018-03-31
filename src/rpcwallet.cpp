@@ -132,7 +132,9 @@ Value getnewaddress(const Array& params, bool fHelp)
 
 CBitcoinAddress GetAccountAddress(string strAccount, bool bForceNew=false)
 {
+
     CWalletDB walletdb(pwalletMain->strWalletFile);
+    CBitcoinAddress addr;
 
     CAccount account;
     walletdb.ReadAccount(strAccount, account);
@@ -163,16 +165,31 @@ CBitcoinAddress GetAccountAddress(string strAccount, bool bForceNew=false)
         if (!pwalletMain->GetKeyFromPool(account.vchPubKey, false))
             throw JSONRPCError(RPC_WALLET_KEYPOOL_RAN_OUT, "Error: Keypool ran out, please call keypoolrefill first");
 
-        CBitcoinAddress addr;
         addr.Set(account.vchPubKey.GetID(),temppubkeyForBitCoinAddress);
 
         pwalletMain->SetAddressBookName(addr, strAccount);
         walletdb.WriteAccount(strAccount, account);
+    } else
+    {
+        bool found=false;
+        BOOST_FOREACH(const PAIRTYPE(CBitcoinAddress, std::string)& it, pwalletMain->mapAddressBook)
+        {
+            CKeyID keyID;
+        
+            if (strAccount==it.second && it.first.GetKeyID(keyID) && keyID==account.vchPubKey.GetID()) {
+                found=true;
+                addr=it.first;
+                break;
+            }
+
+        }
+
+        if (!found) {
+           addr.Set(account.vchPubKey.GetID(),temppubkeyForBitCoinAddress);
+           pwalletMain->SetAddressBookName(addr, strAccount);
+        }
+        
     }
-
-
-    CBitcoinAddress addr;
-    addr.Set(account.vchPubKey.GetID(),temppubkeyForBitCoinAddress);
 
     return addr;
 }
