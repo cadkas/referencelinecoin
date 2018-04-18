@@ -1,4 +1,6 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="la" version="2.0">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.0" language="la">
 <defaultcodec>UTF-8</defaultcodec>
 <context>
     <name>AboutDialog</name>
@@ -13,7 +15,7 @@
         <translation>&lt;b&gt;Referencelinecoin&lt;/b&gt; versio</translation>
     </message>
     <message>
-        <location line="+57"/>
+        <location line="+59"/>
         <source>
 This is experimental software.
 
@@ -27,14 +29,28 @@ Distributum sub MIT/X11 licentia programmatum, vide comitantem plicam COPYING ve
 Hoc productum continet programmata composita ab OpenSSL Project pro utendo in OpenSSL Toolkit (http://www.openssl.org/) et programmata cifrarum scripta ab Eric Young (eay@cryptsoft.com) et UPnP programmata scripta ab Thomas Bernard.</translation>
     </message>
     <message>
-        <location filename="../aboutdialog.cpp" line="+14"/>
+        <location filename="../aboutdialog.cpp" line="+22"/>
         <source>Copyright</source>
         <translation>Copyright</translation>
     </message>
     <message>
         <location line="+0"/>
+        <source>The Bitcoin developers</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>2011-%1 The Litecoin developers</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>%1 Referencelinecoin Developer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>The Referencelinecoin developers</source>
-        <translation>Referencelinecoin curatores</translation>
+        <translation type="obsolete">Referencelinecoin curatores</translation>
     </message>
 </context>
 <context>
@@ -65,7 +81,7 @@ Hoc productum continet programmata composita ab OpenSSL Project pro utendo in Op
         <translation>&amp;Nova Inscriptio</translation>
     </message>
     <message>
-        <location filename="../addressbookpage.cpp" line="+63"/>
+        <location filename="../addressbookpage.cpp" line="+67"/>
         <source>These are your Referencelinecoin addresses for receiving payments. You may want to give a different one to each sender so you can keep track of who is paying you.</source>
         <translation>Haec sunt inscriptiones Referencelinecoin tuae pro accipendo pensitationes.  Cupias variam ad quemque mittentem dare ut melius scias quem tibi pensare.</translation>
     </message>
@@ -140,7 +156,7 @@ Hoc productum continet programmata composita ab OpenSSL Project pro utendo in Op
         <translation>Mitte &amp;Nummos</translation>
     </message>
     <message>
-        <location line="+260"/>
+        <location line="+265"/>
         <source>Export Address Book Data</source>
         <translation>Exporta Data Libri Inscriptionum</translation>
     </message>
@@ -163,7 +179,7 @@ Hoc productum continet programmata composita ab OpenSSL Project pro utendo in Op
 <context>
     <name>AddressTableModel</name>
     <message>
-        <location filename="../addresstablemodel.cpp" line="+144"/>
+        <location filename="../addresstablemodel.cpp" line="+148"/>
         <source>Label</source>
         <translation>Titulus</translation>
     </message>
@@ -201,7 +217,7 @@ Hoc productum continet programmata composita ab OpenSSL Project pro utendo in Op
         <translation>Itera novam tesseram</translation>
     </message>
     <message>
-        <location filename="../askpassphrasedialog.cpp" line="+33"/>
+        <location filename="../askpassphrasedialog.cpp" line="+37"/>
         <source>Enter the new passphrase to the wallet.&lt;br/&gt;Please use a passphrase of &lt;b&gt;10 or more random characters&lt;/b&gt;, or &lt;b&gt;eight or more words&lt;/b&gt;.</source>
         <translation>Insero novam tesseram cassidili.&lt;br/&gt;Sodes tessera &lt;b&gt;10 pluriumve fortuitarum litterarum&lt;/b&gt; utere aut &lt;b&gt;octo pluriumve verborum&lt;/b&gt;.</translation>
     </message>
@@ -322,17 +338,17 @@ Hoc productum continet programmata composita ab OpenSSL Project pro utendo in Op
 <context>
     <name>BitcoinGUI</name>
     <message>
-        <location filename="../bitcoingui.cpp" line="+233"/>
+        <location filename="../bitcoingui.cpp" line="+237"/>
         <source>Sign &amp;message...</source>
         <translation>Signa &amp;nuntium...</translation>
     </message>
     <message>
-        <location line="+280"/>
+        <location line="+296"/>
         <source>Synchronizing with network...</source>
         <translation>Synchronizans cum rete...</translation>
     </message>
     <message>
-        <location line="-349"/>
+        <location line="-365"/>
         <source>&amp;Overview</source>
         <translation>&amp;Summarium</translation>
     </message>
@@ -407,7 +423,7 @@ Hoc productum continet programmata composita ab OpenSSL Project pro utendo in Op
         <translation>&amp;Muta tesseram...</translation>
     </message>
     <message>
-        <location line="+285"/>
+        <location line="+301"/>
         <source>Importing blocks from disk...</source>
         <translation>Importans frusta ab disco...</translation>
     </message>
@@ -417,7 +433,7 @@ Hoc productum continet programmata composita ab OpenSSL Project pro utendo in Op
         <translation>Recreans indicem frustorum in disco...</translation>
     </message>
     <message>
-        <location line="-347"/>
+        <location line="-363"/>
         <source>Send coins to a Referencelinecoin address</source>
         <translation>Mitte nummos ad inscriptionem Referencelinecoin</translation>
     </message>
@@ -452,18 +468,18 @@ Hoc productum continet programmata composita ab OpenSSL Project pro utendo in Op
         <translation>&amp;Verifica nuntium...</translation>
     </message>
     <message>
-        <location line="-165"/>
-        <location line="+530"/>
+        <location line="-170"/>
+        <location line="+551"/>
         <source>Referencelinecoin</source>
         <translation>Referencelinecoin</translation>
     </message>
     <message>
-        <location line="-530"/>
+        <location line="-551"/>
         <source>Wallet</source>
         <translation>Cassidile</translation>
     </message>
     <message>
-        <location line="+101"/>
+        <location line="+106"/>
         <source>&amp;Send</source>
         <translation>&amp;Mitte</translation>
     </message>
@@ -534,14 +550,16 @@ Hoc productum continet programmata composita ab OpenSSL Project pro utendo in Op
         <translation>[testnet]</translation>
     </message>
     <message>
-        <location line="+47"/>
+        <location line="+63"/>
         <source>Referencelinecoin client</source>
         <translation>Referencelinecoin cliens</translation>
     </message>
     <message numerus="yes">
         <location line="+141"/>
         <source>%n active connection(s) to Referencelinecoin network</source>
-        <translation><numerusform>%n activa conexio ad rete Referencelinecoin</numerusform><numerusform>%n activae conexiones ad rete Referencelinecoin</numerusform></translation>
+        <translation>
+            <numerusform>%n activa conexio ad rete Referencelinecoin</numerusform>
+        </translation>
     </message>
     <message>
         <location line="+22"/>
@@ -561,17 +579,23 @@ Hoc productum continet programmata composita ab OpenSSL Project pro utendo in Op
     <message numerus="yes">
         <location line="+20"/>
         <source>%n hour(s)</source>
-        <translation><numerusform>%n hora</numerusform><numerusform>%n horae</numerusform></translation>
+        <translation>
+            <numerusform>%n hora</numerusform>
+        </translation>
     </message>
     <message numerus="yes">
         <location line="+4"/>
         <source>%n day(s)</source>
-        <translation><numerusform>%n dies</numerusform><numerusform>%n dies</numerusform></translation>
+        <translation>
+            <numerusform>%n dies</numerusform>
+        </translation>
     </message>
     <message numerus="yes">
         <location line="+4"/>
         <source>%n week(s)</source>
-        <translation><numerusform>%n hebdomas</numerusform><numerusform>%n hebdomades</numerusform></translation>
+        <translation>
+            <numerusform>%n hebdomas</numerusform>
+        </translation>
     </message>
     <message>
         <location line="+4"/>
@@ -589,7 +613,7 @@ Hoc productum continet programmata composita ab OpenSSL Project pro utendo in Op
         <translation>Transactiones post hoc nondum visibiles erunt.</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+27"/>
         <source>Error</source>
         <translation>Error</translation>
     </message>
@@ -604,12 +628,12 @@ Hoc productum continet programmata composita ab OpenSSL Project pro utendo in Op
         <translation>Informatio</translation>
     </message>
     <message>
-        <location line="+70"/>
+        <location line="+74"/>
         <source>This transaction is over the size limit. You can still send it for a fee of %1, which goes to the nodes that process your transaction and helps to support the network. Do you want to pay the fee?</source>
         <translation>Haec transactio maior est quam limen magnitudinis.  Adhuc potes id mittere mercede %1, quae it nodis qui procedunt tuam transactionem et adiuvat sustinere rete.  Visne mercedem solvere?</translation>
     </message>
     <message>
-        <location line="-140"/>
+        <location line="-149"/>
         <source>Up to date</source>
         <translation>Recentissimo</translation>
     </message>
@@ -619,7 +643,7 @@ Hoc productum continet programmata composita ab OpenSSL Project pro utendo in Op
         <translation>Persequens...</translation>
     </message>
     <message>
-        <location line="+113"/>
+        <location line="+121"/>
         <source>Confirm transaction fee</source>
         <translation>Confirma mercedem transactionis</translation>
     </message>
@@ -669,7 +693,7 @@ Inscriptio: %4
         <translation>Cassidile &lt;b&gt;cifratum&lt;/b&gt; est et iam nunc &lt;b&gt;seratum&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../bitcoin.cpp" line="+111"/>
+        <location filename="../bitcoin.cpp" line="+113"/>
         <source>A fatal error occurred. Referencelinecoin can no longer continue safely and will quit.</source>
         <translation>Error fatalis accidit.  Referencelinecoin nondum pergere tute potest, et exibit.</translation>
     </message>
@@ -677,9 +701,279 @@ Inscriptio: %4
 <context>
     <name>ClientModel</name>
     <message>
-        <location filename="../clientmodel.cpp" line="+104"/>
+        <location filename="../clientmodel.cpp" line="+108"/>
         <source>Network Alert</source>
         <translation>Monitio Retis</translation>
+    </message>
+</context>
+<context>
+    <name>CoinControlDialog</name>
+    <message>
+        <location filename="../forms/coincontroldialog.ui" line="+14"/>
+        <source>Coin Control</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+31"/>
+        <source>Quantity:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+32"/>
+        <source>Bytes:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+48"/>
+        <source>Amount:</source>
+        <translation type="unfinished">Quantitas:</translation>
+    </message>
+    <message>
+        <location line="+32"/>
+        <source>Priority:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+48"/>
+        <source>Fee:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+35"/>
+        <source>Low Output:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+22"/>
+        <location filename="../coincontroldialog.cpp" line="+595"/>
+        <source>no</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+29"/>
+        <source>After Fee:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+35"/>
+        <source>Change:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+69"/>
+        <source>(un)select all</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>Tree mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>List mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>(1 locked)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+45"/>
+        <source>Amount</source>
+        <translation type="unfinished">Quantitas</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Address</source>
+        <translation type="unfinished">Inscriptio</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Date</source>
+        <translation type="unfinished">Dies</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Confirmations</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Confirmed</source>
+        <translation type="unfinished">Confirmatum</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Priority</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../coincontroldialog.cpp" line="-558"/>
+        <source>Copy address</source>
+        <translation type="unfinished">Copia inscriptionem</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Copy label</source>
+        <translation type="unfinished">Copia titulum</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <location line="+26"/>
+        <source>Copy amount</source>
+        <translation type="unfinished">Copia quantitatem</translation>
+    </message>
+    <message>
+        <location line="-25"/>
+        <source>Copy transaction ID</source>
+        <translation type="unfinished">Copia transactionis ID</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Lock unspent</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Unlock unspent</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+22"/>
+        <source>Copy quantity</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Copy fee</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Copy after fee</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Copy bytes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Copy priority</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Copy low output</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Copy change</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+323"/>
+        <source>highest</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>high</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>medium-high</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>medium</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>low-medium</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>low</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>lowest</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>(%1 locked)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+181"/>
+        <source>DUST</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>yes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>This label turns red, if the transaction size is bigger than 5000 bytes.
+
+ This means a fee of at least %1 per kb is required.
+
+ Can vary +/- 1 Byte per input.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Transactions with higher priority get more likely into a block.
+
+This label turns red, if the priority is smaller than &quot;medium&quot;.
+
+ This means a fee of at least %1 per kb is required.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>This label turns red, if any recipient receives an amount smaller than %1.
+
+ This means a fee of at least %2 is required. 
+
+ Amounts below 0.546 times the minimum relay fee are shown as DUST.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>This label turns red, if the change is smaller than %1.
+
+ This means a fee of at least %2 is required.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+37"/>
+        <location line="+71"/>
+        <source>(no label)</source>
+        <translation type="unfinished">(nullus titulus)</translation>
+    </message>
+    <message>
+        <location line="-9"/>
+        <source>change from %1 (%2)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>(change)</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -710,7 +1004,7 @@ Inscriptio: %4
         <translation>Titulus associatus huic insertione libri inscriptionum.  Haec tantum mutari potest pro inscriptionibus mittendi</translation>
     </message>
     <message>
-        <location filename="../editaddressdialog.cpp" line="+21"/>
+        <location filename="../editaddressdialog.cpp" line="+25"/>
         <source>New receiving address</source>
         <translation>Nova inscriptio accipiendi</translation>
     </message>
@@ -753,7 +1047,7 @@ Inscriptio: %4
 <context>
     <name>GUIUtil::HelpMessageBox</name>
     <message>
-        <location filename="../guiutil.cpp" line="+424"/>
+        <location filename="../guiutil.cpp" line="+502"/>
         <location line="+12"/>
         <source>Referencelinecoin-Qt</source>
         <translation>Referencelinecoin-Qt</translation>
@@ -807,7 +1101,7 @@ Inscriptio: %4
         <translation>&amp;Princeps</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="+66"/>
         <source>Optional transaction fee per kB that helps make sure your transactions are processed quickly. Most transactions are 1 kB.</source>
         <translation>Optionalis merces transactionum singulis kB quae adiuvat curare tuas transactiones processas esse celeriter.  Plurimi transactiones 1kB sunt.</translation>
     </message>
@@ -817,7 +1111,7 @@ Inscriptio: %4
         <translation>Solve &amp;mercedem transactionis</translation>
     </message>
     <message>
-        <location line="+31"/>
+        <location line="-75"/>
         <source>Automatically start Referencelinecoin after logging in to the system.</source>
         <translation>Pelle Referencelinecoin per se postquam in systema inire.</translation>
     </message>
@@ -838,6 +1132,21 @@ Inscriptio: %4
     </message>
     <message>
         <location line="+13"/>
+        <source>W&amp;allet</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+52"/>
+        <source>If you disable the spending of unconfirmed change, the change from a transaction cannot be used until that transaction has at least one confirmation. This also affects how your balance is computed.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Spend unconfirmed change  (experts only)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+21"/>
         <source>&amp;Network</source>
         <translation>&amp;Rete</translation>
     </message>
@@ -952,6 +1261,16 @@ Inscriptio: %4
         <translation>&amp;Monstra inscriptiones in enumeratione transactionum</translation>
     </message>
     <message>
+        <location line="+7"/>
+        <source>Whether to show coin control features or not.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Display coin &amp;control features (experts only!)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location line="+71"/>
         <source>&amp;OK</source>
         <translation>&amp;OK</translation>
@@ -967,12 +1286,12 @@ Inscriptio: %4
         <translation>&amp;Applica</translation>
     </message>
     <message>
-        <location filename="../optionsdialog.cpp" line="+53"/>
+        <location filename="../optionsdialog.cpp" line="+58"/>
         <source>default</source>
         <translation>praedefinitum</translation>
     </message>
     <message>
-        <location line="+130"/>
+        <location line="+134"/>
         <source>Confirm options reset</source>
         <translation>Confirma optionum reconstituere</translation>
     </message>
@@ -1058,7 +1377,7 @@ Inscriptio: %4
         <translation>Totali nummi transactionum quae adhuc confirmandae sunt, et nondum afficiunt pendendum</translation>
     </message>
     <message>
-        <location filename="../overviewpage.cpp" line="+116"/>
+        <location filename="../overviewpage.cpp" line="+120"/>
         <location line="+1"/>
         <source>out of sync</source>
         <translation>non synchronizato</translation>
@@ -1067,7 +1386,7 @@ Inscriptio: %4
 <context>
     <name>PaymentServer</name>
     <message>
-        <location filename="../paymentserver.cpp" line="+107"/>
+        <location filename="../paymentserver.cpp" line="+109"/>
         <source>Cannot start referencelinecoin: click-to-pay handler</source>
         <translation>Referencelinecoin incipere non potest: cliccare-ad-pensandum handler</translation>
     </message>
@@ -1105,7 +1424,7 @@ Inscriptio: %4
         <translation>&amp;Salva ut...</translation>
     </message>
     <message>
-        <location filename="../qrcodedialog.cpp" line="+62"/>
+        <location filename="../qrcodedialog.cpp" line="+64"/>
         <source>Error encoding URI into QR Code.</source>
         <translation>Error codificandi URI in codicem QR.</translation>
     </message>
@@ -1147,7 +1466,7 @@ Inscriptio: %4
         <location line="+53"/>
         <location line="+23"/>
         <location line="+23"/>
-        <location filename="../rpcconsole.cpp" line="+339"/>
+        <location filename="../rpcconsole.cpp" line="+345"/>
         <source>N/A</source>
         <translation>N/A</translation>
     </message>
@@ -1281,7 +1600,7 @@ Inscriptio: %4
     <name>SendCoinsDialog</name>
     <message>
         <location filename="../forms/sendcoinsdialog.ui" line="+14"/>
-        <location filename="../sendcoinsdialog.cpp" line="+124"/>
+        <location filename="../sendcoinsdialog.cpp" line="+183"/>
         <location line="+5"/>
         <location line="+5"/>
         <location line="+5"/>
@@ -1292,7 +1611,82 @@ Inscriptio: %4
         <translation>Mitte Nummos</translation>
     </message>
     <message>
+        <location line="+76"/>
+        <source>Coin Control Features</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+20"/>
+        <source>Inputs...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>automatically selected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+19"/>
+        <source>Insufficient funds!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+77"/>
+        <source>Quantity:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+38"/>
+        <source>Bytes:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+51"/>
+        <source>Amount:</source>
+        <translation type="unfinished">Quantitas:</translation>
+    </message>
+    <message>
+        <location line="+35"/>
+        <source>Priority:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+19"/>
+        <source>medium</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+32"/>
+        <source>Fee:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+35"/>
+        <source>Low Output:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+19"/>
+        <source>no</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+32"/>
+        <source>After Fee:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+35"/>
+        <source>Change:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location line="+50"/>
+        <source>custom change address</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+106"/>
         <source>Send to multiple recipients at once</source>
         <translation>Mitte pluribus accipientibus simul</translation>
     </message>
@@ -1318,8 +1712,12 @@ Inscriptio: %4
     </message>
     <message>
         <location line="+10"/>
+        <source>123.456 RECO</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>123.456 BTC</source>
-        <translation>123.456 BTC</translation>
+        <translation type="obsolete">123.456 BTC</translation>
     </message>
     <message>
         <location line="+31"/>
@@ -1332,12 +1730,62 @@ Inscriptio: %4
         <translation>&amp;Mitte</translation>
     </message>
     <message>
-        <location filename="../sendcoinsdialog.cpp" line="-59"/>
         <source>&lt;b&gt;%1&lt;/b&gt; to %2 (%3)</source>
-        <translation>&lt;b&gt;%1&lt;/b&gt; ad %2 (%3)</translation>
+        <translation type="obsolete">&lt;b&gt;%1&lt;/b&gt; ad %2 (%3)</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location filename="../sendcoinsdialog.cpp" line="-175"/>
+        <source>Enter a Referencelinecoin address (e.g. Ler4HNAEfwYhBmGXcFP2Po1NpRUEiK8km2)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>Copy quantity</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Copy amount</source>
+        <translation type="unfinished">Copia quantitatem</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Copy fee</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Copy after fee</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Copy bytes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Copy priority</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Copy low output</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Copy change</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+87"/>
+        <location line="+2"/>
+        <source>&lt;b&gt;%1&lt;/b&gt; to %2 (%3) (%4)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+6"/>
         <source>Confirm send coins</source>
         <translation>Confirma mittendum nummorum</translation>
     </message>
@@ -1352,7 +1800,7 @@ Inscriptio: %4
         <translation>et</translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="+27"/>
         <source>The recipient address is not valid, please recheck.</source>
         <translation>Inscriptio accipientis non est valida, sodes reproba.</translation>
     </message>
@@ -1386,6 +1834,21 @@ Inscriptio: %4
         <source>Error: The transaction was rejected. This might happen if some of the coins in your wallet were already spent, such as if you used a copy of wallet.dat and coins were spent in the copy but not marked as spent here.</source>
         <translation>Error: transactio reiecta est.  Hoc fiat si alii nummorum in tuo cassidili iam soluti sunt, ut si usus es exemplar de wallet.dat et nummi soluti sunt in exemplari sed non hic notati ut soluti.</translation>
     </message>
+    <message>
+        <location line="+271"/>
+        <source>Warning: Invalid Bitcoin address</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>(no label)</source>
+        <translation type="unfinished">(nullus titulus)</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Warning: Unknown change address</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>SendCoinsEntry</name>
@@ -1405,23 +1868,30 @@ Inscriptio: %4
         <translation>Pensa &amp;Ad:</translation>
     </message>
     <message>
-        <location line="+34"/>
         <source>The address to send the payment to (e.g. Ler4HNAEfwYhBmGXcFP2Po1NpRUEiK8km2)</source>
-        <translation>Inscriptio cui mittere pensitationem (e.g. Ler4HNAEfwYhBmGXcFP2Po1NpRUEiK8km2)</translation>
+        <translation type="obsolete">Inscriptio cui mittere pensitationem (e.g. Ler4HNAEfwYhBmGXcFP2Po1NpRUEiK8km2)</translation>
     </message>
     <message>
-        <location line="+60"/>
-        <location filename="../sendcoinsentry.cpp" line="+26"/>
+        <location line="+94"/>
         <source>Enter a label for this address to add it to your address book</source>
         <translation>Insero titulum huic inscriptioni ut eam in tuum librum inscriptionum addas.</translation>
     </message>
     <message>
-        <location line="-78"/>
         <source>&amp;Label:</source>
-        <translation>&amp;Titulus:</translation>
+        <translation type="obsolete">&amp;Titulus:</translation>
     </message>
     <message>
-        <location line="+28"/>
+        <location line="-78"/>
+        <source>&amp;Label/Nickname:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+18"/>
+        <source>The address to send the payment to (e.g. 1NS17iag9jJgTHD1VXjvLCEnZuQ3rJDE9L)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+10"/>
         <source>Choose address from address book</source>
         <translation>Selige inscriptionem ex libro inscriptionum</translation>
     </message>
@@ -1446,7 +1916,22 @@ Inscriptio: %4
         <translation>Remove hunc accipientem</translation>
     </message>
     <message>
-        <location filename="../sendcoinsentry.cpp" line="+1"/>
+        <location line="+26"/>
+        <source>Reference line:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Search nickname and find address book entry...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../sendcoinsentry.cpp" line="+31"/>
+        <source>Enter a label/nickname for this address to add it to your address book or to search for the address</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>Enter a Referencelinecoin address (e.g. Ler4HNAEfwYhBmGXcFP2Po1NpRUEiK8km2)</source>
         <translation>Insero inscriptionem Referencelinecoin (e.g. Ler4HNAEfwYhBmGXcFP2Po1NpRUEiK8km2)</translation>
     </message>
@@ -1562,7 +2047,7 @@ Inscriptio: %4
         <translation>Reconstitue omnes campos verificandi nuntii</translation>
     </message>
     <message>
-        <location filename="../signverifymessagedialog.cpp" line="+27"/>
+        <location filename="../signverifymessagedialog.cpp" line="+31"/>
         <location line="+3"/>
         <source>Enter a Referencelinecoin address (e.g. Ler4HNAEfwYhBmGXcFP2Po1NpRUEiK8km2)</source>
         <translation>Insere inscriptionem Referencelinecoin (e.g. Ler4HNAEfwYhBmGXcFP2Po1NpRUEiK8km2)</translation>
@@ -1634,7 +2119,7 @@ Inscriptio: %4
         <translation>Signatio non convenit digesto nuntii</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+9"/>
         <source>Message verification failed.</source>
         <translation>Nuntium verificare abortum est.</translation>
     </message>
@@ -1647,25 +2132,43 @@ Inscriptio: %4
 <context>
     <name>SplashScreen</name>
     <message>
-        <location filename="../splashscreen.cpp" line="+22"/>
         <source>The Referencelinecoin developers</source>
-        <translation>Referencelinecoin curatores</translation>
+        <translation type="obsolete">Referencelinecoin curatores</translation>
+    </message>
+    <message>
+        <source>[testnet]</source>
+        <translation type="obsolete">[testnet]</translation>
+    </message>
+    <message>
+        <location filename="../splashscreen.cpp" line="+29"/>
+        <source>The Bitcoin developers</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>[testnet]</source>
-        <translation>[testnet]</translation>
+        <source>The Litecoin developers</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Referencelinecoin Developer</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>TransactionDesc</name>
     <message>
-        <location filename="../transactiondesc.cpp" line="+20"/>
+        <location filename="../transactiondesc.cpp" line="+25"/>
         <source>Open until %1</source>
         <translation>Apertum donec %1</translation>
     </message>
     <message>
         <location line="+6"/>
+        <source>conflicted</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>%1/offline</source>
         <translation>%1/non conecto</translation>
     </message>
@@ -1687,7 +2190,9 @@ Inscriptio: %4
     <message numerus="yes">
         <location line="+7"/>
         <source>, broadcast through %n node(s)</source>
-        <translation><numerusform>, disseminatum per %n nodo</numerusform><numerusform>, disseminata per %n nodis</numerusform></translation>
+        <translation>
+            <numerusform>, disseminatum per %n nodo</numerusform>
+        </translation>
     </message>
     <message>
         <location line="+4"/>
@@ -1712,13 +2217,13 @@ Inscriptio: %4
     </message>
     <message>
         <location line="+1"/>
-        <location line="+22"/>
-        <location line="+58"/>
+        <location line="+26"/>
+        <location line="+63"/>
         <source>To</source>
         <translation>Ad</translation>
     </message>
     <message>
-        <location line="-77"/>
+        <location line="-82"/>
         <location line="+2"/>
         <source>own address</source>
         <translation>inscriptio propria</translation>
@@ -1731,16 +2236,18 @@ Inscriptio: %4
     <message>
         <location line="+37"/>
         <location line="+12"/>
-        <location line="+45"/>
+        <location line="+50"/>
         <location line="+17"/>
-        <location line="+30"/>
+        <location line="+41"/>
         <source>Credit</source>
         <translation>Creditum</translation>
     </message>
     <message numerus="yes">
-        <location line="-102"/>
+        <location line="-118"/>
         <source>matures in %n more block(s)</source>
-        <translation><numerusform>maturum erit in %n plure frusto</numerusform><numerusform>maturum erit in %n pluribus frustis</numerusform></translation>
+        <translation>
+            <numerusform>maturum erit in %n plure frusto</numerusform>
+        </translation>
     </message>
     <message>
         <location line="+2"/>
@@ -1748,20 +2255,25 @@ Inscriptio: %4
         <translation>non acceptum</translation>
     </message>
     <message>
-        <location line="+44"/>
+        <location line="+49"/>
         <location line="+8"/>
         <location line="+15"/>
-        <location line="+30"/>
+        <location line="+41"/>
         <source>Debit</source>
         <translation>Debitum</translation>
     </message>
     <message>
-        <location line="-39"/>
+        <location line="-50"/>
         <source>Transaction fee</source>
         <translation>Transactionis merces</translation>
     </message>
     <message>
-        <location line="+16"/>
+        <location line="+22"/>
+        <source>Reference line</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+5"/>
         <source>Net amount</source>
         <translation>Cuncta quantitas</translation>
     </message>
@@ -1801,7 +2313,7 @@ Inscriptio: %4
         <translation>Lectenda</translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="+28"/>
         <source>Amount</source>
         <translation>Quantitas</translation>
     </message>
@@ -1816,17 +2328,19 @@ Inscriptio: %4
         <translation>falsum</translation>
     </message>
     <message>
-        <location line="-209"/>
+        <location line="-234"/>
         <source>, has not been successfully broadcast yet</source>
         <translation>, nondum prospere disseminatum est</translation>
     </message>
     <message numerus="yes">
-        <location line="-35"/>
+        <location line="-37"/>
         <source>Open for %n more block(s)</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform>Aperi pro %n pluribus frustis</numerusform></translation>
+        <translation type="unfinished">
+            <numerusform>Aperi pro %n plure frusto</numerusform>
+        </translation>
     </message>
     <message>
-        <location line="+70"/>
+        <location line="+72"/>
         <source>unknown</source>
         <translation>ignotum</translation>
     </message>
@@ -1847,7 +2361,7 @@ Inscriptio: %4
 <context>
     <name>TransactionTableModel</name>
     <message>
-        <location filename="../transactiontablemodel.cpp" line="+225"/>
+        <location filename="../transactiontablemodel.cpp" line="+230"/>
         <source>Date</source>
         <translation>Dies</translation>
     </message>
@@ -1866,10 +2380,17 @@ Inscriptio: %4
         <source>Amount</source>
         <translation>Quantitas</translation>
     </message>
+    <message>
+        <location line="+0"/>
+        <source>Reference line</source>
+        <translation type="unfinished"></translation>
+    </message>
     <message numerus="yes">
-        <location line="+57"/>
+        <location line="+63"/>
         <source>Open for %n more block(s)</source>
-        <translation><numerusform>Aperi pro %n plure frusto</numerusform><numerusform>Aperi pro %n pluribus frustis</numerusform></translation>
+        <translation>
+            <numerusform>Aperi pro %n plure frusto</numerusform>
+        </translation>
     </message>
     <message>
         <location line="+3"/>
@@ -1894,7 +2415,9 @@ Inscriptio: %4
     <message numerus="yes">
         <location line="+8"/>
         <source>Mined balance will be available when it matures in %n more block(s)</source>
-        <translation><numerusform>Fossum pendendum utibile erit quando id maturum est post %n plus frustum</numerusform><numerusform>Fossum pendendum utibile erit quando id maturum est post %n pluria frusta</numerusform></translation>
+        <translation>
+            <numerusform>Fossum pendendum utibile erit quando id maturum est post %n plus frustum</numerusform>
+        </translation>
     </message>
     <message>
         <location line="+5"/>
@@ -1937,7 +2460,7 @@ Inscriptio: %4
         <translation>(n/a)</translation>
     </message>
     <message>
-        <location line="+199"/>
+        <location line="+208"/>
         <source>Transaction status. Hover over this field to show number of confirmations.</source>
         <translation>Status transactionis.  Supervola cum mure ut monstretur numerus confirmationum.</translation>
     </message>
@@ -1958,6 +2481,11 @@ Inscriptio: %4
     </message>
     <message>
         <location line="+2"/>
+        <source>Reference Line for the transaction.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Amount removed from or added to balance.</source>
         <translation>Quantitas remota ex pendendo aut addita ei.</translation>
     </message>
@@ -1965,7 +2493,7 @@ Inscriptio: %4
 <context>
     <name>TransactionView</name>
     <message>
-        <location filename="../transactionview.cpp" line="+52"/>
+        <location filename="../transactionview.cpp" line="+56"/>
         <location line="+16"/>
         <source>All</source>
         <translation>Omne</translation>
@@ -2052,6 +2580,11 @@ Inscriptio: %4
     </message>
     <message>
         <location line="+1"/>
+        <source>Copy reference line</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>Copy transaction ID</source>
         <translation>Copia transactionis ID</translation>
     </message>
@@ -2066,7 +2599,7 @@ Inscriptio: %4
         <translation>Monstra particularia transactionis</translation>
     </message>
     <message>
-        <location line="+139"/>
+        <location line="+146"/>
         <source>Export Transaction Data</source>
         <translation>Exporta Data Transactionum</translation>
     </message>
@@ -2102,6 +2635,11 @@ Inscriptio: %4
     </message>
     <message>
         <location line="+1"/>
+        <source>Reference line</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>Amount</source>
         <translation>Quantitas</translation>
     </message>
@@ -2121,7 +2659,7 @@ Inscriptio: %4
         <translation>Non potuisse scribere ad plicam %1.</translation>
     </message>
     <message>
-        <location line="+100"/>
+        <location line="+105"/>
         <source>Range:</source>
         <translation>Intervallum:</translation>
     </message>
@@ -2132,9 +2670,17 @@ Inscriptio: %4
     </message>
 </context>
 <context>
+    <name>WalletFrame</name>
+    <message>
+        <location filename="../walletframe.cpp" line="+27"/>
+        <source>No wallet has been loaded.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>WalletModel</name>
     <message>
-        <location filename="../walletmodel.cpp" line="+193"/>
+        <location filename="../walletmodel.cpp" line="+239"/>
         <source>Send Coins</source>
         <translation>Mitte Nummos</translation>
     </message>
@@ -2142,7 +2688,7 @@ Inscriptio: %4
 <context>
     <name>WalletView</name>
     <message>
-        <location filename="../walletview.cpp" line="+42"/>
+        <location filename="../walletview.cpp" line="+44"/>
         <source>&amp;Export</source>
         <translation>&amp;Exporta</translation>
     </message>
@@ -2152,7 +2698,7 @@ Inscriptio: %4
         <translation>Exporta data in hac tabella in plicam</translation>
     </message>
     <message>
-        <location line="+193"/>
+        <location line="+198"/>
         <source>Backup Wallet</source>
         <translation>Conserva cassidile</translation>
     </message>
@@ -2185,17 +2731,17 @@ Inscriptio: %4
 <context>
     <name>bitcoin-core</name>
     <message>
-        <location filename="../bitcoinstrings.cpp" line="+94"/>
+        <location filename="../bitcoinstrings.cpp" line="+173"/>
         <source>Referencelinecoin version</source>
         <translation>Versio de Referencelinecoin</translation>
     </message>
     <message>
-        <location line="+102"/>
+        <location line="+35"/>
         <source>Usage:</source>
         <translation>Usus:</translation>
     </message>
     <message>
-        <location line="-29"/>
+        <location line="-30"/>
         <source>Send command to -server or referencelinecoind</source>
         <translation>Mitte mandatum ad -server vel referencelinecoind</translation>
     </message>
@@ -2205,12 +2751,12 @@ Inscriptio: %4
         <translation>Enumera mandata</translation>
     </message>
     <message>
-        <location line="-12"/>
+        <location line="-15"/>
         <source>Get help for a command</source>
         <translation>Accipe auxilium pro mandato</translation>
     </message>
     <message>
-        <location line="+24"/>
+        <location line="+27"/>
         <source>Options:</source>
         <translation>Optiones:</translation>
     </message>
@@ -2245,42 +2791,42 @@ Inscriptio: %4
         <translation>Manutene non plures quam &lt;n&gt; conexiones ad paria (praedefinitum: 125)</translation>
     </message>
     <message>
-        <location line="-48"/>
+        <location line="-50"/>
         <source>Connect to a node to retrieve peer addresses, and disconnect</source>
         <translation>Conecta ad nodum acceptare inscriptiones parium, et disconecte</translation>
     </message>
     <message>
-        <location line="+82"/>
+        <location line="+84"/>
         <source>Specify your own public address</source>
         <translation>Specifica tuam propriam publicam inscriptionem</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Threshold for disconnecting misbehaving peers (default: 100)</source>
         <translation>Limen pro disconectendo paria improba (praedefinitum: 100)</translation>
     </message>
     <message>
-        <location line="-134"/>
+        <location line="-143"/>
         <source>Number of seconds to keep misbehaving peers from reconnecting (default: 86400)</source>
         <translation>Numerum secundorum prohibere ne paria improba reconectant (praedefinitum: 86400)</translation>
     </message>
     <message>
-        <location line="-29"/>
+        <location line="-31"/>
         <source>An error occurred while setting up the RPC port %u for listening on IPv4: %s</source>
         <translation>Error erat dum initians portam RPC %u pro auscultando in IPv4: %s</translation>
     </message>
     <message>
-        <location line="+27"/>
+        <location line="+29"/>
         <source>Listen for JSON-RPC connections on &lt;port&gt; (default: 4732 or testnet: 14732)</source>
         <translation>Ausculta pro conexionibus JSON-RPC in &lt;porta&gt; (praedefinitum: 4732 vel testnet: 14732)</translation>
     </message>
     <message>
-        <location line="+37"/>
+        <location line="+43"/>
         <source>Accept command line and JSON-RPC commands</source>
         <translation>Accipe terminalis et JSON-RPC mandata.</translation>
     </message>
     <message>
-        <location line="+76"/>
+        <location line="+79"/>
         <source>Run in the background as a daemon and accept commands</source>
         <translation>Operare infere sicut daemon et mandata accipe</translation>
     </message>
@@ -2290,12 +2836,12 @@ Inscriptio: %4
         <translation>Utere rete experimentale</translation>
     </message>
     <message>
-        <location line="-112"/>
+        <location line="-115"/>
         <source>Accept connections from outside (default: 1 if no -proxy or -connect)</source>
         <translation>Accipe conexiones externas (praedefinitum: 1 nisi -proxy neque -connect)</translation>
     </message>
     <message>
-        <location line="-80"/>
+        <location line="-89"/>
         <source>%s, you must set a rpcpassword in the configuration file:
 %s
 It is recommended you use the following random password:
@@ -2320,7 +2866,7 @@ exempli gratia: alertnotify=echo %%s | mail -s &quot;Referencelinecoin Notificat
 </translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="+18"/>
         <source>An error occurred while setting up the RPC port %u for listening on IPv6, falling back to IPv4: %s</source>
         <translation>Error erat dum initians portam RPC %u pro auscultando in IPv6, labens retrorsum ad IPv4: %s</translation>
     </message>
@@ -2335,7 +2881,7 @@ exempli gratia: alertnotify=echo %%s | mail -s &quot;Referencelinecoin Notificat
         <translation>Non posse serare datorum indicem %s.  Referencelinecoin probabiliter iam operatur.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+5"/>
         <source>Error: The transaction was rejected! This might happen if some of the coins in your wallet were already spent, such as if you used a copy of wallet.dat and coins were spent in the copy but not marked as spent here.</source>
         <translation>Error: Transactio eiecta est! Hoc possit accidere si alii nummorum in cassidili tuo iam soluti sint, ut si usus es exemplar de wallet.dat et nummi soluti sunt in exemplari sed non hic notati ut soluti.</translation>
     </message>
@@ -2355,7 +2901,7 @@ exempli gratia: alertnotify=echo %%s | mail -s &quot;Referencelinecoin Notificat
         <translation>Facere mandatum quotiescumque cassidilis transactio mutet (%s in mandato sbstituitur ab TxID)</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+13"/>
         <source>Set maximum size of high-priority/low-fee transactions in bytes (default: 27000)</source>
         <translation>Constitue magnitudinem maximam transactionum magnae-prioritatis/parvae-mercedis in octetis/bytes (praedefinitum: 27000)</translation>
     </message>
@@ -2365,7 +2911,7 @@ exempli gratia: alertnotify=echo %%s | mail -s &quot;Referencelinecoin Notificat
         <translation>Hoc est prae-dimittum experimentala aedes - utere eo periculo tuo proprio - nolite utere fodendo vel applicationibus mercatoriis</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Warning: -paytxfee is set very high! This is the transaction fee you will pay if you send a transaction.</source>
         <translation>Monitio: -paytxfee constitutum valde magnum!  Hoc est merces transactionis solves si mittis transactionem.</translation>
     </message>
@@ -2390,12 +2936,22 @@ exempli gratia: alertnotify=echo %%s | mail -s &quot;Referencelinecoin Notificat
         <translation>Monitio: wallet.data corrupta, data salvata!  Originalis wallet.dat salvata ut wallet.{timestamp}.bak in %s; si pendendum tuum vel transactiones pravae sunt, oportet ab conservato restituere.</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+4"/>
+        <source>When creating transactions, ignore inputs with value less than this (default: 0.0001)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>Allow peers to set bloom filters (default: 1)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>Attempt to recover private keys from a corrupt wallet.dat</source>
         <translation>Conare recipere claves privatas de corrupto wallet.dat</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+1"/>
         <source>Block creation options:</source>
         <translation>Optiones creandi frustorum:</translation>
     </message>
@@ -2435,7 +2991,7 @@ exempli gratia: alertnotify=echo %%s | mail -s &quot;Referencelinecoin Notificat
         <translation>Error legendo frustorum databasem</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+3"/>
         <source>Error opening block database</source>
         <translation>Error aperiendo databasum frustorum</translation>
     </message>
@@ -2530,12 +3086,32 @@ exempli gratia: alertnotify=echo %%s | mail -s &quot;Referencelinecoin Notificat
         <translation>Quam perfecta frustorum verificatio est (0-4, praedefinitum: 3)</translation>
     </message>
     <message>
-        <location line="+19"/>
+        <location line="+2"/>
+        <source>Incorrect or no genesis block found. Wrong datadir for network?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Invalid amount for -mininput=&lt;amount&gt;: &apos;%s&apos;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Keep at most &lt;n&gt; unconnectable transactions in memory (default: 25)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+10"/>
         <source>Not enough file descriptors available.</source>
         <translation>Inopia descriptorum plicarum.</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>Prepend debug output with timestamp (default: 1)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>Rebuild block chain index from current blk000??.dat files</source>
         <translation>Restituere indicem catenae frustorum ex activis plicis blk000??.dat</translation>
     </message>
@@ -2545,7 +3121,12 @@ exempli gratia: alertnotify=echo %%s | mail -s &quot;Referencelinecoin Notificat
         <translation>Constitue numerum filorum ad tractandum RPC postulationes (praedefinitum: 4)</translation>
     </message>
     <message>
-        <location line="+26"/>
+        <location line="+8"/>
+        <source>Spend unconfirmed change when sending transactions (default: 1)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+19"/>
         <source>Verifying blocks...</source>
         <translation>Verificante frusta...</translation>
     </message>
@@ -2555,17 +3136,22 @@ exempli gratia: alertnotify=echo %%s | mail -s &quot;Referencelinecoin Notificat
         <translation>Verificante cassidilem...</translation>
     </message>
     <message>
-        <location line="-69"/>
+        <location line="+4"/>
+        <source>You need to rebuild the database using -reindex to change -txindex</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="-77"/>
         <source>Imports blocks from external blk000??.dat file</source>
         <translation>Importat frusta ab externa plica blk000??.dat</translation>
     </message>
     <message>
-        <location line="-76"/>
+        <location line="-79"/>
         <source>Set the number of script verification threads (up to 16, 0 = auto, &lt;0 = leave that many cores free, default: 0)</source>
         <translation>Constitue numerum filorum verificationis scriptorum (Maximum 16, 0 = auto, &lt;0 = tot corda libera erunt, praedefinitum: 0)</translation>
     </message>
     <message>
-        <location line="+77"/>
+        <location line="+81"/>
         <source>Information</source>
         <translation>Informatio</translation>
     </message>
@@ -2575,7 +3161,7 @@ exempli gratia: alertnotify=echo %%s | mail -s &quot;Referencelinecoin Notificat
         <translation>Inscriptio -tor non valida: &apos;%s&apos;</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+2"/>
         <source>Invalid amount for -minrelaytxfee=&lt;amount&gt;: &apos;%s&apos;</source>
         <translation>Quantitas non valida pro -minrelaytxfee=&lt;amount&gt;: &apos;%s&apos;</translation>
     </message>
@@ -2585,7 +3171,7 @@ exempli gratia: alertnotify=echo %%s | mail -s &quot;Referencelinecoin Notificat
         <translation>Quantitas non valida pro -mintxfee=&lt;amount&gt;: &apos;%s&apos;</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+9"/>
         <source>Maintain a full transaction index (default: 0)</source>
         <translation>Manutene completam indicem transactionum (praedefinitum: 0)</translation>
     </message>
@@ -2620,17 +3206,16 @@ exempli gratia: alertnotify=echo %%s | mail -s &quot;Referencelinecoin Notificat
         <translation>Exscribe additiciam informationem pro retis debug.</translation>
     </message>
     <message>
-        <location line="+2"/>
         <source>Prepend debug output with timestamp</source>
-        <translation>Antepone pittacium temporis ante exscriptum de debug </translation>
+        <translation type="obsolete">Antepone pittacium temporis ante exscriptum de debug </translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="-110"/>
         <source>SSL options: (see the Referencelinecoin Wiki for SSL setup instructions)</source>
         <translation>Optiones SSL: (vide vici de Referencelinecoin pro instructionibus SSL configurationis)</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+118"/>
         <source>Select the version of socks proxy to use (4-5, default: 5)</source>
         <translation>Selige versionem socks vicarii utendam (4-5, praedefinitum: 5)</translation>
     </message>
@@ -2670,7 +3255,7 @@ exempli gratia: alertnotify=echo %%s | mail -s &quot;Referencelinecoin Notificat
         <translation>Specifica tempumfati conexionis in millisecundis (praedefinitum: 5000)</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>System error: </source>
         <translation>Systematis error:</translation>
     </message>
@@ -2720,47 +3305,46 @@ exempli gratia: alertnotify=echo %%s | mail -s &quot;Referencelinecoin Notificat
         <translation>Monitio: Haec versio obsoleta est, progressio postulata!</translation>
     </message>
     <message>
-        <location line="+1"/>
         <source>You need to rebuild the databases using -reindex to change -txindex</source>
-        <translation>Oportet recreare databases utendo -reindex ut mutes -txindex</translation>
+        <translation type="obsolete">Oportet recreare databases utendo -reindex ut mutes -txindex</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+2"/>
         <source>wallet.dat corrupt, salvage failed</source>
         <translation>wallet.dat corrupta, salvare abortum est</translation>
     </message>
     <message>
-        <location line="-50"/>
+        <location line="-51"/>
         <source>Password for JSON-RPC connections</source>
         <translation>Tessera pro conexionibus JSON-RPC</translation>
     </message>
     <message>
-        <location line="-67"/>
+        <location line="-69"/>
         <source>Allow JSON-RPC connections from specified IP address</source>
         <translation>Permitte conexionibus JSON-RPC ex inscriptione specificata</translation>
     </message>
     <message>
-        <location line="+76"/>
+        <location line="+78"/>
         <source>Send commands to node running on &lt;ip&gt; (default: 127.0.0.1)</source>
         <translation>Mitte mandata nodo operanti in &lt;ip&gt; (praedefinitum: 127.0.0.1)</translation>
     </message>
     <message>
-        <location line="-120"/>
+        <location line="-128"/>
         <source>Execute command when the best block changes (%s in cmd is replaced by block hash)</source>
         <translation>Pelle mandatum quando optissimum frustum mutat (%s in mandato substituitur ab hash frusti)</translation>
     </message>
     <message>
-        <location line="+147"/>
+        <location line="+156"/>
         <source>Upgrade wallet to latest format</source>
         <translation>Progredere cassidile ad formam recentissimam</translation>
     </message>
     <message>
-        <location line="-21"/>
+        <location line="-22"/>
         <source>Set key pool size to &lt;n&gt; (default: 100)</source>
         <translation>Constitue magnitudinem stagni clavium ad &lt;n&gt; (praedefinitum: 100)</translation>
     </message>
     <message>
-        <location line="-12"/>
+        <location line="-11"/>
         <source>Rescan the block chain for missing wallet transactions</source>
         <translation>Iterum perlege catenam frustorum propter absentes cassidilis transactiones</translation>
     </message>
@@ -2770,7 +3354,7 @@ exempli gratia: alertnotify=echo %%s | mail -s &quot;Referencelinecoin Notificat
         <translation>Utere OpenSSL (https) pro conexionibus JSON-RPC</translation>
     </message>
     <message>
-        <location line="-26"/>
+        <location line="-27"/>
         <source>Server certificate file (default: server.cert)</source>
         <translation>Plica certificationis daemonis moderantis (praedefinitum: server.cert)</translation>
     </message>
@@ -2780,12 +3364,12 @@ exempli gratia: alertnotify=echo %%s | mail -s &quot;Referencelinecoin Notificat
         <translation>Clavis privata daemonis moderans (praedefinitum: server.pem)</translation>
     </message>
     <message>
-        <location line="-151"/>
+        <location line="-161"/>
         <source>Acceptable ciphers (default: TLSv1+HIGH:!SSLv2:!aNULL:!eNULL:!AH:!3DES:@STRENGTH)</source>
         <translation>Acceptabiles cifrae (praedefinitum: TLSv1+HIGH:!SSLv2:!aNULL:!eNULL:!AH:!3DES:@STRENGTH)</translation>
     </message>
     <message>
-        <location line="+165"/>
+        <location line="+176"/>
         <source>This help message</source>
         <translation>Hic nuntius auxilii</translation>
     </message>
@@ -2795,7 +3379,7 @@ exempli gratia: alertnotify=echo %%s | mail -s &quot;Referencelinecoin Notificat
         <translation>Non posse conglutinare ad %s in hoc computatro (conglutinare redidit errorem %d, %s)</translation>
     </message>
     <message>
-        <location line="-91"/>
+        <location line="-94"/>
         <source>Connect through socks proxy</source>
         <translation>Conecte per socks vicarium</translation>
     </message>
@@ -2805,27 +3389,27 @@ exempli gratia: alertnotify=echo %%s | mail -s &quot;Referencelinecoin Notificat
         <translation>Permitte quaerenda DNS pro -addnode, -seednode, et -connect</translation>
     </message>
     <message>
-        <location line="+55"/>
+        <location line="+57"/>
         <source>Loading addresses...</source>
         <translation>Legens inscriptiones...</translation>
     </message>
     <message>
-        <location line="-35"/>
+        <location line="-37"/>
         <source>Error loading wallet.dat: Wallet corrupted</source>
         <translation>Error legendi wallet.dat: Cassidile corruptum</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-84"/>
         <source>Error loading wallet.dat: Wallet requires newer version of Referencelinecoin</source>
         <translation>Error legendi wallet.dat: Cassidili necesse est recentior versio Referencelinecoin</translation>
     </message>
     <message>
-        <location line="+93"/>
+        <location line="+181"/>
         <source>Wallet needed to be rewritten: restart Referencelinecoin to complete</source>
         <translation>Cassidili necesse erat rescribi: Repelle Referencelinecoin ut compleas</translation>
     </message>
     <message>
-        <location line="-95"/>
+        <location line="-98"/>
         <source>Error loading wallet.dat</source>
         <translation>Error legendi wallet.dat</translation>
     </message>
@@ -2835,7 +3419,7 @@ exempli gratia: alertnotify=echo %%s | mail -s &quot;Referencelinecoin Notificat
         <translation>Inscriptio -proxy non valida: &apos;%s&apos;</translation>
     </message>
     <message>
-        <location line="+56"/>
+        <location line="+59"/>
         <source>Unknown network specified in -onlynet: &apos;%s&apos;</source>
         <translation>Ignotum rete specificatum in -onlynet: &apos;%s&apos;</translation>
     </message>
@@ -2845,7 +3429,7 @@ exempli gratia: alertnotify=echo %%s | mail -s &quot;Referencelinecoin Notificat
         <translation>Ignota -socks vicarii versio postulata: %i</translation>
     </message>
     <message>
-        <location line="-96"/>
+        <location line="-99"/>
         <source>Cannot resolve -bind address: &apos;%s&apos;</source>
         <translation>Non posse resolvere -bind inscriptonem: &apos;%s&apos;</translation>
     </message>
@@ -2855,7 +3439,7 @@ exempli gratia: alertnotify=echo %%s | mail -s &quot;Referencelinecoin Notificat
         <translation>Non posse resolvere -externalip inscriptionem: &apos;%s&apos;</translation>
     </message>
     <message>
-        <location line="+44"/>
+        <location line="+45"/>
         <source>Invalid amount for -paytxfee=&lt;amount&gt;: &apos;%s&apos;</source>
         <translation>Quantitas non valida pro -paytxfee=&lt;quantitas&gt;: &apos;%s&apos;</translation>
     </message>
@@ -2865,37 +3449,37 @@ exempli gratia: alertnotify=echo %%s | mail -s &quot;Referencelinecoin Notificat
         <translation>Quantitas non valida</translation>
     </message>
     <message>
-        <location line="-6"/>
+        <location line="-7"/>
         <source>Insufficient funds</source>
         <translation>Inopia nummorum</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+12"/>
         <source>Loading block index...</source>
         <translation>Legens indicem frustorum...</translation>
     </message>
     <message>
-        <location line="-57"/>
+        <location line="-59"/>
         <source>Add a node to connect to and attempt to keep the connection open</source>
         <translation>Adice nodum cui conectere et conare sustinere conexionem apertam</translation>
     </message>
     <message>
-        <location line="-25"/>
+        <location line="-29"/>
         <source>Unable to bind to %s on this computer. Referencelinecoin is probably already running.</source>
         <translation>Non posse conglutinare ad %s in hoc cumputatro.  Referencelinecoin probabiliter iam operatur.</translation>
     </message>
     <message>
-        <location line="+64"/>
+        <location line="+67"/>
         <source>Fee per KB to add to transactions you send</source>
         <translation>Merces per KB addere ad transactiones tu mittas</translation>
     </message>
     <message>
-        <location line="+19"/>
+        <location line="+22"/>
         <source>Loading wallet...</source>
         <translation>Legens cassidile...</translation>
     </message>
     <message>
-        <location line="-52"/>
+        <location line="-54"/>
         <source>Cannot downgrade wallet</source>
         <translation>Non posse cassidile regredi</translation>
     </message>
@@ -2905,27 +3489,27 @@ exempli gratia: alertnotify=echo %%s | mail -s &quot;Referencelinecoin Notificat
         <translation>Non posse scribere praedefinitam inscriptionem</translation>
     </message>
     <message>
-        <location line="+64"/>
+        <location line="+67"/>
         <source>Rescanning...</source>
         <translation>Iterum perlegens...</translation>
     </message>
     <message>
-        <location line="-57"/>
+        <location line="-60"/>
         <source>Done loading</source>
         <translation>Completo lengendi</translation>
     </message>
     <message>
-        <location line="+82"/>
+        <location line="+85"/>
         <source>To use the %s option</source>
         <translation>Ut utaris optione %s</translation>
     </message>
     <message>
-        <location line="-74"/>
+        <location line="-78"/>
         <source>Error</source>
         <translation>Error</translation>
     </message>
     <message>
-        <location line="-31"/>
+        <location line="-30"/>
         <source>You must set rpcpassword=&lt;password&gt; in the configuration file:
 %s
 If the file does not exist, create it with owner-readable-only file permissions.</source>

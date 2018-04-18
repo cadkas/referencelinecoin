@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>729</width>
-    <height>166</height>
+    <height>205</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -23,7 +23,7 @@
    <property name="spacing">
     <number>12</number>
    </property>
-   <item row="6" column="0">
+   <item row="8" column="0">
     <widget class="QLabel" name="label">
      <property name="text">
       <string>A&amp;mount:</string>
@@ -49,13 +49,13 @@
      </property>
     </widget>
    </item>
-   <item row="6" column="2">
+   <item row="8" column="2">
     <widget class="BitcoinAmountField" name="payAmount"/>
    </item>
-   <item row="4" column="0">
+   <item row="5" column="0">
     <widget class="QLabel" name="label_4">
      <property name="text">
-      <string>&amp;Label:</string>
+      <string>&amp;Label/Nickname:</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -130,20 +130,27 @@
      </item>
     </layout>
    </item>
-   <item row="4" column="2">
+   <item row="5" column="2">
     <widget class="QValidatedLineEdit" name="addAsLabel">
      <property name="toolTip">
       <string>Enter a label for this address to add it to your address book</string>
      </property>
     </widget>
    </item>
-   <item row="5" column="2">
+   <item row="7" column="2">
     <widget class="QLineEdit" name="referencelineEdit"/>
    </item>
-   <item row="5" column="0">
+   <item row="7" column="0">
     <widget class="QLabel" name="label_3">
      <property name="text">
       <string>Reference line:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="2">
+    <widget class="QPushButton" name="searchnick">
+     <property name="text">
+      <string>Search nickname and find address book entry...</string>
      </property>
     </widget>
    </item>

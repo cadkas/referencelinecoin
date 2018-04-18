@@ -211,6 +211,33 @@ Value getaccountaddress(const Array& params, bool fHelp)
     return ret;
 }
 
+Value getnicknameaddress(const Array& params, bool fHelp)
+{
+    if (fHelp || params.size() != 1)
+        throw runtime_error(
+            "getnicknameaddress <nickname>\n"
+            "Returns the current Referencelinecoin address for receiving payments to this nickname.");
+
+    Value ret="";
+    bool found = false;
+
+    std::string nickname = params[0].get_str();
+
+    BOOST_FOREACH(const PAIRTYPE(CBitcoinAddress, string)& entry, pwalletMain->mapAddressBook) {
+        if (entry.second.compare(nickname)==0) {
+            found=true;
+            ret = entry.first.ToString();
+            break;
+        }
+    }
+ 
+    if (found) {
+        return ret;
+    } else 
+    {
+        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "No address found for this nickname");
+    }
+}
 
 
 Value setaccount(const Array& params, bool fHelp)
@@ -310,18 +337,14 @@ Value sendtoaddress(const Array& params, bool fHelp)
             "<amount> is a real and is rounded to the nearest 0.00000001"
             + HelpRequiringPassphrase());
 
-printf("test 1");
     CBitcoinAddress address(params[0].get_str());
     if (!address.IsValid())
         throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid Referencelinecoin address");
-printf("test 2");
     // Amount
     int64 nAmount = AmountFromValue(params[1]);
     std::string referenceline = "";
-printf("test 3");
     if (params.size() > 2 && params[2].type() != null_type && !params[2].get_str().empty())
         referenceline = params[2].get_str();
-printf("test 4");
     // Wallet comments
     CWalletTx wtx;
     if (params.size() > 3 && params[3].type() != null_type && !params[3].get_str().empty())
@@ -332,12 +355,9 @@ printf("test 4");
     if (pwalletMain->IsLocked())
         throw JSONRPCError(RPC_WALLET_UNLOCK_NEEDED, "Error: Please enter the wallet passphrase with walletpassphrase first.");
 
-printf("test 5");
     string strError = pwalletMain->SendMoneyToDestination(address.Get(), nAmount, wtx, referenceline, address.GetReceiverPubKey());
-printf("test 6");
     if (strError != "")
         throw JSONRPCError(RPC_WALLET_ERROR, strError);
-printf("test 7");
     return wtx.GetHash().GetHex();
 }
 
@@ -670,6 +690,47 @@ Value movecmd(const Array& params, bool fHelp)
     return true;
 }
 
+Value setnickname(const Array& params, bool fHelp)
+{
+   if (fHelp || params.size() < 3 || params.size() > 6)
+        throw runtime_error(
+            "setnickname <fromaccount> <toreferencelinecoinaddress> <nickname> [minconf=1] [comment] [comment-to]\n"
+            "Set a nickname for the toreferencelinecoinaddress and send coins needed from account specified."
+            + HelpRequiringPassphrase());
+
+    string strAccount = AccountFromValue(params[0]);
+    CBitcoinAddress address(params[1].get_str());
+    if (!address.IsValid())
+        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid Referencelinecoin address");
+    int64 nAmount = 200000;//transation amount in satoshis
+    string strnickname =params[2].get_str();
+    std::string referenceline = "setnickname " + strnickname;
+
+    int nMinDepth = 1;
+    if (params.size() > 3)
+        nMinDepth = params[3].get_int();
+
+    CWalletTx wtx;
+    wtx.strFromAccount = strAccount;
+    if (params.size() > 4 && params[4].type() != null_type && !params[5].get_str().empty())
+        wtx.mapValue["comment"] = params[4].get_str();
+    if (params.size() > 5 && params[5].type() != null_type && !params[6].get_str().empty())
+        wtx.mapValue["to"]      = params[5].get_str();
+
+    EnsureWalletIsUnlocked();
+
+    // Check funds
+    int64 nBalance = GetAccountBalance(strAccount, nMinDepth);
+    if (nAmount > nBalance)
+        throw JSONRPCError(RPC_WALLET_INSUFFICIENT_FUNDS, "Account has insufficient funds");
+
+    // Send
+    string strError = pwalletMain->SendMoneyToDestination(address.Get(), nAmount, wtx, referenceline, address.GetReceiverPubKey(), false, false);
+    if (strError != "")
+        throw JSONRPCError(RPC_WALLET_ERROR, strError);
+
+    return wtx.GetHash().GetHex();
+}
 
 Value sendfrom(const Array& params, bool fHelp)
 {
@@ -773,7 +834,7 @@ Value sendmany(const Array& params, bool fHelp)
     CReserveKey keyChange(pwalletMain);
     int64 nFeeRequired = 0;
     string strFailReason;
-    bool fCreated = pwalletMain->CreateTransaction(vecSend, wtx, keyChange, nFeeRequired, strFailReason);
+    bool fCreated = pwalletMain->CreateTransaction(vecSend, wtx, keyChange, nFeeRequired, strFailReason, true);
     if (!fCreated)
         throw JSONRPCError(RPC_WALLET_INSUFFICIENT_FUNDS, strFailReason);
     if (!pwalletMain->CommitTransaction(wtx, keyChange))

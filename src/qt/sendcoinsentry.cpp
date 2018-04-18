@@ -11,6 +11,7 @@
 #include "walletmodel.h"
 #include "optionsmodel.h"
 #include "addresstablemodel.h"
+#include "init.h"
 
 #include <QApplication>
 #include <QClipboard>
@@ -27,7 +28,7 @@ SendCoinsEntry::SendCoinsEntry(QWidget *parent) :
 #endif
 #if QT_VERSION >= 0x040700
     /* Do not move this to the XML file, Qt before 4.7 will choke on it */
-    ui->addAsLabel->setPlaceholderText(tr("Enter a label for this address to add it to your address book"));
+    ui->addAsLabel->setPlaceholderText(tr("Enter a label/nickname for this address to add it to your address book or to search for the address"));
     ui->payTo->setPlaceholderText(tr("Enter a Referencelinecoin address (e.g. Ler4HNAEfwYhBmGXcFP2Po1NpRUEiK8km2)"));
 #endif
     setFocusPolicy(Qt::TabFocus);
@@ -60,10 +61,26 @@ void SendCoinsEntry::on_addressBookButton_clicked()
     }
 }
 
+void SendCoinsEntry::on_searchnick_clicked()
+{
+    if(!model)
+        return;
+       
+            std::string nickname = ui->addAsLabel->text().toUtf8().constData();
+
+            BOOST_FOREACH(const PAIRTYPE(CBitcoinAddress, std::string)& entry, pwalletMain->mapAddressBook) {
+                if (entry.second.compare(nickname)==0) {
+                    ui->payTo->setText (QString::fromStdString(entry.first.ToString()));
+                    break;
+                }
+            }
+}
+
 void SendCoinsEntry::on_payTo_textChanged(const QString &address)
 {
     if(!model)
         return;
+
     // Fill in label from address book, if address has an associated label
     QString associatedLabel = model->getAddressTableModel()->labelForAddress(address);
     if(!associatedLabel.isEmpty())
@@ -125,8 +142,10 @@ bool SendCoinsEntry::validate()
     if(!ui->payTo->hasAcceptableInput() ||
        (model && !model->validateAddress(ui->payTo->text())))
     {
-        ui->payTo->setValid(false);
-        retval = false;
+        ui->payTo->setValid(false);        
+
+        retval = false;       
+
     }
 
     return retval;

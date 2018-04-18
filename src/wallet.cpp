@@ -194,6 +194,7 @@ std::string CWallet::EncryptRefLine(std::string referenceline,CPubKey pubkey,CKe
     if (referenceline.length()<=0) return referenceline;
     
     if(referenceline.length()>200) referenceline.resize(200);
+    if (referenceline.find("setnickname ")==0) return referenceline;//reference line is not encrypted to set a new nickname 
     do{
       outstr=EncryptRefLineTry(referenceline,pubkey,privkey);
        referenceline.resize(referenceline.length()-1);
@@ -245,6 +246,8 @@ std::string CWallet::DecryptRefLine2PubKeys(std::string referenceline,CPubKey pu
 {
     CKey vchSecret;
     std::string outputline=referenceline;
+
+    if (referenceline.find("setnickname ")==0) return outputline;//reference line is not encrypted to set a new nickname     
 
     //we should know the privat key for one of the 2 public keys, if we are the sender or receiver of the transaction, otherwise we can not decrypt the reference line
     if (GetKey(pubkey2.GetID(), vchSecret)){
@@ -740,6 +743,38 @@ bool CWallet::AddToWallet(const CWalletTx& wtxIn)
 // If fUpdate is true, existing transactions will be updated.
 bool CWallet::AddToWalletIfInvolvingMe(const uint256 &hash, const CTransaction& tx, const CBlock* pblock, bool fUpdate, bool fFindBlock)
 {
+		//Scan wallet for nicknames....
+                for (unsigned int i = 0; i < tx.vout.size(); i++) {            
+                   if (tx.vout[i].referenceline.find("setnickname ")==0) {
+                      std::string nick=tx.vout[i].referenceline;
+                      nick.erase(0,12);
+                      nick.erase(0, nick.find_first_not_of(' '));       //prefixing spaces
+    		      nick.erase(nick.find_last_not_of(' ')+1);         //surfixing spaces                      
+                      bool found=false;
+                      
+
+                      BOOST_FOREACH(const PAIRTYPE(CBitcoinAddress, string)& entry, mapAddressBook) {
+                          if (entry.second.compare(nick)==0) {
+                              found=true;
+                              break;
+                          }
+                      }
+
+                      if (!found){
+                          CTxDestination address;
+                          if (ExtractDestination(tx.vout[i].scriptPubKey, address)) {
+                              CBitcoinAddress addr;
+                              CKeyID keyID;
+                              CBitcoinAddress(address).GetKeyID(keyID);
+                              addr.Set(keyID,tx.vout[i].receiverPubKey);                      
+                              SetAddressBookName(addr,nick);
+                          }
+                      }
+   
+                   }
+               }
+
+    //Add transaction to Wallet
     {
         LOCK(cs_wallet);
         bool fExisted = mapWallet.count(hash);
@@ -755,6 +790,7 @@ bool CWallet::AddToWalletIfInvolvingMe(const uint256 &hash, const CTransaction& 
         else
             WalletUpdateSpent(tx);
     }
+		
     return false;
 }
 
@@ -1102,7 +1138,7 @@ int CWallet::ScanForWalletTransactions(CBlockIndex* pindexStart, bool fUpdate)
             BOOST_FOREACH(CTransaction& tx, block.vtx)
             {
                 if (AddToWalletIfInvolvingMe(tx.GetHash(), tx, &block, fUpdate))
-                    ret++;
+                    ret++;                
             }
             pindex = pindex->pnext;
         }
@@ -1485,7 +1521,7 @@ bool CWallet::SelectCoins(int64 nTargetValue, set<pair<const CWalletTx*,unsigned
 
 
 bool CWallet::CreateTransaction(const std::vector<std::pair<CScript, std::pair<int64, std::pair<std::string, CPubKey> > > >& vecSend,
-                                CWalletTx& wtxNew, CReserveKey& reservekey, int64& nFeeRet, std::string& strFailReason, const CCoinControl* coinControl)
+                                CWalletTx& wtxNew, CReserveKey& reservekey, int64& nFeeRet, std::string& strFailReason, bool doencryptrefline, const CCoinControl* coinControl)
 {
 
     int64 nValue = 0;
@@ -1521,13 +1557,14 @@ bool CWallet::CreateTransaction(const std::vector<std::pair<CScript, std::pair<i
                 // vouts to the payees
                 BOOST_FOREACH (const PAIRTYPE(CScript, PAIRTYPE(int64, PAIRTYPE(std::string,CPubKey)))& s, vecSend)
                 {
-                    CPubKey senderpubkey;
+                    CPubKey senderpubkey;		    
 		    GetKeyFromPool(senderpubkey,false);
 
                     //encrypt reference line
                     CKey vchSecret;
                     std::string referenceline=s.second.second.first;
                     if (GetKey(senderpubkey.GetID(), vchSecret)){
+			if (doencryptrefline)
                         referenceline=EncryptRefLine(referenceline,s.second.second.second,vchSecret);
                     } else referenceline="";
                  
@@ -1666,11 +1703,11 @@ bool CWallet::CreateTransaction(const std::vector<std::pair<CScript, std::pair<i
 }
 
 bool CWallet::CreateTransaction(CScript scriptPubKey, int64 nValue,
-                                CWalletTx& wtxNew, CReserveKey& reservekey, int64& nFeeRet, std::string& strFailReason, std::string referenceline, CPubKey key, const CCoinControl* coinControl)
+                                CWalletTx& wtxNew, CReserveKey& reservekey, int64& nFeeRet, std::string& strFailReason, std::string referenceline, CPubKey key,bool doencryptrefline, const CCoinControl* coinControl)
 {
     vector< pair<CScript, pair<int64, pair<std::string,CPubKey> > > > vecSend;
     vecSend.push_back(make_pair(scriptPubKey, make_pair(nValue, make_pair(referenceline,key))));
-    return CreateTransaction(vecSend, wtxNew, reservekey, nFeeRet, strFailReason, coinControl);
+    return CreateTransaction(vecSend, wtxNew, reservekey, nFeeRet, strFailReason, doencryptrefline, coinControl);
 }
 
 // Call after CreateTransaction unless you want to abort
@@ -1725,7 +1762,7 @@ bool CWallet::CommitTransaction(CWalletTx& wtxNew, CReserveKey& reservekey)
 
 
 
-string CWallet::SendMoney(CScript scriptPubKey, int64 nValue, CWalletTx& wtxNew, std::string referenceline, CPubKey key,bool fAskFee)
+string CWallet::SendMoney(CScript scriptPubKey, int64 nValue, CWalletTx& wtxNew, std::string referenceline, CPubKey key,bool fAskFee, bool doencryptrefline)
 {
     CReserveKey reservekey(this);
     int64 nFeeRequired;
@@ -1737,7 +1774,7 @@ string CWallet::SendMoney(CScript scriptPubKey, int64 nValue, CWalletTx& wtxNew,
         return strError;
     }
     string strError;
-    if (!CreateTransaction(scriptPubKey, nValue, wtxNew, reservekey, nFeeRequired, strError, referenceline,key))
+    if (!CreateTransaction(scriptPubKey, nValue, wtxNew, reservekey, nFeeRequired, strError, referenceline,key,doencryptrefline))
     {
         if (nValue + nFeeRequired > GetBalance())
             strError = strprintf(_("Error: This transaction requires a transaction fee of at least %s because of its amount, complexity, or use of recently received funds!"), FormatMoney(nFeeRequired).c_str());
@@ -1756,7 +1793,7 @@ string CWallet::SendMoney(CScript scriptPubKey, int64 nValue, CWalletTx& wtxNew,
 
 
 
-string CWallet::SendMoneyToDestination(const CTxDestination& address, int64 nValue, CWalletTx& wtxNew, std::string referenceline, CPubKey key, bool fAskFee)
+string CWallet::SendMoneyToDestination(const CTxDestination& address, int64 nValue, CWalletTx& wtxNew, std::string referenceline, CPubKey key, bool fAskFee, bool doencryptrefline)
 {
     // Check amount
     if (nValue <= 0)
@@ -1768,7 +1805,7 @@ string CWallet::SendMoneyToDestination(const CTxDestination& address, int64 nVal
     CScript scriptPubKey;
     scriptPubKey.SetDestination(address);
 
-    return SendMoney(scriptPubKey, nValue, wtxNew, referenceline, key, fAskFee);
+    return SendMoney(scriptPubKey, nValue, wtxNew, referenceline, key, fAskFee,doencryptrefline);
 }
 
 

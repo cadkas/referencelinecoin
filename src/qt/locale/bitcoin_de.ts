@@ -1861,14 +1861,17 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     </message>
     <message>
         <location line="+94"/>
-        <location filename="../sendcoinsentry.cpp" line="+30"/>
         <source>Enter a label for this address to add it to your address book</source>
         <translation>Adressbezeichnung eingeben (diese wird zusammen mit der Adresse dem Adressbuch hinzugefügt)</translation>
     </message>
     <message>
-        <location line="-78"/>
         <source>&amp;Label:</source>
-        <translation>&amp;Bezeichnung:</translation>
+        <translation type="obsolete">&amp;Bezeichnung:</translation>
+    </message>
+    <message>
+        <location line="-78"/>
+        <source>&amp;Label/Nickname:</source>
+        <translation type="unfinished">&amp;Bezeichnung/Nickname:</translation>
     </message>
     <message>
         <location line="+18"/>
@@ -1906,7 +1909,17 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
         <translation type="unfinished">Verwendungszweck:</translation>
     </message>
     <message>
-        <location filename="../sendcoinsentry.cpp" line="+1"/>
+        <location line="+7"/>
+        <source>Search nickname and find address book entry...</source>
+        <translation type="unfinished">Suche Nickname und finde Adressbucheintrag</translation>
+    </message>
+    <message>
+        <location filename="../sendcoinsentry.cpp" line="+31"/>
+        <source>Enter a label/nickname for this address to add it to your address book or to search for the address</source>
+        <translation type="unfinished">Adressbezeichnung oder Nickname eingeben (um diese dem Adressbuch hinzuzufügen oder danach zu suchen)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>Enter a Referencelinecoin address (e.g. Ler4HNAEfwYhBmGXcFP2Po1NpRUEiK8km2)</source>
         <translation>Referencelinecoin-Adresse eingeben (z.B. Ler4HNAEfwYhBmGXcFP2Po1NpRUEiK8km2)</translation>
     </message>
@@ -2094,7 +2107,7 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
         <translation>Die Signatur entspricht nicht dem Message Digest.</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+9"/>
         <source>Message verification failed.</source>
         <translation>Verifikation der Nachricht fehlgeschlagen.</translation>
     </message>
@@ -2125,7 +2138,7 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
 <context>
     <name>TransactionDesc</name>
     <message>
-        <location filename="../transactiondesc.cpp" line="+24"/>
+        <location filename="../transactiondesc.cpp" line="+25"/>
         <source>Open until %1</source>
         <translation>Offen bis %1</translation>
     </message>
@@ -2206,12 +2219,12 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
         <location line="+12"/>
         <location line="+50"/>
         <location line="+17"/>
-        <location line="+40"/>
+        <location line="+41"/>
         <source>Credit</source>
         <translation>Gutschrift</translation>
     </message>
     <message numerus="yes">
-        <location line="-117"/>
+        <location line="-118"/>
         <source>matures in %n more block(s)</source>
         <translation>
             <numerusform>reift noch %n weiteren Block</numerusform>
@@ -2227,17 +2240,17 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
         <location line="+49"/>
         <location line="+8"/>
         <location line="+15"/>
-        <location line="+40"/>
+        <location line="+41"/>
         <source>Debit</source>
         <translation>Belastung</translation>
     </message>
     <message>
-        <location line="-49"/>
+        <location line="-50"/>
         <source>Transaction fee</source>
         <translation>Transaktionsgebühr</translation>
     </message>
     <message>
-        <location line="+21"/>
+        <location line="+22"/>
         <source>Reference line</source>
         <translation type="unfinished">Verwendungszweck</translation>
     </message>
@@ -2297,7 +2310,7 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
         <translation>falsch</translation>
     </message>
     <message>
-        <location line="-233"/>
+        <location line="-234"/>
         <source>, has not been successfully broadcast yet</source>
         <translation>, wurde noch nicht erfolgreich übertragen</translation>
     </message>
@@ -2356,7 +2369,7 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
         <translation type="unfinished">Verwendungszweck</translation>
     </message>
     <message numerus="yes">
-        <location line="+57"/>
+        <location line="+63"/>
         <source>Open for %n more block(s)</source>
         <translation>
             <numerusform>Offen für %n weiteren Block</numerusform>
@@ -2653,7 +2666,7 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
 <context>
     <name>WalletModel</name>
     <message>
-        <location filename="../walletmodel.cpp" line="+220"/>
+        <location filename="../walletmodel.cpp" line="+239"/>
         <source>Send Coins</source>
         <translation>Referencelinecoins überweisen</translation>
     </message>
