@@ -754,7 +754,7 @@ bool CWallet::AddToWalletIfInvolvingMe(const uint256 &hash, const CTransaction& 
                       
 
                       BOOST_FOREACH(const PAIRTYPE(CBitcoinAddress, string)& entry, mapAddressBook) {
-                          if (entry.second.compare(nick)==0) {
+                          if (entry.second.compare("@"+nick)==0) {
                               found=true;
                               break;
                           }
@@ -767,7 +767,17 @@ bool CWallet::AddToWalletIfInvolvingMe(const uint256 &hash, const CTransaction& 
                               CKeyID keyID;
                               CBitcoinAddress(address).GetKeyID(keyID);
                               addr.Set(keyID,tx.vout[i].receiverPubKey);                      
-                              SetAddressBookName(addr,nick);
+
+                              found=false;
+			      BOOST_FOREACH(const PAIRTYPE(CBitcoinAddress, string)& entry, mapAddressBook) {
+                                  if (entry.first==addr) {
+                                      found=true;
+                                      break;
+                                  }
+                              }
+                              if (!found){
+                                  SetAddressBookName(addr,"@"+nick);
+                              }
                           }
                       }
    

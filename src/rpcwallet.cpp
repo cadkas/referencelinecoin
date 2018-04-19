@@ -224,7 +224,7 @@ Value getnicknameaddress(const Array& params, bool fHelp)
     std::string nickname = params[0].get_str();
 
     BOOST_FOREACH(const PAIRTYPE(CBitcoinAddress, string)& entry, pwalletMain->mapAddressBook) {
-        if (entry.second.compare(nickname)==0) {
+        if (entry.second.compare("@"+nickname)==0) {
             found=true;
             ret = entry.first.ToString();
             break;
