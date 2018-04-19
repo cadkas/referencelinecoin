@@ -344,12 +344,12 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>对&amp;消息签名...</translation>
     </message>
     <message>
-        <location line="+296"/>
+        <location line="+319"/>
         <source>Synchronizing with network...</source>
         <translation>正在与网络同步...</translation>
     </message>
     <message>
-        <location line="-365"/>
+        <location line="-388"/>
         <source>&amp;Overview</source>
         <translation>&amp;概况</translation>
     </message>
@@ -424,7 +424,7 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>&amp;修改密码...</translation>
     </message>
     <message>
-        <location line="+301"/>
+        <location line="+324"/>
         <source>Importing blocks from disk...</source>
         <translation>正在从磁盘导入数据块...</translation>
     </message>
@@ -434,7 +434,7 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>正在为数据块建立索引...</translation>
     </message>
     <message>
-        <location line="-363"/>
+        <location line="-386"/>
         <source>Send coins to a Referencelinecoin address</source>
         <translation>向一个莱特币地址发送莱特币</translation>
     </message>
@@ -454,7 +454,7 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>修改钱包加密口令</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="+10"/>
         <source>&amp;Debug window</source>
         <translation>&amp;调试窗口</translation>
     </message>
@@ -464,18 +464,18 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>在诊断控制台调试</translation>
     </message>
     <message>
-        <location line="-4"/>
+        <location line="-8"/>
         <source>&amp;Verify message...</source>
         <translation>&amp;验证消息...</translation>
     </message>
     <message>
         <location line="-170"/>
-        <location line="+551"/>
+        <location line="+574"/>
         <source>Referencelinecoin</source>
         <translation>莱特币</translation>
     </message>
     <message>
-        <location line="-551"/>
+        <location line="-574"/>
         <source>Wallet</source>
         <translation>钱包</translation>
     </message>
@@ -525,12 +525,22 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>校验消息，确保该消息是由指定的莱特币地址所有者签名的</translation>
     </message>
     <message>
-        <location line="+28"/>
+        <location line="+2"/>
+        <source>&amp;Rescan blockchain...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Rescan the entire blockchain</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+30"/>
         <source>&amp;File</source>
         <translation>&amp;文件</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+8"/>
         <source>&amp;Settings</source>
         <translation>&amp;设置</translation>
     </message>
@@ -556,7 +566,7 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>莱特币客户端</translation>
     </message>
     <message numerus="yes">
-        <location line="+141"/>
+        <location line="+158"/>
         <source>%n active connection(s) to Referencelinecoin network</source>
         <translation>
             <numerusform>到莱特币网络的连接共有%n条</numerusform>

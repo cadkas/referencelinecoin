@@ -97,6 +97,7 @@ private:
     QAction *addressBookAction;
     QAction *signMessageAction;
     QAction *verifyMessageAction;
+    QAction *rescanWalletAction;
     QAction *aboutAction;
     QAction *receiveCoinsAction;
     QAction *optionsAction;
@@ -185,6 +186,8 @@ private slots:
 
     /** Show configuration dialog */
     void optionsClicked();
+    /** rescan complete blockchain */
+    void rescanWallet();
     /** Show about dialog */
     void aboutClicked();
 #ifndef Q_OS_MAC

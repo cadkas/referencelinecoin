@@ -343,12 +343,12 @@ Hoc productum continet programmata composita ab OpenSSL Project pro utendo in Op
         <translation>Signa &amp;nuntium...</translation>
     </message>
     <message>
-        <location line="+296"/>
+        <location line="+319"/>
         <source>Synchronizing with network...</source>
         <translation>Synchronizans cum rete...</translation>
     </message>
     <message>
-        <location line="-365"/>
+        <location line="-388"/>
         <source>&amp;Overview</source>
         <translation>&amp;Summarium</translation>
     </message>
@@ -423,7 +423,7 @@ Hoc productum continet programmata composita ab OpenSSL Project pro utendo in Op
         <translation>&amp;Muta tesseram...</translation>
     </message>
     <message>
-        <location line="+301"/>
+        <location line="+324"/>
         <source>Importing blocks from disk...</source>
         <translation>Importans frusta ab disco...</translation>
     </message>
@@ -433,7 +433,7 @@ Hoc productum continet programmata composita ab OpenSSL Project pro utendo in Op
         <translation>Recreans indicem frustorum in disco...</translation>
     </message>
     <message>
-        <location line="-363"/>
+        <location line="-386"/>
         <source>Send coins to a Referencelinecoin address</source>
         <translation>Mitte nummos ad inscriptionem Referencelinecoin</translation>
     </message>
@@ -453,7 +453,7 @@ Hoc productum continet programmata composita ab OpenSSL Project pro utendo in Op
         <translation>Muta tesseram utam pro cassidilis cifrando</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="+10"/>
         <source>&amp;Debug window</source>
         <translation>Fenestra &amp;Debug</translation>
     </message>
@@ -463,18 +463,18 @@ Hoc productum continet programmata composita ab OpenSSL Project pro utendo in Op
         <translation>Aperi terminalem debug et diagnosticalem</translation>
     </message>
     <message>
-        <location line="-4"/>
+        <location line="-8"/>
         <source>&amp;Verify message...</source>
         <translation>&amp;Verifica nuntium...</translation>
     </message>
     <message>
         <location line="-170"/>
-        <location line="+551"/>
+        <location line="+574"/>
         <source>Referencelinecoin</source>
         <translation>Referencelinecoin</translation>
     </message>
     <message>
-        <location line="-551"/>
+        <location line="-574"/>
         <source>Wallet</source>
         <translation>Cassidile</translation>
     </message>
@@ -524,12 +524,22 @@ Hoc productum continet programmata composita ab OpenSSL Project pro utendo in Op
         <translation>Verifica nuntios ut certus sis eos signatos esse cum specificatis inscriptionibus Referencelinecoin</translation>
     </message>
     <message>
-        <location line="+28"/>
+        <location line="+2"/>
+        <source>&amp;Rescan blockchain...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Rescan the entire blockchain</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+30"/>
         <source>&amp;File</source>
         <translation>&amp;Plica</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+8"/>
         <source>&amp;Settings</source>
         <translation>&amp;Configuratio</translation>
     </message>
@@ -555,7 +565,7 @@ Hoc productum continet programmata composita ab OpenSSL Project pro utendo in Op
         <translation>Referencelinecoin cliens</translation>
     </message>
     <message numerus="yes">
-        <location line="+141"/>
+        <location line="+158"/>
         <source>%n active connection(s) to Referencelinecoin network</source>
         <translation>
             <numerusform>%n activa conexio ad rete Referencelinecoin</numerusform>

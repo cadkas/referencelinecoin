@@ -344,12 +344,12 @@ Questo prodotto include software sviluppato dal progetto OpenSSL per l&apos;uso 
         <translation>Firma il &amp;messaggio...</translation>
     </message>
     <message>
-        <location line="+296"/>
+        <location line="+319"/>
         <source>Synchronizing with network...</source>
         <translation>Sto sincronizzando con la rete...</translation>
     </message>
     <message>
-        <location line="-365"/>
+        <location line="-388"/>
         <source>&amp;Overview</source>
         <translation>&amp;Sintesi</translation>
     </message>
@@ -424,7 +424,7 @@ Questo prodotto include software sviluppato dal progetto OpenSSL per l&apos;uso 
         <translation>&amp;Cambia la passphrase...</translation>
     </message>
     <message>
-        <location line="+301"/>
+        <location line="+324"/>
         <source>Importing blocks from disk...</source>
         <translation>Importa blocchi dal disco...</translation>
     </message>
@@ -434,7 +434,7 @@ Questo prodotto include software sviluppato dal progetto OpenSSL per l&apos;uso 
         <translation>Re-indicizzazione blocchi su disco...</translation>
     </message>
     <message>
-        <location line="-363"/>
+        <location line="-386"/>
         <source>Send coins to a Referencelinecoin address</source>
         <translation>Invia monete ad un indirizzo referencelinecoin</translation>
     </message>
@@ -454,7 +454,7 @@ Questo prodotto include software sviluppato dal progetto OpenSSL per l&apos;uso 
         <translation>Cambia la passphrase per la cifratura del portamonete</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="+10"/>
         <source>&amp;Debug window</source>
         <translation>Finestra &amp;Debug</translation>
     </message>
@@ -464,18 +464,18 @@ Questo prodotto include software sviluppato dal progetto OpenSSL per l&apos;uso 
         <translation>Apri la console di degugging e diagnostica</translation>
     </message>
     <message>
-        <location line="-4"/>
+        <location line="-8"/>
         <source>&amp;Verify message...</source>
         <translation>&amp;Verifica messaggio...</translation>
     </message>
     <message>
         <location line="-170"/>
-        <location line="+551"/>
+        <location line="+574"/>
         <source>Referencelinecoin</source>
         <translation>Referencelinecoin</translation>
     </message>
     <message>
-        <location line="-551"/>
+        <location line="-574"/>
         <source>Wallet</source>
         <translation>Portamonete</translation>
     </message>
@@ -525,12 +525,22 @@ Questo prodotto include software sviluppato dal progetto OpenSSL per l&apos;uso 
         <translation>Verifica i messaggi per accertarsi che siano stati firmati con gli indirizzi Referencelinecoin specificati</translation>
     </message>
     <message>
-        <location line="+28"/>
+        <location line="+2"/>
+        <source>&amp;Rescan blockchain...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Rescan the entire blockchain</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+30"/>
         <source>&amp;File</source>
         <translation>&amp;File</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+8"/>
         <source>&amp;Settings</source>
         <translation>&amp;Impostazioni</translation>
     </message>
@@ -556,7 +566,7 @@ Questo prodotto include software sviluppato dal progetto OpenSSL per l&apos;uso 
         <translation>Referencelinecoin client</translation>
     </message>
     <message numerus="yes">
-        <location line="+141"/>
+        <location line="+158"/>
         <source>%n active connection(s) to Referencelinecoin network</source>
         <translation>
             <numerusform>%n connessione attiva alla rete Referencelinecoin</numerusform>

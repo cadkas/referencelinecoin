@@ -335,12 +335,12 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+296"/>
+        <location line="+319"/>
         <source>Synchronizing with network...</source>
         <translation>नेटवर्क से समकालिक (मिल) रहा है ...</translation>
     </message>
     <message>
-        <location line="-365"/>
+        <location line="-388"/>
         <source>&amp;Overview</source>
         <translation>&amp;विवरण</translation>
     </message>
@@ -416,7 +416,7 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+301"/>
+        <location line="+324"/>
         <source>Importing blocks from disk...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -426,7 +426,7 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-363"/>
+        <location line="-386"/>
         <source>Send coins to a Referencelinecoin address</source>
         <translation type="unfinished"></translation>
     </message>
@@ -446,7 +446,7 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>पहचान शब्द/अक्षर जो वॉलेट एनक्रिपशन के लिए इस्तेमाल किया है उसे बदलिए!</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="+10"/>
         <source>&amp;Debug window</source>
         <translation type="unfinished"></translation>
     </message>
@@ -456,18 +456,18 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-4"/>
+        <location line="-8"/>
         <source>&amp;Verify message...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="-170"/>
-        <location line="+551"/>
+        <location line="+574"/>
         <source>Referencelinecoin</source>
         <translation>बीटकोइन</translation>
     </message>
     <message>
-        <location line="-551"/>
+        <location line="-574"/>
         <source>Wallet</source>
         <translation>वॉलेट</translation>
     </message>
@@ -517,12 +517,22 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+28"/>
+        <location line="+2"/>
+        <source>&amp;Rescan blockchain...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Rescan the entire blockchain</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+30"/>
         <source>&amp;File</source>
         <translation>&amp;फाइल</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+8"/>
         <source>&amp;Settings</source>
         <translation>&amp;सेट्टिंग्स</translation>
     </message>
@@ -548,7 +558,7 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation type="unfinished"></translation>
     </message>
     <message numerus="yes">
-        <location line="+141"/>
+        <location line="+158"/>
         <source>%n active connection(s) to Referencelinecoin network</source>
         <translation>
             <numerusform>%n सक्रिया संपर्क बीटकोइन नेटवर्क से</numerusform>

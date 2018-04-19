@@ -344,12 +344,12 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>&amp;Mesaj imzala...</translation>
     </message>
     <message>
-        <location line="+296"/>
+        <location line="+319"/>
         <source>Synchronizing with network...</source>
         <translation>Şebeke ile senkronizasyon...</translation>
     </message>
     <message>
-        <location line="-365"/>
+        <location line="-388"/>
         <source>&amp;Overview</source>
         <translation>&amp;Genel bakış</translation>
     </message>
@@ -424,7 +424,7 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>Parolayı &amp;değiştir...</translation>
     </message>
     <message>
-        <location line="+301"/>
+        <location line="+324"/>
         <source>Importing blocks from disk...</source>
         <translation>Bloklar diskten içe aktarılıyor...</translation>
     </message>
@@ -434,7 +434,7 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>Diskteki bloklar yeniden endeksleniyor...</translation>
     </message>
     <message>
-        <location line="-363"/>
+        <location line="-386"/>
         <source>Send coins to a Referencelinecoin address</source>
         <translation>Bir Referencelinecoin adresine Referencelinecoin yolla</translation>
     </message>
@@ -454,7 +454,7 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>Cüzdan şifrelemesi için kullanılan parolayı değiştir</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="+10"/>
         <source>&amp;Debug window</source>
         <translation>&amp;Hata ayıklama penceresi</translation>
     </message>
@@ -464,18 +464,18 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>Hata ayıklama ve teşhis penceresini aç</translation>
     </message>
     <message>
-        <location line="-4"/>
+        <location line="-8"/>
         <source>&amp;Verify message...</source>
         <translation>Mesaj &amp;kontrol et...</translation>
     </message>
     <message>
         <location line="-170"/>
-        <location line="+551"/>
+        <location line="+574"/>
         <source>Referencelinecoin</source>
         <translation>Referencelinecoin</translation>
     </message>
     <message>
-        <location line="-551"/>
+        <location line="-574"/>
         <source>Wallet</source>
         <translation>Cüzdan</translation>
     </message>
@@ -525,12 +525,22 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>Belirtilen Referencelinecoin adresleri ile imzalandıklarından emin olmak için mesajları kontrol et</translation>
     </message>
     <message>
-        <location line="+28"/>
+        <location line="+2"/>
+        <source>&amp;Rescan blockchain...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Rescan the entire blockchain</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+30"/>
         <source>&amp;File</source>
         <translation>&amp;Dosya</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+8"/>
         <source>&amp;Settings</source>
         <translation>&amp;Ayarlar</translation>
     </message>
@@ -556,7 +566,7 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>Referencelinecoin istemcisi</translation>
     </message>
     <message numerus="yes">
-        <location line="+141"/>
+        <location line="+158"/>
         <source>%n active connection(s) to Referencelinecoin network</source>
         <translation>
             <numerusform>Referencelinecoin şebekesine %n faal bağlantı</numerusform>

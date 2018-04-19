@@ -239,6 +239,10 @@ void BitcoinGUI::createActions()
     verifyMessageAction = new QAction(QIcon(":/icons/transaction_0"), tr("&Verify message..."), this);
     verifyMessageAction->setStatusTip(tr("Verify messages to ensure they were signed with specified Referencelinecoin addresses"));
 
+    rescanWalletAction = new QAction(QIcon(":/icons/transaction_0"), tr("&Rescan blockchain..."), this);
+    rescanWalletAction->setStatusTip(tr("Rescan the entire blockchain"));
+
+
     openRPCConsoleAction = new QAction(QIcon(":/icons/debugwindow"), tr("&Debug window"), this);
     openRPCConsoleAction->setStatusTip(tr("Open debugging and diagnostic console"));
 
@@ -252,6 +256,7 @@ void BitcoinGUI::createActions()
     connect(changePassphraseAction, SIGNAL(triggered()), walletFrame, SLOT(changePassphrase()));
     connect(signMessageAction, SIGNAL(triggered()), this, SLOT(gotoSignMessageTab()));
     connect(verifyMessageAction, SIGNAL(triggered()), this, SLOT(gotoVerifyMessageTab()));
+    connect(rescanWalletAction, SIGNAL(triggered()), this, SLOT(rescanWallet()));
 }
 
 void BitcoinGUI::createMenuBar()
@@ -269,6 +274,7 @@ void BitcoinGUI::createMenuBar()
     file->addAction(backupWalletAction);
     file->addAction(signMessageAction);
     file->addAction(verifyMessageAction);
+    file->addAction(rescanWalletAction);
     file->addSeparator();
     file->addAction(quitAction);
 
@@ -462,6 +468,23 @@ void BitcoinGUI::optionsClicked()
     OptionsDialog dlg;
     dlg.setModel(clientModel->getOptionsModel());
     dlg.exec();
+}
+
+void BitcoinGUI::rescanWallet()
+{
+//
+
+        CBlockIndex *pindexRescan;
+        pindexRescan = pindexGenesisBlock;
+        int64 nStart;
+        
+        uiInterface.InitMessage(_("Rescanning..."));
+        printf("Rescanning last %i blocks (from block %i)...\n", pindexBest->nHeight - pindexRescan->nHeight, pindexRescan->nHeight);
+        nStart = GetTimeMillis();
+        pwalletMain->ScanForWalletTransactions(pindexRescan, true);
+        printf(" rescan      %15"PRI64d"ms\n", GetTimeMillis() - nStart);
+        pwalletMain->SetBestChain(CBlockLocator(pindexBest));
+        nWalletDBUpdated++;        
 }
 
 void BitcoinGUI::aboutClicked()
