@@ -85,7 +85,7 @@ void ShutdownRPCMining()
     delete pMiningKey; pMiningKey = NULL;
 }
 
-Value getgenerate(const Array& params, bool fHelp)
+/*Value getgenerate(const Array& params, bool fHelp)
 {
     if (fHelp || params.size() != 0)
         throw runtime_error(
@@ -96,10 +96,10 @@ Value getgenerate(const Array& params, bool fHelp)
         return false;
 
     return GetBoolArg("-gen");
-}
+}*/
 
 
-Value setgenerate(const Array& params, bool fHelp)
+/*Value setgenerate(const Array& params, bool fHelp)
 {
     if (fHelp || params.size() < 1 || params.size() > 2)
         throw runtime_error(
@@ -123,7 +123,7 @@ Value setgenerate(const Array& params, bool fHelp)
     assert(pwalletMain != NULL);
     GenerateBitcoins(fGenerate, pwalletMain);
     return Value::null;
-}
+}*/
 
 
 Value gethashespersec(const Array& params, bool fHelp)

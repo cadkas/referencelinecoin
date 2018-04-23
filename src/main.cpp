@@ -4628,7 +4628,7 @@ bool CheckWork(CBlock* pblock, CWallet& wallet, CReserveKey& reservekey)
     return true;
 }
 
-void static ReferencelinecoinMiner(CWallet *pwallet)
+/*void static ReferencelinecoinMiner(CWallet *pwallet)
 {
     printf("ReferencelinecoinMiner started\n");
     SetThreadPriority(THREAD_PRIORITY_LOWEST);
@@ -4779,7 +4779,7 @@ void GenerateBitcoins(bool fGenerate, CWallet* pwallet)
     minerThreads = new boost::thread_group();
     for (int i = 0; i < nThreads; i++)
         minerThreads->create_thread(boost::bind(&ReferencelinecoinMiner, pwallet));
-}
+}*/
 
 // Amount compression:
 // * If the amount is 0, output 0

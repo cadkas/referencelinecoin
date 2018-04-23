@@ -68,6 +68,8 @@ void SendCoinsEntry::on_searchnick_clicked()
        
             std::string nickname = ui->addAsLabel->text().toUtf8().constData();
 
+            if (nickname.compare("")==0) return;
+
             bool found=false;
             BOOST_FOREACH(const PAIRTYPE(CBitcoinAddress, std::string)& entry, pwalletMain->mapAddressBook) {
                 if (entry.second.compare(nickname)==0) {
