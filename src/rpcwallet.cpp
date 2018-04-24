@@ -10,6 +10,7 @@
 #include "bitcoinrpc.h"
 #include "init.h"
 #include "base58.h"
+#include <boost/algorithm/string.hpp>
 
 using namespace std;
 using namespace boost;
@@ -222,9 +223,12 @@ Value getnicknameaddress(const Array& params, bool fHelp)
     bool found = false;
 
     std::string nickname = params[0].get_str();
-
+    std::string mystr="";
+    boost::to_upper(nickname);
     BOOST_FOREACH(const PAIRTYPE(CBitcoinAddress, string)& entry, pwalletMain->mapAddressBook) {
-        if (entry.second.compare("@"+nickname)==0) {
+        mystr=entry.second;
+        boost::to_upper(mystr);
+        if (mystr.compare("@"+nickname)==0) {
             found=true;
             ret = entry.first.ToString();
             break;

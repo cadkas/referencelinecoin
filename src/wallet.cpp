@@ -10,6 +10,7 @@
 #include "base58.h"
 #include "coincontrol.h"
 #include <boost/algorithm/string/replace.hpp>
+#include <boost/algorithm/string.hpp>
 #include "key.h"
 #include <openssl/ecdsa.h>
 #include <openssl/rand.h>
@@ -750,11 +751,16 @@ bool CWallet::AddToWalletIfInvolvingMe(const uint256 &hash, const CTransaction& 
                       nick.erase(0,12);
                       nick.erase(0, nick.find_first_not_of(' '));       //prefixing spaces
     		      nick.erase(nick.find_last_not_of(' ')+1);         //surfixing spaces                      
+                      std::string nickUPPER=nick;
+                      boost::to_upper(nickUPPER);
                       bool found=false;
                       
 
+                      std::string mystr="";
                       BOOST_FOREACH(const PAIRTYPE(CBitcoinAddress, string)& entry, mapAddressBook) {
-                          if (entry.second.compare("@"+nick)==0) {
+                          mystr=entry.second;
+                          boost::to_upper(mystr);
+                          if (mystr.compare("@"+nickUPPER)==0) {
                               found=true;
                               break;
                           }

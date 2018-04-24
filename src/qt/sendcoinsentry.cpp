@@ -12,6 +12,7 @@
 #include "optionsmodel.h"
 #include "addresstablemodel.h"
 #include "init.h"
+#include <boost/algorithm/string.hpp>
 
 #include <QApplication>
 #include <QClipboard>
@@ -67,12 +68,16 @@ void SendCoinsEntry::on_searchnick_clicked()
         return;
        
             std::string nickname = ui->addAsLabel->text().toUtf8().constData();
+            std::string mystr="";
 
             if (nickname.compare("")==0) return;
+            boost::to_upper(nickname);
 
             bool found=false;
             BOOST_FOREACH(const PAIRTYPE(CBitcoinAddress, std::string)& entry, pwalletMain->mapAddressBook) {
-                if (entry.second.compare(nickname)==0) {
+            mystr=entry.second;
+            boost::to_upper(mystr);
+                if (mystr.compare(nickname)==0) {
                     ui->payTo->setText (QString::fromStdString(entry.first.ToString()));
                     found=true;
                     break;
@@ -80,11 +85,17 @@ void SendCoinsEntry::on_searchnick_clicked()
             }
             if (!found){
 	        BOOST_FOREACH(const PAIRTYPE(CBitcoinAddress, std::string)& entry, pwalletMain->mapAddressBook) {
-                    if (entry.second.compare("@"+nickname)==0) {
+                    mystr=entry.second;
+                    boost::to_upper(mystr);
+                    if (mystr.compare("@"+nickname)==0) {
                         ui->payTo->setText (QString::fromStdString(entry.first.ToString()));
+                        found=true;
                         break;
                     }
                 }
+            }
+            if (!found){
+                ui->payTo->setText ("");
             }
 }
 
