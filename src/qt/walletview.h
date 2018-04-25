@@ -55,6 +55,7 @@ private:
     BitcoinGUI *gui;
     ClientModel *clientModel;
     WalletModel *walletModel;
+    bool inaskpassworddialog=false;
 
     OverviewPage *overviewPage;
     QWidget *transactionsPage;
