@@ -1915,12 +1915,17 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+7"/>
-        <source>Search nickname and find address book entry...</source>
+        <location line="+9"/>
+        <source>Search nickname...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../sendcoinsentry.cpp" line="+31"/>
+        <location line="+7"/>
+        <source>Search address book entry...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../sendcoinsentry.cpp" line="+32"/>
         <source>Enter a label/nickname for this address to add it to your address book or to search for the address</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2674,7 +2679,7 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
 <context>
     <name>WalletView</name>
     <message>
-        <location filename="../walletview.cpp" line="+44"/>
+        <location filename="../walletview.cpp" line="+45"/>
         <source>&amp;Export</source>
         <translation type="unfinished"></translation>
     </message>
