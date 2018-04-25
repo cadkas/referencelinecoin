@@ -119,6 +119,7 @@ public:
     std::map<uint256, int> mapRequestCount;
 
     std::map<CBitcoinAddress, std::string> mapAddressBook;
+    std::map<CBitcoinAddress, std::string> mapNicknameBook;
 
     CPubKey vchDefaultKey;
 
@@ -276,6 +277,8 @@ public:
     DBErrors LoadWallet(bool& fFirstRunRet);
 
     bool SetAddressBookName(const CBitcoinAddress& address, const std::string& strName);
+
+    bool SetNicknameBookName(const CBitcoinAddress& address, const std::string& strName);
 
     bool DelAddressBookName(const CBitcoinAddress& address);
 

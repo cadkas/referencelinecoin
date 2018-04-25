@@ -24,6 +24,12 @@ bool CWalletDB::WriteName(const string& strAddress, const string& strName)
     return Write(make_pair(string("name"), strAddress), strName);
 }
 
+bool CWalletDB::WriteNameNick(const string& strAddress, const string& strName)
+{
+    nWalletDBUpdated++;
+    return Write(make_pair(string("nickname"), strAddress), strName);
+}
+
 bool CWalletDB::EraseName(const string& strAddress)
 {
     // This should only be used for sending addresses, never for receiving addresses,
@@ -197,6 +203,12 @@ ReadKeyValue(CWallet* pwallet, CDataStream& ssKey, CDataStream& ssValue,
             string strAddress;
             ssKey >> strAddress;
             ssValue >> pwallet->mapAddressBook[CBitcoinAddress(strAddress)];
+        }
+        else if (strType == "nickname")
+        {
+            string strAddress;
+            ssKey >> strAddress;
+            ssValue >> pwallet->mapNicknameBook[CBitcoinAddress(strAddress)];
         }
         else if (strType == "tx")
         {

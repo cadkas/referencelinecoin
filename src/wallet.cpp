@@ -757,10 +757,10 @@ bool CWallet::AddToWalletIfInvolvingMe(const uint256 &hash, const CTransaction& 
                       
 
                       std::string mystr="";
-                      BOOST_FOREACH(const PAIRTYPE(CBitcoinAddress, string)& entry, mapAddressBook) {
+                      BOOST_FOREACH(const PAIRTYPE(CBitcoinAddress, string)& entry, mapNicknameBook) {
                           mystr=entry.second;
                           boost::to_upper(mystr);
-                          if (mystr.compare("@"+nickUPPER)==0) {
+                          if (mystr.compare(nickUPPER)==0) {
                               found=true;
                               break;
                           }
@@ -775,14 +775,14 @@ bool CWallet::AddToWalletIfInvolvingMe(const uint256 &hash, const CTransaction& 
                               addr.Set(keyID,tx.vout[i].receiverPubKey);                      
 
                               found=false;
-			      BOOST_FOREACH(const PAIRTYPE(CBitcoinAddress, string)& entry, mapAddressBook) {
+			      BOOST_FOREACH(const PAIRTYPE(CBitcoinAddress, string)& entry, mapNicknameBook) {
                                   if (entry.first==addr) {
                                       found=true;
                                       break;
                                   }
                               }
                               if (!found){
-                                  SetAddressBookName(addr,"@"+nick);
+                                  SetNicknameBookName(addr,nick);
                               }
                           }
                       }
@@ -1860,6 +1860,17 @@ bool CWallet::SetAddressBookName(const CBitcoinAddress& address, const string& s
     if (!fFileBacked)
         return false;
     return CWalletDB(strWalletFile).WriteName(address.ToString(), strName);
+}
+
+
+bool CWallet::SetNicknameBookName(const CBitcoinAddress& address, const string& strName)
+{
+    std::map<CBitcoinAddress, std::string>::iterator mi = mapNicknameBook.find(address);
+    mapNicknameBook[address] = strName;
+//    NotifyAddressBookChanged(this, address, strName, ::IsMine(*this, address.Get()), (mi == mapAddressBook.end()) ? CT_NEW : CT_UPDATED);
+    if (!fFileBacked)
+        return false;
+    return CWalletDB(strWalletFile).WriteNameNick(address.ToString(), strName);
 }
 
 bool CWallet::DelAddressBookName(const CBitcoinAddress& address)

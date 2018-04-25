@@ -225,10 +225,10 @@ Value getnicknameaddress(const Array& params, bool fHelp)
     std::string nickname = params[0].get_str();
     std::string mystr="";
     boost::to_upper(nickname);
-    BOOST_FOREACH(const PAIRTYPE(CBitcoinAddress, string)& entry, pwalletMain->mapAddressBook) {
+    BOOST_FOREACH(const PAIRTYPE(CBitcoinAddress, string)& entry, pwalletMain->mapNicknameBook) {
         mystr=entry.second;
         boost::to_upper(mystr);
-        if (mystr.compare("@"+nickname)==0) {
+        if (mystr.compare(nickname)==0) {
             found=true;
             ret = entry.first.ToString();
             break;
@@ -241,6 +241,22 @@ Value getnicknameaddress(const Array& params, bool fHelp)
     {
         throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "No address found for this nickname");
     }
+}
+
+Value listnicknames(const Array& params, bool fHelp)
+{
+    if (fHelp || params.size() != 0)
+        throw runtime_error(
+            "listnicknames\n"
+            "Returns a list of all nicknames.");
+
+    Array ret;
+      
+    BOOST_FOREACH(const PAIRTYPE(CBitcoinAddress, string)& entry, pwalletMain->mapNicknameBook) {
+        ret.push_back(entry.second);
+    }
+ 
+    return ret;
 }
 
 

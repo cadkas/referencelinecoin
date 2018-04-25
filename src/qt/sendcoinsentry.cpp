@@ -84,10 +84,10 @@ void SendCoinsEntry::on_searchnick_clicked()
                 }
             }
             if (!found){
-	        BOOST_FOREACH(const PAIRTYPE(CBitcoinAddress, std::string)& entry, pwalletMain->mapAddressBook) {
+	        BOOST_FOREACH(const PAIRTYPE(CBitcoinAddress, std::string)& entry, pwalletMain->mapNicknameBook) {
                     mystr=entry.second;
                     boost::to_upper(mystr);
-                    if (mystr.compare("@"+nickname)==0) {
+                    if (mystr.compare(nickname)==0) {
                         ui->payTo->setText (QString::fromStdString(entry.first.ToString()));
                         found=true;
                         break;

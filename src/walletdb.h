@@ -35,6 +35,7 @@ private:
     void operator=(const CWalletDB&);
 public:
     bool WriteName(const std::string& strAddress, const std::string& strName);
+    bool WriteNameNick(const std::string& strAddress, const std::string& strName);
 
     bool EraseName(const std::string& strAddress);
 
