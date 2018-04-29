@@ -1107,15 +1107,23 @@ int64 static GetBlockValue(int nHeight, int64 nFees)
     return nSubsidy + nFees;
 }
 
-static const int64 nTargetTimespan = 3.5 * 24 * 60 * 60; // Referencelinecoin: 3.5 days
-static const int64 nTargetSpacing = 2.5 * 60; // Referencelinecoin: 2.5 minutes
-static const int64 nInterval = nTargetTimespan / nTargetSpacing;
+static const int64 nTargetTimespanOld = 3.5 * 24 * 60 * 60; // Referencelinecoin: 3.5 days
+static const int64 nTargetSpacingOld = 2.5 * 60; // Referencelinecoin: 2.5 minutes
+static const int64 nIntervalOld = nTargetTimespanOld / nTargetSpacingOld;//2016
+
+
+static const int64 nTargetTimespanNew = 2 * 60 * 60; // Referencelinecoin: 2 hours
+static const int64 nTargetSpacingNew = 2.5 * 60; // Referencelinecoin: 2.5 minutes
+static const int64 nIntervalNew = nTargetTimespanNew / nTargetSpacingNew;//48
+
+                             //49634
+static const int64 ForkBlock = 49680;
 
 //
 // minimum amount of work that could possibly be required nTime after
 // minimum work required was nBase
 //
-unsigned int ComputeMinWork(unsigned int nBase, int64 nTime)
+/*unsigned int ComputeMinWork(unsigned int nBase, int64 nTime)
 {
     // Testnet has min-difficulty blocks
     // after nTargetSpacing*2 time between blocks:
@@ -1134,15 +1142,31 @@ unsigned int ComputeMinWork(unsigned int nBase, int64 nTime)
     if (bnResult > bnProofOfWorkLimit)
         bnResult = bnProofOfWorkLimit;
     return bnResult.GetCompact();
-}
+}*/
 
 unsigned int static GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHeader *pblock)
 {
     unsigned int nProofOfWorkLimit = bnProofOfWorkLimit.GetCompact();
+    int64 nTargetTimespan;
+    int64 nTargetSpacing;
+    int64 nInterval;
+
 
     // Genesis block
     if (pindexLast == NULL)
         return nProofOfWorkLimit;
+
+    if (pindexLast->nHeight+1>=ForkBlock)
+    {
+        nTargetTimespan=nTargetTimespanNew;
+        nTargetSpacing=nTargetSpacingNew;
+        nInterval=nIntervalNew;
+    }else
+    {
+        nTargetTimespan=nTargetTimespanOld;
+        nTargetSpacing=nTargetSpacingOld;
+        nInterval=nIntervalOld;
+    }
 
     // Only change once per interval
     if ((pindexLast->nHeight+1) % nInterval != 0)
@@ -1733,7 +1757,7 @@ bool CBlock::ConnectBlock(CValidationState &state, CBlockIndex* pindex, CCoinsVi
         printf("- Connect %u transactions: %.2fms (%.3fms/tx, %.3fms/txin)\n", (unsigned)vtx.size(), 0.001 * nTime, 0.001 * nTime / vtx.size(), nInputs <= 1 ? 0 : 0.001 * nTime / (nInputs-1));
 
     if (vtx[0].GetValueOut() > GetBlockValue(pindex->nHeight, nFees))
-        return state.DoS(100, error("ConnectBlock() : coinbase pays too much (actual=%"PRI64d" vs limit=%"PRI64d" blockheight=%"PRI64d")", vtx[0].GetValueOut(), GetBlockValue(pindex->nHeight, nFees),pindex->nHeight));
+        return state.DoS(100, error("ConnectBlock() : coinbase pays too much (actual=%"PRI64d" vs limit=%"PRI64d")", vtx[0].GetValueOut(), GetBlockValue(pindex->nHeight, nFees)));
 
     if (!control.Wait())
         return state.DoS(100, false);
@@ -2307,14 +2331,14 @@ bool ProcessBlock(CValidationState &state, CNode* pfrom, CBlock* pblock, CDiskBl
         {
             return state.DoS(100, error("ProcessBlock() : block with timestamp before last checkpoint"));
         }
-        CBigNum bnNewBlock;
+        /*CBigNum bnNewBlock;
         bnNewBlock.SetCompact(pblock->nBits);
         CBigNum bnRequired;
         bnRequired.SetCompact(ComputeMinWork(pcheckpoint->nBits, deltaTime));
         if (bnNewBlock > bnRequired)
         {
             return state.DoS(100, error("ProcessBlock() : block with too little proof-of-work"));
-        }
+        }*/
     }
 
 
