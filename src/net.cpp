@@ -1229,7 +1229,13 @@ unsigned int pnSeed[] =
     0xa784e3d4,
     0xbbb2d04a,
     0x5a60c9c3,
-    0x534d444d
+    0x534d444d,
+    0x57F363A7,
+    0xE3E4652E,
+    0x0204599F,
+    0xFF8563A7,
+    0xB3E1652E,
+    0x9C6E599F
 };
 
 void DumpAddresses()
