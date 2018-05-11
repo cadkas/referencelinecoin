@@ -71,8 +71,15 @@ void ScriptPubKeyToJSON(const CScript& scriptPubKey, CPubKey receiverPubKey, Obj
     out.push_back(Pair("type", GetTxnOutputType(type)));
 
     Array a;
-    BOOST_FOREACH(const CTxDestination& addr, addresses)
-        a.push_back(CBitcoinAddress(addr).ToString());
+    BOOST_FOREACH(const CTxDestination& address, addresses) {
+
+        CBitcoinAddress addr;
+        CKeyID keyID;
+        CBitcoinAddress(address).GetKeyID(keyID);
+	addr.Set(keyID,receiverPubKey);
+
+        a.push_back(addr.ToString());
+    }
 
     out.push_back(Pair("addresses", a));
 }
