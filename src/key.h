@@ -224,6 +224,20 @@ public:
     const unsigned char *begin() const { return vch; }
     const unsigned char *end() const { return vch + size(); }
 
+    unsigned char getfirstbyte()
+    {
+      return vch[0];
+    }
+
+    void setlastbyte(unsigned char b)
+    {
+      vch[31]=b;
+    }
+    void deletefirstbyte(unsigned char b)
+    {
+      for (int i=0;i<31;i++)vch[i]=vch[i+1];
+    }
+
     // Check whether this private key is valid.
     bool IsValid() const { return fValid; }
 

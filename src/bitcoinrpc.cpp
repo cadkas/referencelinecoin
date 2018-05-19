@@ -259,6 +259,7 @@ static const CRPCCommand vRPCCommands[] =
     { "dumpprivkey2",           &dumpprivkey2,           true,      false,      true },
     { "importprivkey",          &importprivkey,          false,     false,      true },
     { "importprivkey2",         &importprivkey2,         false,     false,      true },
+    { "importprivkey3",         &importprivkey3,         false,     false,      true },
     { "listunspent",            &listunspent,            false,     false,      true },
     { "getrawtransaction",      &getrawtransaction,      false,     false,      false },
     { "createrawtransaction",   &createrawtransaction,   false,     false,      false },
@@ -1201,6 +1202,8 @@ Array RPCConvertValues(const std::string &strMethod, const std::vector<std::stri
     if (strMethod == "lockunspent"            && n > 0) ConvertTo<bool>(params[0]);
     if (strMethod == "lockunspent"            && n > 1) ConvertTo<Array>(params[1]);
     if (strMethod == "importprivkey"          && n > 2) ConvertTo<bool>(params[2]);
+    if (strMethod == "importprivkey2"          && n > 3) ConvertTo<bool>(params[3]);
+    if (strMethod == "importprivkey3"          && n > 4) ConvertTo<bool>(params[4]);
     if (strMethod == "verifychain"            && n > 0) ConvertTo<boost::int64_t>(params[0]);
     if (strMethod == "verifychain"            && n > 1) ConvertTo<boost::int64_t>(params[1]);
 
