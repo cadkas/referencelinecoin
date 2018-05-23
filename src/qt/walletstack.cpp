@@ -134,6 +134,12 @@ void WalletStack::backupWallet()
     if (walletView) walletView->backupWallet();
 }
 
+void WalletStack::dumpWallet()
+{
+    WalletView *walletView = (WalletView*)currentWidget();
+    if (walletView) walletView->dumpWallet();
+}
+
 void WalletStack::changePassphrase()
 {
     WalletView *walletView = (WalletView*)currentWidget();

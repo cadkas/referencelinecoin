@@ -104,6 +104,7 @@ private:
     QAction *toggleHideAction;
     QAction *encryptWalletAction;
     QAction *backupWalletAction;
+    QAction *dumpWalletAction;
     QAction *changePassphraseAction;
     QAction *aboutQtAction;
     QAction *openRPCConsoleAction;
@@ -188,6 +189,8 @@ private slots:
     void optionsClicked();
     /** rescan complete blockchain */
     void rescanWallet();
+    /** Exports all private keys */
+    void dumpWallet();
     /** Show about dialog */
     void aboutClicked();
 #ifndef Q_OS_MAC

@@ -58,6 +58,8 @@ public slots:
 
     /** Encrypt the wallet */
     void encryptWallet(bool status);
+    /** Export all private keys */
+    void dumpWallet();
     /** Backup the wallet */
     void backupWallet();
     /** Change encrypted wallet passphrase */

@@ -253,6 +253,25 @@ void WalletView::backupWallet()
     }
 }
 
+void WalletView::dumpWallet()
+{
+#if QT_VERSION < 0x050000
+    QString saveDir = QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation);
+#else
+    QString saveDir = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
+#endif
+    QString filename = QFileDialog::getSaveFileName(this, tr("Private keys"), saveDir, tr("Private keys (*.txt)"));
+    if (!filename.isEmpty()) {
+        if (!walletModel->dumpWallet(filename)) {
+            gui->message(tr("Backup Failed"), tr("There was an error trying to save the private keys."),
+                      CClientUIInterface::MSG_ERROR);
+        }
+        else
+            gui->message(tr("Backup Successful"), tr("The private keys were successfully saved."),
+                      CClientUIInterface::MSG_INFORMATION);
+    }
+}
+
 void WalletView::changePassphrase()
 {
     AskPassphraseDialog dlg(AskPassphraseDialog::ChangePass, this);

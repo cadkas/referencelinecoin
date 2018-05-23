@@ -242,6 +242,10 @@ void BitcoinGUI::createActions()
     rescanWalletAction = new QAction(QIcon(":/icons/transaction_0"), tr("&Rescan blockchain..."), this);
     rescanWalletAction->setStatusTip(tr("Rescan the entire blockchain"));
 
+    dumpWalletAction = new QAction(QIcon(":/icons/filesave"), tr("&Export all private keys to file..."), this);
+    dumpWalletAction->setStatusTip(tr("Saves all private keys in a text file"));
+
+
 
     openRPCConsoleAction = new QAction(QIcon(":/icons/debugwindow"), tr("&Debug window"), this);
     openRPCConsoleAction->setStatusTip(tr("Open debugging and diagnostic console"));
@@ -257,6 +261,7 @@ void BitcoinGUI::createActions()
     connect(signMessageAction, SIGNAL(triggered()), this, SLOT(gotoSignMessageTab()));
     connect(verifyMessageAction, SIGNAL(triggered()), this, SLOT(gotoVerifyMessageTab()));
     connect(rescanWalletAction, SIGNAL(triggered()), this, SLOT(rescanWallet()));
+    connect(dumpWalletAction, SIGNAL(triggered()), walletFrame, SLOT(dumpWallet()));
 }
 
 void BitcoinGUI::createMenuBar()
@@ -275,6 +280,7 @@ void BitcoinGUI::createMenuBar()
     file->addAction(signMessageAction);
     file->addAction(verifyMessageAction);
     file->addAction(rescanWalletAction);
+    file->addAction(dumpWalletAction);
     file->addSeparator();
     file->addAction(quitAction);
 
@@ -376,6 +382,7 @@ void BitcoinGUI::setWalletActionsEnabled(bool enabled)
     signMessageAction->setEnabled(enabled);
     verifyMessageAction->setEnabled(enabled);
     addressBookAction->setEnabled(enabled);
+    dumpWalletAction->setEnabled(enabled);
 }
 
 void BitcoinGUI::createTrayIcon()
@@ -471,6 +478,23 @@ void BitcoinGUI::optionsClicked()
 }
 
 void BitcoinGUI::rescanWallet()
+{
+//
+
+        CBlockIndex *pindexRescan;
+        pindexRescan = pindexGenesisBlock;
+        int64 nStart;
+        
+        uiInterface.InitMessage(_("Rescanning..."));
+        printf("Rescanning last %i blocks (from block %i)...\n", pindexBest->nHeight - pindexRescan->nHeight, pindexRescan->nHeight);
+        nStart = GetTimeMillis();
+        pwalletMain->ScanForWalletTransactions(pindexRescan, true);
+        printf(" rescan      %15"PRI64d"ms\n", GetTimeMillis() - nStart);
+        pwalletMain->SetBestChain(CBlockLocator(pindexBest));
+        nWalletDBUpdated++;        
+}
+
+void BitcoinGUI::dumpWallet()
 {
 //
 

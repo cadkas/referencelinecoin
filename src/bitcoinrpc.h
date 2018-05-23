@@ -142,6 +142,7 @@ extern json_spirit::Value addnode(const json_spirit::Array& params, bool fHelp);
 extern json_spirit::Value getaddednodeinfo(const json_spirit::Array& params, bool fHelp);
 extern json_spirit::Value dumpprivkey(const json_spirit::Array& params, bool fHelp); // in rpcdump.cpp
 extern json_spirit::Value dumpprivkey2(const json_spirit::Array& params, bool fHelp); // in rpcdump.cpp
+extern json_spirit::Value dumpallprivkeys(const json_spirit::Array& params, bool fHelp);// in rpcdump.cpp
 extern json_spirit::Value importprivkey(const json_spirit::Array& params, bool fHelp);
 extern json_spirit::Value importprivkey2(const json_spirit::Array& params, bool fHelp);
 extern json_spirit::Value importprivkey3(const json_spirit::Array& params, bool fHelp);

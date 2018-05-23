@@ -86,7 +86,7 @@ Value importprivkey2(const Array& params, bool fHelp)
 {
     if (fHelp || params.size() < 2 || params.size() > 4)
         throw runtime_error(
-            "importprivkey <referencelinecoinprivkey> <referencelinecoinprivkey2> [label] [rescan=true]\n"
+            "importprivkey2 <referencelinecoinprivkey> <referencelinecoinprivkey2> [label] [rescan=true]\n"
             "Adds both private keys (as returned by dumpprivkey and dumpprivkey2) to your wallet.");
 
     EnsureWalletIsUnlocked();
@@ -150,7 +150,7 @@ Value importprivkey3(const Array& params, bool fHelp)
 {
     if (fHelp || params.size() < 2 || params.size() > 5)
         throw runtime_error(
-            "importprivkey <referencelinecoinprivkey> <referencelinecoinprivkey2> <address> [label] [rescan=true]\n"
+            "importprivkey3 <referencelinecoinprivkey> <referencelinecoinprivkey2> <address> [label] [rescan=true]\n"
             "Adds both private keys (as returned by dumpprivkey and dumpprivkey2) to your wallet and checks if it belongs to the address specified.");
 
     EnsureWalletIsUnlocked();
@@ -263,3 +263,29 @@ Value dumpprivkey2(const Array& params, bool fHelp)
         throw JSONRPCError(RPC_WALLET_ERROR, "Private key for address " + strAddress + " is not known");
     return CBitcoinSecret(vchSecret).ToString();
 }
+
+Value dumpallprivkeys(const Array& params, bool fHelp)
+{
+    if (fHelp || params.size() != 0)
+        throw runtime_error(
+            "dumpallprivkeys\n"
+            "Reveals all private keys.");
+
+    Array ret;
+    BOOST_FOREACH(const PAIRTYPE(CBitcoinAddress, string)& item, pwalletMain->mapAddressBook)
+    {
+        const CBitcoinAddress& address = item.first;
+       
+        CKeyID keyID;
+        if (!address.GetKeyID(keyID))
+           continue;
+        CKey vchSecret;
+        if (!pwalletMain->GetKey(keyID, vchSecret))
+           continue;
+        ret.push_back(CBitcoinSecret(vchSecret).ToString());
+    }
+
+    return ret;
+
+}
+

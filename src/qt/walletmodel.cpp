@@ -12,6 +12,9 @@
 #include "wallet.h"
 #include "walletdb.h" // for BackupWallet
 #include "base58.h"
+#include <iostream>
+#include <fstream>
+
 
 #include <QSet>
 #include <QTimer>
@@ -347,6 +350,34 @@ bool WalletModel::changePassphrase(const SecureString &oldPass, const SecureStri
 bool WalletModel::backupWallet(const QString &filename)
 {
     return BackupWallet(*wallet, filename.toLocal8Bit().data());
+}
+
+bool WalletModel::dumpWallet(const QString &filename)
+{
+    std::string filen=filename.toLocal8Bit().data();
+
+    std::ofstream myfile;
+
+    myfile.open (filen.c_str(),std::ofstream::out | std::ofstream::trunc);
+    if (myfile.is_open()){
+
+    std::map<CBitcoinAddress, std::string>::iterator mi = wallet->mapAddressBook.begin();
+    while (mi != wallet->mapAddressBook.end())
+    {    
+        const CBitcoinAddress& address = mi->first;
+       
+        CKeyID keyID;
+        CKey vchSecret;
+        if (address.GetKeyID(keyID) && wallet->GetKey(keyID, vchSecret))
+        {
+            myfile << (CBitcoinSecret(vchSecret).ToString()) << "\n";
+        }
+        mi++;
+    }
+
+    myfile.close();
+    } else return false;
+    return true;
 }
 
 // Handlers for core signals
