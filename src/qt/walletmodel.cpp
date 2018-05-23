@@ -354,6 +354,13 @@ bool WalletModel::backupWallet(const QString &filename)
 
 bool WalletModel::dumpWallet(const QString &filename)
 {
+    bool was_locked = getEncryptionStatus() == Locked;
+    if(was_locked)
+    {
+        // Request UI to unlock wallet
+        emit requireUnlock();
+    }
+
     std::string filen=filename.toLocal8Bit().data();
 
     std::ofstream myfile;
@@ -361,19 +368,20 @@ bool WalletModel::dumpWallet(const QString &filename)
     myfile.open (filen.c_str(),std::ofstream::out | std::ofstream::trunc);
     if (myfile.is_open()){
 
-    std::map<CBitcoinAddress, std::string>::iterator mi = wallet->mapAddressBook.begin();
-    while (mi != wallet->mapAddressBook.end())
-    {    
-        const CBitcoinAddress& address = mi->first;
-       
-        CKeyID keyID;
-        CKey vchSecret;
-        if (address.GetKeyID(keyID) && wallet->GetKey(keyID, vchSecret))
+    std::set<CKeyID> setAddress;
+    wallet->GetKeys(setAddress);
+
+    std::set<CKeyID>::iterator mi = setAddress.begin();
+        while (mi != setAddress.end())
         {
-            myfile << (CBitcoinSecret(vchSecret).ToString()) << "\n";
+            CKey vchSecret;
+            if (!wallet->GetKey(*mi, vchSecret))
+               continue;
+            myfile << (CBitcoinSecret(vchSecret).ToString()) << "\n";    
+
+            mi++;
         }
-        mi++;
-    }
+
 
     myfile.close();
     } else return false;

@@ -272,18 +272,19 @@ Value dumpallprivkeys(const Array& params, bool fHelp)
             "Reveals all private keys.");
 
     Array ret;
-    BOOST_FOREACH(const PAIRTYPE(CBitcoinAddress, string)& item, pwalletMain->mapAddressBook)
-    {
-        const CBitcoinAddress& address = item.first;
-       
-        CKeyID keyID;
-        if (!address.GetKeyID(keyID))
-           continue;
-        CKey vchSecret;
-        if (!pwalletMain->GetKey(keyID, vchSecret))
-           continue;
-        ret.push_back(CBitcoinSecret(vchSecret).ToString());
-    }
+    std::set<CKeyID> setAddress;
+    pwalletMain->GetKeys(setAddress);
+
+    std::set<CKeyID>::iterator mi = setAddress.begin();
+        while (mi != setAddress.end())
+        {
+            CKey vchSecret;
+            if (!pwalletMain->GetKey(*mi, vchSecret))
+               continue;
+            ret.push_back(CBitcoinSecret(vchSecret).ToString());    
+
+            mi++;
+        }
 
     return ret;
 

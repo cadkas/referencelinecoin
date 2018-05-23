@@ -292,6 +292,11 @@ bool CWallet::AddKeyPubKey(const CKey& secret, const CPubKey &pubkey)
     return true;
 }
 
+void CWallet::GetKeys(std::set<CKeyID> &setAddress)
+{
+    CCryptoKeyStore::GetKeys(setAddress);
+}
+
 bool CWallet::AddCryptedKey(const CPubKey &vchPubKey, const vector<unsigned char> &vchCryptedSecret)
 {
     if (!CCryptoKeyStore::AddCryptedKey(vchPubKey, vchCryptedSecret))
