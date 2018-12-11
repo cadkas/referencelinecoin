@@ -1236,7 +1236,9 @@ unsigned int pnSeed[] =
     0xFF8563A7,
     0xB3E1652E,
     0x9C6E599F,
-    0x99ab8a57
+    0x99ab8a57,
+    0x99ab8a57,
+    0x5D60D85F
     
 };
 
