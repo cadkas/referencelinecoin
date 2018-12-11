@@ -148,15 +148,16 @@ std::string CWallet::CalculateEncryptionKey(CPubKey pubkey,CKey privkey) const
     return secretstr;
 }
 
+//encrypts the refline with the private key and public to calculate a shared secred; no length limit
 std::string CWallet::EncryptRefLineTry(std::string referenceline,CPubKey pubkey,CKey privkey) const
 {
     std::string key_data=CalculateEncryptionKey(pubkey,privkey);
     std::string outputline="";
-    if (referenceline.length()<=0) return referenceline;
 
     /* "opaque" encryption, decryption ctx structures that libcrypto uses to record
        status of enc/dec operations */
-    EVP_CIPHER_CTX en, de;
+    EVP_CIPHER_CTX *en = EVP_CIPHER_CTX_new();
+    EVP_CIPHER_CTX *de = EVP_CIPHER_CTX_new();
  
     /* 8 bytes to salt the key_data during key generation. This is an example of
        compiled in salt. We just read the bit pattern created by these two 4 byte 
@@ -165,7 +166,7 @@ std::string CWallet::EncryptRefLineTry(std::string referenceline,CPubKey pubkey,
     unsigned int salt[] = {54443, 54423};
  
     /* gen key and iv. init the cipher ctx object */
-    if (aes_init((unsigned char*)key_data.c_str(), strlen(key_data.c_str()), (unsigned char *)&salt, &en, &de)) {
+    if (aes_init((unsigned char*)key_data.c_str(), strlen(key_data.c_str()), (unsigned char *)&salt, en, de)) {
       printf("Couldn't initialize AES cipher\n");
       return outputline;
     }
@@ -177,13 +178,13 @@ std::string CWallet::EncryptRefLineTry(std::string referenceline,CPubKey pubkey,
     int len=strlen(referenceline.c_str())+1;
     unsigned char *ciphertext;
  
-    ciphertext = aes_encrypt(&en, (unsigned char *)referenceline.c_str(), &len);
+    ciphertext = aes_encrypt(en, (unsigned char *)referenceline.c_str(), &len);
     outputline=EncodeBase58(ciphertext,ciphertext+len);
 
     free(ciphertext);
 
-    EVP_CIPHER_CTX_cleanup(&en);
-    EVP_CIPHER_CTX_cleanup(&de);
+    EVP_CIPHER_CTX_free(en);
+    EVP_CIPHER_CTX_free(de);
  
     return outputline;
 }
@@ -203,6 +204,7 @@ std::string CWallet::EncryptRefLine(std::string referenceline,CPubKey pubkey,CKe
     return outstr;
 }
 
+//decrypts the refline with the private key and public to calculate a shared secred
 std::string CWallet::DecryptRefLine(std::string referenceline,CPubKey pubkey,CKey privkey) const
 {
   
@@ -213,7 +215,9 @@ std::string CWallet::DecryptRefLine(std::string referenceline,CPubKey pubkey,CKe
 
     /* "opaque" encryption, decryption ctx structures that libcrypto uses to record
        status of enc/dec operations */
-    EVP_CIPHER_CTX en, de;
+    EVP_CIPHER_CTX *en = EVP_CIPHER_CTX_new();
+    EVP_CIPHER_CTX *de = EVP_CIPHER_CTX_new();
+
  
     /* 8 bytes to salt the key_data during key generation. This is an example of
        compiled in salt. We just read the bit pattern created by these two 4 byte 
@@ -222,7 +226,7 @@ std::string CWallet::DecryptRefLine(std::string referenceline,CPubKey pubkey,CKe
     unsigned int salt[] = {54443, 54423};
  
     /* gen key and iv. init the cipher ctx object */
-    if (aes_init((unsigned char*)key_data.c_str(), strlen(key_data.c_str()), (unsigned char *)&salt, &en, &de)) {
+    if (aes_init((unsigned char*)key_data.c_str(), strlen(key_data.c_str()), (unsigned char *)&salt, en, de)) {
       printf("Couldn't initialize AES cipher\n");
       return outputline;
     }
@@ -234,10 +238,10 @@ std::string CWallet::DecryptRefLine(std::string referenceline,CPubKey pubkey,CKe
     unsigned char* ciphertext=(unsigned char*)&result[0];
     int len=result.size();
 
-    outputline = (char*)aes_decrypt(&de, ciphertext, &len);
+    outputline = (char*)aes_decrypt(de, ciphertext, &len);
 
-    EVP_CIPHER_CTX_cleanup(&en);
-    EVP_CIPHER_CTX_cleanup(&de);
+    EVP_CIPHER_CTX_free(en);
+    EVP_CIPHER_CTX_free(de);
  
     return outputline;
 
